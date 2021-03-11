@@ -1,18 +1,13 @@
-name: Say "Hello World" every 5 minutes. 2
+name: Say "Hello World" every 5 minutes. 3
 
 on:
   schedule:
-<<<<<<< HEAD
-  # Every 5 minutes
-  - cron: */5 * * * *
-=======
   - cron: '*/5 * * * *'  # Every 5 minutes
->>>>>>> 5f00fee4... Poke 2, why isn't this action running?
 
 jobs:
   say-hello:
+    name: Test say-hello
     runs-on: ubuntu-latest
-
     steps:
       - name: Hello World
         run: |
