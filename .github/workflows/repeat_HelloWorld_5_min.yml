@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Hello World
         run: |
-	  echo Hello, world!
+          echo Hello, world!
 
 # -30- #
