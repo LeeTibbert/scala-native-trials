@@ -1,4 +1,4 @@
-name: Send say "Hello World" every 5 minutes.
+name: Say "Hello World" every 5 minutes.
 
 on:
   schedule:
