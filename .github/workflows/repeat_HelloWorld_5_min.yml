@@ -1,0 +1,16 @@
+name: Send say "Hello World" every 5 minutes
+
+on:
+  schedule:
+  # Every 5 minutes
+  - cron: */5 * * * *
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+  steps:
+      - name: Hello World
+        run: echo Hello, world!
+
+# -30- #
