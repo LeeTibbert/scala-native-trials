@@ -9,8 +9,9 @@ jobs:
   say-hello:
     runs-on: ubuntu-latest
 
-  steps:
+    steps:
       - name: Hello World
-        run: echo Hello, world!
+        run: |
+	  echo Hello, world!
 
 # -30- #
