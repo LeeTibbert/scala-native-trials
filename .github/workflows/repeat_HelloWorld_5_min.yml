@@ -2,8 +2,12 @@ name: Send say "Hello World" every 5 minutes.
 
 on:
   schedule:
+<<<<<<< HEAD
   # Every 5 minutes
   - cron: */5 * * * *
+=======
+  - cron: '*/5 * * * *'  # Every 5 minutes
+>>>>>>> 5f00fee4... Poke 2, why isn't this action running?
 
 jobs:
   say-hello:
@@ -12,6 +16,6 @@ jobs:
     steps:
       - name: Hello World
         run: |
-          echo Hello, world!
+          echo "Hello, world!"
 
 # -30- #
