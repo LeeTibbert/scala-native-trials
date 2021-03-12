@@ -33,6 +33,7 @@ jobs:
       - name: Setup Java and Sbt
         run: |
           which javac
-          javac --version
+          javac -help
+          javac -version
 
 # -30- #
