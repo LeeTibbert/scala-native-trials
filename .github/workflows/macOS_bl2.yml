@@ -21,7 +21,8 @@ jobs:
           brew install llvm
 
       - name: macOS - bl2 install software
-        run: brew install llvm
-        run: clang --version
+        run: |
+          brew install llvm
+          clang --version
 
 # -30- #
