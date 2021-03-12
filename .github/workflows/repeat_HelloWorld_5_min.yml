@@ -17,12 +17,12 @@ jobs:
 
       - name: Hello World - scheduled
         run: |
-          echo "Scheduled Hello World! $(date -Imin) 10
+          echo "Scheduled Hello World! $(date -Imin) 11"
         if: ${{ github.event_name == 'schedule' }}
 
       - name: Hello World - NOT scheduled
         run: |
-          echo "Unscheduled Hello World! $(date -Imin) 10
+          echo "Unscheduled Hello World! $(date -Imin) 11"
         if: ${{ github.event_name != 'schedule' }}
 
 # -30- #
