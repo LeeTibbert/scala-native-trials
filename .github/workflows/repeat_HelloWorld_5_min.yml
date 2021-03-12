@@ -1,4 +1,4 @@
-name: Say "Hello World" every 5 minutes. 8
+name: Say "Hello World" every 5 minutes. 9
 
 on:
   schedule:
@@ -12,6 +12,7 @@ jobs:
     name: Test say-hello
     runs-on: Ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
       - name: Hello World
         run: |
           echo "Hello World! $(date -Imin)"
