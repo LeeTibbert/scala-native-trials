@@ -24,6 +24,14 @@ jobs:
       - name: macOS - bl2 install software
         run: |
           clang --version
-          
+
+## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
+## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
+
+## I hypothesize that neither Java nor Sbt is available ab ovo.
+
+      - name: Setup Java and Sbt
+        run: |
+          java --version
 
 # -30- #
