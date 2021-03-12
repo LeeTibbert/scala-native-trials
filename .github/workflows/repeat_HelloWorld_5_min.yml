@@ -14,8 +14,15 @@ jobs:
     runs-on: Ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Hello World
+
+      - name: Hello World - scheduled
         run: |
-          echo "Hello World! $(date -Imin) 10"
+          echo "Scheduled Hello World! $(date -Imin) 10
+        if: ${{ github.event_name == 'schedule' }}
+
+      - name: Hello World - NOT scheduled
+        run: |
+          echo "Unscheduled Hello World! $(date -Imin) 10
+        if: ${{ github.event_name != 'schedule' }}
 
 # -30- #
