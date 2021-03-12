@@ -8,7 +8,9 @@ on:
 jobs:
   macOS-bl2:
     name: macOs bl2
-    runs-on: macos-latest
+    runs-on: macos-10.15
+## Read https://github.com/actions/virtual-environments/blob/main/images\
+##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
 
     steps:
       - uses: actions/checkout@v2
@@ -20,10 +22,16 @@ jobs:
           echo "$(uname -a)"
 
 ## 2021-03-12 17:24 -0500 llvm 11 already installed, 
+## Looks like java 8 compiler is also installed.
 
-      - name: macOS - bl2 install software
+## Someday may want to actively check these versions
+
+
+      - name: macOS - Log active software versions
         run: |
           clang --version
+#          which javac
+          javac -version
 
 ## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
 ## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
@@ -32,8 +40,5 @@ jobs:
 
       - name: Setup Java and Sbt
         run: |
-          which javac
-          javac -help
-          javac -version
-
+          brew install sbt
 # -30- #
