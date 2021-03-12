@@ -41,5 +41,6 @@ jobs:
       - name: Setup Java and Sbt
         run: |
           brew install sbt
+          sbt --version
 
 # -30- #
