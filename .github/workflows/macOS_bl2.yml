@@ -18,11 +18,12 @@ jobs:
         run: |
           echo "Hello World from maybe macOS"
           echo "$(uname -a)"
-          brew install llvm
+
+## 2021-03-12 17:24 -0500 llvm 11 already installed, 
 
       - name: macOS - bl2 install software
         run: |
-          brew install llvm
           clang --version
+          
 
 # -30- #
