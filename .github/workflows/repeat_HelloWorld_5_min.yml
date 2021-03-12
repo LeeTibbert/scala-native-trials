@@ -1,4 +1,4 @@
-name: Say "Hello World" every 5 minutes. 6
+name: Say "Hello World" every 5 minutes. 8
 
 on:
   schedule:
