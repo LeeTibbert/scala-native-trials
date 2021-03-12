@@ -25,12 +25,12 @@ jobs:
 ## Looks like java 8 compiler is also installed.
 
 ## Someday may want to actively check these versions
+#          which javac
 
 
       - name: macOS - Log active software versions
         run: |
           clang --version
-#          which javac
           javac -version
 
 ## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
