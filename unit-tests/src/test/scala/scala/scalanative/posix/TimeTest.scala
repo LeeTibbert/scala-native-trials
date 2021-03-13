@@ -149,7 +149,6 @@ class TimeTest {
       }
     }
   }
- */
 
   @Test def strftimeForJanOne1900ZeroZulu(): Unit = {
     Zone { implicit z =>
