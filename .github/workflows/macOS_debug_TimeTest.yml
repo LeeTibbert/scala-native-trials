@@ -75,7 +75,7 @@ jobs:
           "$ACTION" 
 
       - name: Scala Native debug TimeTest
-        if: success
+#        if: success
         env:
           ACTION: "tests/testOnly *.TimeTest"
 
