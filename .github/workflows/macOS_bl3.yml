@@ -1,6 +1,9 @@
 name: BL3.5 Run Scala Native tests on macOS
 on:
   workflow_dispatch:
+  push:
+    paths:
+    - '.github/workflows/macOS_bl3.yml'
 
 #  schedule:
 #    - cron: '0 * * * *'
