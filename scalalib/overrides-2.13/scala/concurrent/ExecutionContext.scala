@@ -152,7 +152,7 @@ object ExecutionContext {
    *
    * === How to use ===
    *
-   * This field is `private[scala]` to maintain binary compatibility. It was added in 2.13.4, code that references it
+   * This field is `private[scala]` to maintain binary compatibility. It was added in 2.13.5, code that references it
    * directly fails to run with a 2.13.0-3 Scala library.
    *
    * Libraries should not reference this field directly because users of the library might be using an earlier Scala
