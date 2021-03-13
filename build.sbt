@@ -300,7 +300,7 @@ lazy val tools =
     .settings(
       libraryDependencies ++= Seq(
         "org.scalacheck" %% "scalacheck" % "1.14.3" % "test",
-        "org.scalatest"  %% "scalatest"  % "3.1.4"  % "test"
+        "org.scalatest"  %% "scalatest"  % "3.2.6"  % "test"
       ),
       Test / fork := true,
       Test / javaOptions ++= {
