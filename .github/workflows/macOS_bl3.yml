@@ -65,7 +65,6 @@ jobs:
 ## when SCALA_VER is not that. (rough wording, right concept).
 
       - name: Scala Native build core
-        if: success
         env:
           ACTION: "scalalib/compile"
 
@@ -76,9 +75,15 @@ jobs:
 
 ## On each of the steps below, should check that previous step was
 ## successful and abort if that is false.
+##
+## Good idea, but put on hold for now, whilst I debug TimeTest and
+## the "toDouble()" issue.
+##
+## I think "if: success" applies to sequential *jobs*, not steps.
+## Do I want to jobs here, instead of steps?  How are jobs related?
 
       - name: Scala Native test-tools
-        if: success
+#        if: success
         env:
           ACTION: test-tools
 
@@ -88,7 +93,7 @@ jobs:
           "$ACTION" 
 
       - name: Scala Native test-runtime
-        if: success
+#        if: success
         env:
           ACTION: test-runtime
 
@@ -98,7 +103,7 @@ jobs:
           "$ACTION" 
 
       - name: Scala Native test-scripted
-        if: success
+#        if: success
         env:
           ACTION: test-scripted
 
