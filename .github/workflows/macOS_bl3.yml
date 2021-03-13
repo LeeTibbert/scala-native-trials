@@ -56,7 +56,7 @@ jobs:
           SCALANATIVE_MODE: debug
         run: |
           sbt -no-colors -J-Xmx5G \
-	  "++$SCALA_VER" \
+          "++$SCALA_VER" \
           "$ACTION" 
 
 # -30- #
