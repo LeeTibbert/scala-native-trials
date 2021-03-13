@@ -223,11 +223,6 @@ class TimeTest {
     }
   }
 
-/* 2021-03-13 11:35 -0500 This failing on GitHub Actions macOS.
-// ""java.lang.AssertionError: strptime() returned unexpected null pointer""
-// Disable until I get the major effort working, then return here for
-// a point fix.
-
   @Test def strptimeDoesNotWriteMemoryOutsideStructTm(): Unit = {
     Zone { implicit z =>
       // The purpose of this test is to check that time.scala method
@@ -328,7 +323,6 @@ class TimeTest {
       // Per posix specification, contents of tm_isdst are not reliable.
     }
   }
- */
 
   @Test def strptimeFor31December2016Time235960(): Unit = {
     Zone { implicit z =>
