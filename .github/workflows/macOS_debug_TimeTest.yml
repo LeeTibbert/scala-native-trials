@@ -77,7 +77,6 @@ jobs:
       - name: Scala Native debug TimeTest
         if: success
         env:
-          ACTION: test-runtime
           ACTION: "tests/testOnly *.TimeTest"
 
         run: |
