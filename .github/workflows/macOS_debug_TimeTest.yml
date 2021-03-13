@@ -1,4 +1,4 @@
-name: BL 1.0 Debug TimeTest strptime null  on macOS
+name: BL 1.2 Debug TimeTest strptime null  on macOS
 on:
   workflow_dispatch:
 
@@ -65,7 +65,7 @@ jobs:
 ## when SCALA_VER is not that. (rough wording, right concept).
 
       - name: Scala Native build core
-        if: success
+#        if: success
         env:
           ACTION: "scalalib/compile"
 
