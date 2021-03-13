@@ -51,7 +51,7 @@ jobs:
       - name: Run Scala Native tests
         env:
           ACTION: test-runtime
-          SCALA_VER="2.12.13" # scripted-tests only runs on 2.12
+          SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
           SCALANATIVE_MODE: debug
         run: |
           sbt -no-colors -J-Xmx5G \
