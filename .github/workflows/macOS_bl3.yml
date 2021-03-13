@@ -1,4 +1,4 @@
-name: BL3.3 Run Scala Native tests on macOS
+name: BL3.4 Run Scala Native tests on macOS
 on:
   workflow_dispatch:
 
@@ -45,7 +45,6 @@ jobs:
           sbt --version
 
 ## TODO:
-##   - rework log file handling
 ##   - rework Java handling to be explicitly J8. (unless I do
 ##     a fail fast check above.
 ##
@@ -62,6 +61,21 @@ jobs:
 ##     more permanent shows up.  May need more pernament historical
 ##     for log files of Release versions.
 
+## Probably have to have a "build-tools" using Scala version 2.12
+## when SCALA_VER is not that. (rough wording, right concept).
+
+      - name: Scala Native build core
+        env:
+          ACTION: "scalalib/compile"
+
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "$ACTION" 
+
+## On each of the steps below, should check that previous step was
+## successful and abort if that is false.
+
       - name: Scala Native test-tools
         env:
           ACTION: test-tools
@@ -74,6 +88,15 @@ jobs:
       - name: Scala Native test-runtime
         env:
           ACTION: test-runtime
+
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "$ACTION" 
+
+      - name: Scala Native test-scripted
+        env:
+          ACTION: test-scripted
 
         run: |
           sbt -no-colors -J-Xmx5G \
