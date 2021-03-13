@@ -106,12 +106,11 @@ class Hashtable[K, V] private (inner: mutable.HashMap[Box[Any], V])
     }
 
     val entries = new LinkedHashSet[ju.Map.Entry[K, V]]
-    inner.foreach {
-      case (key, value) =>
-        val entry = new UnboxedEntry(
-          new ju.AbstractMap.SimpleEntry[Box[Any], V](key, value)
-        )
-        entries.add(entry)
+    inner.foreach { case (key, value) =>
+      val entry = new UnboxedEntry(
+        new ju.AbstractMap.SimpleEntry[Box[Any], V](key, value)
+      )
+      entries.add(entry)
     }
     entries
   }

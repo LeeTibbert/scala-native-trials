@@ -79,7 +79,6 @@ object ApiTestUtils {
    *
    * We don't check for JDK compatibility here, since the flags are not in a 1-1
    * correspondence.
-   *
    */
   def testMatchesRE2(regexp: String,
                      flags: Int,

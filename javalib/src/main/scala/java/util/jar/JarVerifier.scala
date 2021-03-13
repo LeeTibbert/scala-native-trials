@@ -127,7 +127,8 @@ private[jar] class JarVerifier(jarName: String) {
 
   private def verifyCertificate(certFile: String): Unit = {
     val signatureFile = certFile.substring(0, certFile.lastIndexOf('.')) + ".SF"
-    (metaEntries.get(signatureFile), metaEntries.get(JarFile.MANIFEST_NAME)) match {
+    (metaEntries.get(signatureFile),
+     metaEntries.get(JarFile.MANIFEST_NAME)) match {
       case (null, _) | (_, null) =>
         ()
       case (sfBytes, manifest) =>
@@ -179,13 +180,15 @@ private[jar] class JarVerifier(jarName: String) {
         // such verification
         if (mainAttributesEnd > 0 && !createdBySigntool) {
           val digestAttribute = "-Digest-Manifest-Main-Attributes"
-          if (!verify(attributes,
-                      digestAttribute,
-                      manifest,
-                      0,
-                      mainAttributesEnd,
-                      false,
-                      true)) {
+          if (
+            !verify(attributes,
+                    digestAttribute,
+                    manifest,
+                    0,
+                    mainAttributesEnd,
+                    false,
+                    true)
+          ) {
             throw new SecurityException(
               s"$jarName failedx verification of $signatureFile")
           }
@@ -194,13 +197,15 @@ private[jar] class JarVerifier(jarName: String) {
         // Use .SF to verify the whole manifest.
         val digestAttribute =
           if (createdBySigntool) "-Digest" else "-Digest-Manifest"
-        if (!verify(attributes,
-                    digestAttribute,
-                    manifest,
-                    0,
-                    manifest.length,
-                    false,
-                    false)) {
+        if (
+          !verify(attributes,
+                  digestAttribute,
+                  manifest,
+                  0,
+                  manifest.length,
+                  false,
+                  false)
+        ) {
           val it = entries.entrySet().iterator()
           while (it.hasNext()) {
             val entry = it.next()
@@ -210,13 +215,15 @@ private[jar] class JarVerifier(jarName: String) {
             if (chunk == null) {
               return
             } else {
-              if (!verify(value,
-                          "-Digest",
-                          manifest,
-                          chunk.start,
-                          chunk.end,
-                          createdBySigntool,
-                          false)) {
+              if (
+                !verify(value,
+                        "-Digest",
+                        manifest,
+                        chunk.start,
+                        chunk.end,
+                        createdBySigntool,
+                        false)
+              ) {
                 throw new SecurityException(
                   s"$signatureFile has invalid digest for $key in $jarName")
               }
@@ -255,7 +262,10 @@ private[jar] class JarVerifier(jarName: String) {
       if (hash != null) {
         try {
           val md = MessageDigest.getInstance(algorithm)
-          if (ignoreSecondEndline && data(end - 1) == '\n' && data(end - 2) == '\n') {
+          if (
+            ignoreSecondEndline && data(end - 1) == '\n' && data(
+              end - 2) == '\n'
+          ) {
             md.update(data, start, end - 1 - start)
           } else {
             md.update(data, start, end - start)
@@ -365,11 +375,11 @@ private[jar] object JarVerifier {
           quantum = (quantum << 6) | bits.toByte
           if (in_index % 4 == 3) {
             // 4 characters were read, so make the output:
-            out(out_index) = ((quantum & 0x00FF0000) >> 16).toByte
+            out(out_index) = ((quantum & 0x00ff0000) >> 16).toByte
             out_index += 1
-            out(out_index) = ((quantum & 0x0000FF00) >> 8).toByte
+            out(out_index) = ((quantum & 0x0000ff00) >> 8).toByte
             out_index += 1
-            out(out_index) = (quantum & 0x000000FF).toByte
+            out(out_index) = (quantum & 0x000000ff).toByte
             out_index += 1
           }
           in_index += 1
@@ -380,10 +390,10 @@ private[jar] object JarVerifier {
         // adjust the quantum value according to the padding
         quantum = quantum << (6 * pad)
         // make output
-        out(out_index) = ((quantum & 0x00FF0000) >> 16).toByte
+        out(out_index) = ((quantum & 0x00ff0000) >> 16).toByte
         out_index += 1
         if (pad == 1) {
-          out(out_index) = ((quantum & 0x0000FF00) >> 8).toByte
+          out(out_index) = ((quantum & 0x0000ff00) >> 8).toByte
           out_index += 1
         }
       }

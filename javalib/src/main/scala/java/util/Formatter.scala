@@ -54,22 +54,23 @@ final class Formatter private (private var dest: Appendable,
 
   private def this(file: File, csn: String, l: Formatter.LocaleInfo) =
     this({
-      var fout: FileOutputStream = null
-      try {
-        fout = new FileOutputStream(file)
-        val writer = new OutputStreamWriter(fout, csn)
-        new BufferedWriter(writer)
-      } catch {
-        case e @ (_: RuntimeException | _: UnsupportedEncodingException) =>
-          if (fout != null) {
-            try { fout.close() }
-            catch {
-              case _: IOException => () // silently
-            }
-          }
-          throw e
-      }
-    }, l)
+           var fout: FileOutputStream = null
+           try {
+             fout = new FileOutputStream(file)
+             val writer = new OutputStreamWriter(fout, csn)
+             new BufferedWriter(writer)
+           } catch {
+             case e @ (_: RuntimeException | _: UnsupportedEncodingException) =>
+               if (fout != null) {
+                 try { fout.close() }
+                 catch {
+                   case _: IOException => () // silently
+                 }
+               }
+               throw e
+           }
+         },
+         l)
 
   def this(file: File, csn: String, l: Locale) =
     this(file, csn, new Formatter.LocaleLocaleInfo(l))
@@ -496,8 +497,10 @@ final class Formatter private (private var dest: Appendable,
   }
 
   @inline private def checkIllegalFormatFlags(flags: Flags): Unit = {
-    if (flags.hasAllOf(LeftAlign | ZeroPad) ||
-        flags.hasAllOf(PositivePlus | PositiveSpace)) {
+    if (
+      flags.hasAllOf(LeftAlign | ZeroPad) ||
+      flags.hasAllOf(PositivePlus | PositiveSpace)
+    ) {
       throwIllegalFormatFlagsException(flags)
     }
   }
@@ -636,7 +639,8 @@ final class Formatter private (private var dest: Appendable,
     }
   }
 
-  /** Format an argument for the 'a' conversion.
+  /**
+   * Format an argument for the 'a' conversion.
    *
    *  This conversion requires quite some code, compared to the others, and is
    *  therefore extracted into separate functions.
@@ -858,7 +862,8 @@ final class Formatter private (private var dest: Appendable,
     }
   }
 
-  /** Inserts grouping commas at the right positions for the locale.
+  /**
+   * Inserts grouping commas at the right positions for the locale.
    *
    *  We already insert the ',' character, regardless of the locale. That is
    *  fixed later by `localeInfo.localizeNumber`. The only locale-sensitive
@@ -1132,7 +1137,8 @@ object Formatter {
     // format: on
   }
 
-  /** Converts a `Double` into a `Decimal` that has as few digits as possible
+  /**
+   * Converts a `Double` into a `Decimal` that has as few digits as possible
    *  while still uniquely identifying `x`.
    *
    *  We do this by converting the absolute value of the number into a string
@@ -1182,7 +1188,8 @@ object Formatter {
     }
   }
 
-  /** Converts a `BigDecimal` into a `Decimal`.
+  /**
+   * Converts a `BigDecimal` into a `Decimal`.
    *
    *  Zero values are considered positive for the conversion.
    *
@@ -1203,7 +1210,8 @@ object Formatter {
     }
   }
 
-  /** A decimal representation of a number.
+  /**
+   * A decimal representation of a number.
    *
    *  An instance of this class represents the number whose absolute value is
    *  `unscaledValue × 10^(-scale)`, and that is negative iff `negative` is
@@ -1230,13 +1238,15 @@ object Formatter {
 
     def isZero: Boolean = unscaledValue == "0"
 
-    /** The number of digits in the unscaled value.
+    /**
+     * The number of digits in the unscaled value.
      *
      *  The precision of a zero value is 1.
      */
     def precision: Int = unscaledValue.length()
 
-    /** Rounds the number so that it has at most the given precision, i.e., at
+    /**
+     * Rounds the number so that it has at most the given precision, i.e., at
      *  most the given number of digits in its `unscaledValue`.
      *
      *  The given `precision` must be greater than 0.
@@ -1248,7 +1258,8 @@ object Formatter {
       roundAtPos(roundingPos = precision)
     }
 
-    /** Returns a new Decimal instance with the same value, possibly rounded,
+    /**
+     * Returns a new Decimal instance with the same value, possibly rounded,
      *  with the given scale.
      *
      *  If this is a zero value, the same value is returned (a zero value must
@@ -1271,7 +1282,8 @@ object Formatter {
       }
     }
 
-    /** Rounds the number at the given position in its `unscaledValue`.
+    /**
+     * Rounds the number at the given position in its `unscaledValue`.
      *
      *  The `roundingPos` may be any integer value.
      *
@@ -1555,7 +1567,9 @@ object Formatter {
             if (currentChar >= 'A' && currentChar <= 'Z') {
               // OK; set UpperCase
               token.setFlag(Flags.UpperCase)
-            } else if ((currentChar >= 'a' && currentChar <= 'z') || currentChar == '%') {
+            } else if (
+              (currentChar >= 'a' && currentChar <= 'z') || currentChar == '%'
+            ) {
               // OK; nothing left to do
             } else {
               // Not OK; we could not parse a valid format specifier to completion

@@ -2571,29 +2571,20 @@ object Tag {
     }
 
     @alwaysinline override def load(
-        ptr: unsafe.Ptr[unsafe.CStruct12[T1,
-                                         T2,
-                                         T3,
-                                         T4,
-                                         T5,
-                                         T6,
-                                         T7,
-                                         T8,
-                                         T9,
-                                         T10,
-                                         T11,
-                                         T12]]): unsafe.CStruct12[T1,
-                                                                  T2,
-                                                                  T3,
-                                                                  T4,
-                                                                  T5,
-                                                                  T6,
-                                                                  T7,
-                                                                  T8,
-                                                                  T9,
-                                                                  T10,
-                                                                  T11,
-                                                                  T12] = {
+        ptr: unsafe.Ptr[
+          unsafe.CStruct12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12]])
+        : unsafe.CStruct12[T1,
+                           T2,
+                           T3,
+                           T4,
+                           T5,
+                           T6,
+                           T7,
+                           T8,
+                           T9,
+                           T10,
+                           T11,
+                           T12] = {
       new unsafe.CStruct12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12](
         ptr.rawptr)
     }
@@ -8867,7 +8858,8 @@ object Tag {
   abstract class CFuncPtrTag[F <: unsafe.CFuncPtr] private[unsafe] ()
       extends Tag[F] {
 
-    /** Internal method used to cast Ptr[_] to CFuncPtr using its underlying RawPtr
+    /**
+     * Internal method used to cast Ptr[_] to CFuncPtr using its underlying RawPtr
      * Takes RawPtr instead Ptr[_] to skip extra boxing
      */
     private[unsafe] def fromRawPtr(rawptr: RawPtr): F
@@ -8933,14 +8925,37 @@ object Tag {
         unsafe.CFuncPtr11[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr12[
-      T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R]
+  abstract class CFuncPtr12[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr13[
-      T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R]
+  abstract class CFuncPtr13[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr13[T1,
                           T2,
@@ -8958,8 +8973,21 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr14[
-      T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R]
+  abstract class CFuncPtr14[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr14[T1,
                           T2,
@@ -8978,8 +9006,22 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr15[
-      T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R]
+  abstract class CFuncPtr15[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr15[T1,
                           T2,
@@ -8999,8 +9041,23 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr16[
-      T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R]
+  abstract class CFuncPtr16[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr16[T1,
                           T2,
@@ -9021,25 +9078,24 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr17[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      R]
+  abstract class CFuncPtr17[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr17[T1,
                           T2,
@@ -9061,26 +9117,25 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr18[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      T18,
-      R]
+  abstract class CFuncPtr18[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            T18,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr18[T1,
                           T2,
@@ -9103,27 +9158,26 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr19[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      T18,
-      T19,
-      R]
+  abstract class CFuncPtr19[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            T18,
+                            T19,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr19[T1,
                           T2,
@@ -9147,28 +9201,27 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr20[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      T18,
-      T19,
-      T20,
-      R]
+  abstract class CFuncPtr20[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            T18,
+                            T19,
+                            T20,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr20[T1,
                           T2,
@@ -9193,29 +9246,28 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr21[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      T18,
-      T19,
-      T20,
-      T21,
-      R]
+  abstract class CFuncPtr21[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            T18,
+                            T19,
+                            T20,
+                            T21,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr21[T1,
                           T2,
@@ -9241,30 +9293,29 @@ object Tag {
                           R]]
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 221)
-  abstract class CFuncPtr22[
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16,
-      T17,
-      T18,
-      T19,
-      T20,
-      T21,
-      T22,
-      R]
+  abstract class CFuncPtr22[T1,
+                            T2,
+                            T3,
+                            T4,
+                            T5,
+                            T6,
+                            T7,
+                            T8,
+                            T9,
+                            T10,
+                            T11,
+                            T12,
+                            T13,
+                            T14,
+                            T15,
+                            T16,
+                            T17,
+                            T18,
+                            T19,
+                            T20,
+                            T21,
+                            T22,
+                            R]
       extends CFuncPtrTag[
         unsafe.CFuncPtr22[T1,
                           T2,
@@ -9292,8 +9343,8 @@ object Tag {
 
   // ###sourceLocation(file: "/home/wmazur/projects/scalacenter/scala-native/scala-native/nativelib/src/main/scala/scala/scalanative/unsafe/Tag.scala.gyb", line: 224)
 
-  @alwaysinline implicit def materializePtrTag[T](
-      implicit tag: Tag[T]): Tag[unsafe.Ptr[T]] =
+  @alwaysinline implicit def materializePtrTag[T](implicit
+      tag: Tag[T]): Tag[unsafe.Ptr[T]] =
     Tag.Ptr(tag)
 
   @alwaysinline implicit def materializeClassTag[T <: AnyRef: ClassTag]

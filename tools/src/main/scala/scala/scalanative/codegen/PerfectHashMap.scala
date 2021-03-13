@@ -5,11 +5,9 @@ import scalanative.nir._
 import scalanative.linker.Method
 
 /**
- *
  * Implementation based on the article:
  * 'Throw away the keys: Easy, Minimal Perfect Hashing' by Steve Hanov
  * (http://stevehanov.ca/blog/index.php?id=119)
- *
  */
 object PerfectHashMap {
   val MAX_D_VALUE = 10000
@@ -49,7 +47,6 @@ object PerfectHashMap {
           /**
            * Finds slots for all element of a bucket.
            * Returns None, if no placement is found and MAX_D_VALUE is reached
-           *
            */
           def findSlots(d: Int,
                         item: Int,
@@ -60,8 +57,9 @@ object PerfectHashMap {
               if (item < bucket.size) {
                 val slot = mod(hashFunc(bucket(item), d), hashMapSize)
 
-                if (values.getOrElse(slot, None).isDefined || slots.contains(
-                      slot)) {
+                if (
+                  values.getOrElse(slot, None).isDefined || slots.contains(slot)
+                ) {
                   findSlots(d + 1, 0, List())
                 } else {
                   findSlots(d, item + 1, slot :: slots)
@@ -165,10 +163,9 @@ object DynmethodPerfectHashMap {
         case (acc, (signature, index)) => acc + (signature -> index)
       }
 
-    val entries = dynmethods.foldLeft(Map[Int, (Int, Val)]()) {
-      case (acc, m) =>
-        val index = signaturesWithIndex(m.sig)
-        acc + (index -> (index, Val.Global(m, Type.Ptr)))
+    val entries = dynmethods.foldLeft(Map[Int, (Int, Val)]()) { case (acc, m) =>
+      val index = signaturesWithIndex(m.sig)
+      acc + (index -> (index, Val.Global(m, Type.Ptr)))
     }
 
     val perfectHashMap = PerfectHashMap[Int, (Int, Val)](hash, entries)

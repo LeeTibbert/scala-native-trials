@@ -114,11 +114,9 @@ class ArrayGenericMethodsTest {
         (arrayLength + 1, 0, arrayLength),
         (0, arrayLength + 1, arrayLength),
         (0, 0, arrayLength + 1)
-      ).foreach {
-        case (fromPos, toPos, length) =>
-          assertThrows(
-            classOf[ArrayIndexOutOfBoundsException],
-            System.arraycopy(arr, fromPos, targetArray, toPos, length))
+      ).foreach { case (fromPos, toPos, length) =>
+        assertThrows(classOf[ArrayIndexOutOfBoundsException],
+                     System.arraycopy(arr, fromPos, targetArray, toPos, length))
       }
     }
 

@@ -10,7 +10,8 @@ import scalanative.unsafe._
 import scalanative.libc.complex._
 import scalanative.libc.complexOps._
 
-/** Reference
+/**
+ * Reference
  * http://en.cppreference.com/w/c/numeric/complex
  *
  * The complex functions were run in C on macOS to get the results

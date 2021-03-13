@@ -31,8 +31,8 @@ private[testinterface] object FrameworkLoader {
       }
     }
 
-    names.iterator.map(tryLoad).collectFirst {
-      case Some(framework) => framework
+    names.iterator.map(tryLoad).collectFirst { case Some(framework) =>
+      framework
     }
   }
 

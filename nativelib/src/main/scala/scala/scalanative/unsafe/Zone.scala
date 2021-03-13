@@ -34,7 +34,8 @@ object Zone {
   /** Create a new zone allocator. Use Zone#close to free allocations. */
   final def open(): Zone = new ZoneImpl
 
-  /** Minimalistic zone allocator that uses underlying
+  /**
+   * Minimalistic zone allocator that uses underlying
    *  system allocator for allocations, and frees all of
    *  the allocations once the zone is closed.
    */

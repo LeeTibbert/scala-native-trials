@@ -25,14 +25,16 @@ package java.math
 
 import scala.annotation.tailrec
 
-/** Provides {@link BigInteger} base conversions.
+/**
+ * Provides {@link BigInteger} base conversions.
  *
  *  Static library that provides {@link BigInteger} base conversion from/to any
  *  integer represented in a {@link java.lang.String} Object.
  */
 private[math] object Conversion {
 
-  /** Holds the maximal exponent for each radix.
+  /**
+   * Holds the maximal exponent for each radix.
    *
    *  Holds the maximal exponent for each radix, so that
    *  radix<sup>digitFitInInt[radix]</sup> fit in an {@code int} (32 bits).
@@ -41,7 +43,8 @@ private[math] object Conversion {
     Array[Int](-1, -1, 31, 19, 15, 13, 11, 11, 10, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7,
       7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5)
 
-  /** Precomputed maximal powers of radices.
+  /**
+   * Precomputed maximal powers of radices.
    *
    *  BigRadices values are precomputed maximal powers of radices (integer
    *  numbers from 2 to 36) that fit into unsigned int (32 bits). bigRadices[0] =
@@ -67,7 +70,7 @@ private[math] object Conversion {
       "0"
     } else if (numberLength == 1) {
       val highDigit = digits(numberLength - 1)
-      var v         = highDigit & 0xFFFFFFFFL
+      var v         = highDigit & 0xffffffffL
       if (sign < 0)
         v = -v
       java.lang.Long.toString(v, radix)
@@ -144,7 +147,8 @@ private[math] object Conversion {
     }
   }
 
-  /** The string representation scaled by zero.
+  /**
+   * The string representation scaled by zero.
    *
    *  Builds the correspondent {@code String} representation of {@code val} being
    *  scaled by 0.
@@ -174,7 +178,7 @@ private[math] object Conversion {
       if (numberLength == 1) {
         val highDigit = digits(0)
         if (highDigit < 0) {
-          var v: Long = highDigit & 0xFFFFFFFFL
+          var v: Long = highDigit & 0xffffffffL
           do {
             val prev = v
             v /= 10
@@ -204,7 +208,7 @@ private[math] object Conversion {
           var result11: Long = 0
           var i1: Int        = tempLen - 1
           while (i1 >= 0) {
-            val temp1: Long = (result11 << 32) + (temp(i1) & 0xFFFFFFFFL)
+            val temp1: Long = (result11 << 32) + (temp(i1) & 0xffffffffL)
             val res: Long   = divideLongByBillion(temp1)
             temp(i1) = res.toInt
             result11 = (res >> 32).toInt
@@ -330,12 +334,14 @@ private[math] object Conversion {
       val bPos: Long = 1000000000L >>> 1
       (aPos / bPos, (aPos % bPos << 1) + (a & 1))
     }
-    (rem << 32) | (quot & 0xFFFFFFFFL)
+    (rem << 32) | (quot & 0xffffffffL)
   }
 
   def bigInteger2Double(bi: BigInteger): Double = {
-    if (bi.numberLength < 2 ||
-        ((bi.numberLength == 2) && (bi.digits(1) > 0))) {
+    if (
+      bi.numberLength < 2 ||
+      ((bi.numberLength == 2) && (bi.digits(1) > 0))
+    ) {
       bi.longValue().toDouble
     } else if (bi.numberLength > 32) {
       if (bi.sign > 0) Double.PositiveInfinity
@@ -345,12 +351,12 @@ private[math] object Conversion {
       var exponent: Long = bitLen - 1
       val delta          = bitLen - 54
       val lVal           = bi.abs().shiftRight(delta).longValue()
-      var mantissa       = lVal & 0x1FFFFFFFFFFFFFL
+      var mantissa       = lVal & 0x1fffffffffffffL
 
-      if (exponent == 1023 && mantissa == 0X1FFFFFFFFFFFFFL) {
+      if (exponent == 1023 && mantissa == 0x1fffffffffffffL) {
         if (bi.sign > 0) Double.PositiveInfinity
         else Double.NegativeInfinity
-      } else if (exponent == 1023 && mantissa == 0x1FFFFFFFFFFFFEL) {
+      } else if (exponent == 1023 && mantissa == 0x1ffffffffffffeL) {
         if (bi.sign > 0) Double.MaxValue
         else -Double.MaxValue
       } else {
@@ -360,7 +366,7 @@ private[math] object Conversion {
 
         mantissa >>= 1
         val resSign = if (bi.sign < 0) 0x8000000000000000L else 0
-        exponent = ((1023 + exponent) << 52) & 0x7FF0000000000000L
+        exponent = ((1023 + exponent) << 52) & 0x7ff0000000000000L
         val result = resSign | exponent | mantissa
         java.lang.Double.longBitsToDouble(result)
       }

@@ -144,8 +144,10 @@ class ExecTest {
           case NonFatal(e) =>
             // (handle compiler panic too)
             // We don't and likely never will support \C; keep going.
-            if (e.getMessage
-                  .startsWith("Illegal/unsupported escape sequence")) {
+            if (
+              e.getMessage
+                .startsWith("Illegal/unsupported escape sequence")
+            ) {
               break
             }
             System.err.println(
@@ -175,8 +177,10 @@ class ExecTest {
         val text = strings.get(input)
         input += 1
         val multibyte = !isSingleBytes(text)
-        if (multibyte && re.toString
-              .contains("\\B")) { // C++ RE2's \B considers every position in the input, which
+        if (
+          multibyte && re.toString
+            .contains("\\B")
+        ) { // C++ RE2's \B considers every position in the input, which
           // is a stream of bytes, so it sees 'not word boundary' in the
           // middle of a rune.  But this package only considers whole
           // runes, so it disagrees.  Skip those cases.

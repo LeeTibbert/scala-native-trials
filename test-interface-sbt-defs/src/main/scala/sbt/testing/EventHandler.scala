@@ -1,6 +1,7 @@
 package sbt.testing
 
-/** Interface implemented by clients that handle events fired by the test
+/**
+ * Interface implemented by clients that handle events fired by the test
  *  framework during a run.
  *
  *  An event handler is passed to the test framework via the
@@ -8,7 +9,8 @@ package sbt.testing
  */
 trait EventHandler {
 
-  /** Handle an event.
+  /**
+   * Handle an event.
    *
    *  @param event the event to handle
    */

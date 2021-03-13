@@ -313,7 +313,8 @@ class ArrayListTest {
     val aList = new ArrayList[Int](Seq(175, -24, -7, -44).toJavaList)
 
     assertThrows(classOf[java.lang.ArrayIndexOutOfBoundsException],
-                 aList.removeRange(-1, 2)) // fromIndex < 0
+                 aList.removeRange(-1, 2)
+    ) // fromIndex < 0
 
     assertThrows(
       classOf[java.lang.ArrayIndexOutOfBoundsException],
@@ -323,10 +324,12 @@ class ArrayListTest {
     ) // fromIndex >= _size
 
     assertThrows(classOf[java.lang.ArrayIndexOutOfBoundsException],
-                 aList.removeRange(0, aList.size + 1)) // toIndex > size
+                 aList.removeRange(0, aList.size + 1)
+    ) // toIndex > size
 
     assertThrows(classOf[java.lang.ArrayIndexOutOfBoundsException],
-                 aList.removeRange(2, -1)) // toIndex < fromIndex
+                 aList.removeRange(2, -1)
+    ) // toIndex < fromIndex
   }
 
   @Test def removeRangeFromToFirstTwoElements(): Unit = {

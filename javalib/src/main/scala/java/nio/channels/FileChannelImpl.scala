@@ -183,8 +183,10 @@ private object FileChannelImpl {
       throw new FileAlreadyExistsException(path.toString)
     }
 
-    if (writing && options.contains(DSYNC) && !options
-          .contains(SYNC)) {
+    if (
+      writing && options.contains(DSYNC) && !options
+        .contains(SYNC)
+    ) {
       mode.append("d")
     }
 

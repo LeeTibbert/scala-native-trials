@@ -88,8 +88,10 @@ object Base64 {
       decode(src.getBytes(StandardCharsets.ISO_8859_1))
 
     def decode(src: Array[Byte], dst: Array[Byte]): Int = {
-      if (dst.length < dstMaxLength(src.length) && // dst is possibly too small
-          dst.length < dstRequiredLength(src)) {   // dst is actually too small
+      if (
+        dst.length < dstMaxLength(src.length) && // dst is possibly too small
+        dst.length < dstRequiredLength(src)
+      ) { // dst is actually too small
         throw new IllegalArgumentException(
           "Output byte array is too small for decoding all input bytes")
       }
@@ -220,7 +222,8 @@ object Base64 {
       dstMaxLength(validBytes)
     }
 
-    /** Computes the destination length solely based on the source length,
+    /**
+     * Computes the destination length solely based on the source length,
      *  without knowing about padding.
      */
     private def dstMaxLength(srcLength: Int): Int =
@@ -323,8 +326,10 @@ object Base64 {
       def padding(): Int = {
         eof = true
         val s = shift
-        if (s == DecodeState18 || s == DecodeState12 ||
-            (s == DecodeState14 && in.read() != '=' && !ignoreInvalid)) {
+        if (
+          s == DecodeState18 || s == DecodeState12 ||
+          (s == DecodeState14 && in.read() != '=' && !ignoreInvalid)
+        ) {
           throw new IOException("Illegal base64 ending sequence")
         }
         writeValue(Int.MaxValue)
@@ -439,8 +444,10 @@ object Base64 {
           dst.put(table(bits & 0x3f))
 
         currentLine += 4
-        if (lineSeparator.length > 0 && lineLength > 0 &&
-            currentLine == lineLength && dst.hasRemaining) {
+        if (
+          lineSeparator.length > 0 && lineLength > 0 &&
+          currentLine == lineLength && dst.hasRemaining
+        ) {
           lineSeparator.foreach(dst.put)
           currentLine = 0
         }
@@ -497,8 +504,10 @@ object Base64 {
 
     @inline
     private def addLineSeparators(): Unit = {
-      if (lineSeparator.length > 0 && lineLength > 0 &&
-          currentLineLength == lineLength) {
+      if (
+        lineSeparator.length > 0 && lineLength > 0 &&
+        currentLineLength == lineLength
+      ) {
         out.write(lineSeparator)
         currentLineLength = 0
       }
@@ -564,7 +573,8 @@ object Base64 {
     }
   }
 
-  /** An Array augmented with a position and a limit.
+  /**
+   * An Array augmented with a position and a limit.
    *
    *  This is modeled after `java.nio.ByteBuffer`, but is more lightweight.
    */

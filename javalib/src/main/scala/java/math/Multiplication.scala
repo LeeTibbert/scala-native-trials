@@ -27,28 +27,32 @@ import scala.annotation.tailrec
 /** Object that provides all multiplication of {@link BigInteger} methods. */
 private[math] object Multiplication {
 
-  /** An array of powers of ten.
+  /**
+   * An array of powers of ten.
    *
    *  An array with powers of ten that fit in the type
    *  {@code int}.({@code 10^0,10^1,...,10^9})
    */
   private val TenPows = newArrayOfPows(10, 10)
 
-  /** An array of powers of five.
+  /**
+   * An array of powers of five.
    *
    *  An array with powers of five that fit in the type
    *  {@code int}.({@code 5^0,5^1,...,5^13})
    */
   private val FivePows = newArrayOfPows(14, 5)
 
-  /** An array of {@code BigInteger} of powers of ten.
+  /**
+   * An array of {@code BigInteger} of powers of ten.
    *
    *  An array with the first powers of ten in {@code BigInteger} version.
    *  ({@code 10^0,10^1,...,10^31})
    */
   private[math] val BigTenPows = new Array[BigInteger](32)
 
-  /** An array of {@code BigInteger} of powers of five.
+  /**
+   * An array of {@code BigInteger} of powers of five.
    *
    *  An array with the first powers of five in {@code BigInteger} version.
    *  ({@code 5^0,5^1,...,5^31})
@@ -59,7 +63,8 @@ private[math] object Multiplication {
 
   initialiseArrays()
 
-  /** Multiplies an array of integers by an integer value.
+  /**
+   * Multiplies an array of integers by an integer value.
    *
    *  @param a the array of integers
    *  @param aSize the number of elements of intArray to be multiplied
@@ -69,7 +74,8 @@ private[math] object Multiplication {
   def multiplyByInt(a: Array[Int], aSize: Int, factor: Int): Int =
     multiplyByInt(a, a, aSize, factor)
 
-  /** Multiplies a number by a positive integer.
+  /**
+   * Multiplies a number by a positive integer.
    *
    *  @param bi an arbitrary {@code BigInteger}
    *  @param factor a positive {@code int} number
@@ -99,7 +105,8 @@ private[math] object Multiplication {
     }
   }
 
-  /** Multiplies a number by a power of ten.
+  /**
+   * Multiplies a number by a power of ten.
    *
    *  This method is used in {@code BigDecimal} class.
    *
@@ -112,7 +119,8 @@ private[math] object Multiplication {
     else bi.multiply(powerOf10(exp))
   }
 
-  /** Performs a<sup>2</sup>.
+  /**
+   * Performs a<sup>2</sup>.
    *
    *  @param a The number to square.
    *  @param aLen The length of the number to square.
@@ -137,7 +145,7 @@ private[math] object Multiplication {
       val t = unsignedMultAddAdd(a(i), a(i), res(index), carry)
       res(index) = t.toInt
       index += 1
-      val t2 = (t >>> 32) + (res(index) & 0xFFFFFFFFL)
+      val t2 = (t >>> 32) + (res(index) & 0xffffffffL)
       res(index) = t2.toInt
       carry = (t2 >>> 32).toInt
       i += 1
@@ -146,7 +154,8 @@ private[math] object Multiplication {
     res
   }
 
-  /** Computes the value unsigned ((uint)a*(uint)b + (uint)c + (uint)d).
+  /**
+   * Computes the value unsigned ((uint)a*(uint)b + (uint)c + (uint)d).
    *
    *  @param a parameter 1
    *  @param b parameter 2
@@ -155,10 +164,11 @@ private[math] object Multiplication {
    *  @return value of expression
    */
   def unsignedMultAddAdd(a: Int, b: Int, c: Int, d: Int): Long =
-    (a & 0xFFFFFFFFL) * (b & 0xFFFFFFFFL) + (c & 0xFFFFFFFFL) +
-      (d & 0xFFFFFFFFL)
+    (a & 0xffffffffL) * (b & 0xffffffffL) + (c & 0xffffffffL) +
+      (d & 0xffffffffL)
 
-  /** Performs the multiplication with the Karatsuba's algorithm.
+  /**
+   * Performs the multiplication with the Karatsuba's algorithm.
    *
    *  <b>Karatsuba's algorithm:</b> <tt>
    *              u = u<sub>1</sub> * B + u<sub>0</sub><br>
@@ -187,7 +197,7 @@ private[math] object Multiplication {
        * Karatsuba: u = u1*B + u0 v = v1*B + v0 u*v = (u1*v1)*B^2 +
        * ((u1-u0)*(v0-v1) + u1*v1 + u0*v0)*B + u0*v0
        */
-      val ndiv2    = (op1.numberLength & 0xFFFFFFFE) << 4
+      val ndiv2    = (op1.numberLength & 0xfffffffe) << 4
       val upperOp1 = op1.shiftRight(ndiv2)
       val upperOp2 = op2.shiftRight(ndiv2)
       val lowerOp1 = op1.subtract(upperOp1.shiftLeft(ndiv2))
@@ -221,7 +231,8 @@ private[math] object Multiplication {
 
   def multiply(x: BigInteger, y: BigInteger): BigInteger = karatsuba(x, y)
 
-  /** Multiplies two BigIntegers.
+  /**
+   * Multiplies two BigIntegers.
    *
    *  Implements traditional scholar algorithmdescribed by Knuth.
    *
@@ -229,7 +240,6 @@ private[math] object Multiplication {
    *  <tt>
    *          <table border="0">
    *  <tbody>
-   *
    *
    *  <tr>
    *  <td align="center">A=</td>
@@ -360,7 +370,8 @@ private[math] object Multiplication {
     loop(exponent, BigInteger.ONE, base)
   }
 
-  /** Calculates a power of ten, which exponent could be out of 32-bit range.
+  /**
+   * Calculates a power of ten, which exponent could be out of 32-bit range.
    *
    *  Note that internally this method will be used in the worst case with
    *  an exponent equals to: {@code Integer.MAX_VALUE - Integer.MIN_VALUE}.
@@ -397,7 +408,8 @@ private[math] object Multiplication {
     }
   }
 
-  /** Multiplies a number by a power of five.
+  /**
+   * Multiplies a number by a power of five.
    *
    *  This method is used in {@code BigDecimal} class.
    *  @param val the number to be multiplied

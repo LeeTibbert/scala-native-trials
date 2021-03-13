@@ -300,7 +300,7 @@ class StringTest {
         -61, -97,                                     // two byte unicode
         -28, -71, -90,                                // three byte unicode
         -31, -67, -112, 65                            // four byte unicode
-        )
+      )
 
     testEncoding(StandardCharsets.UTF_8, expectedInts)
     testEncoding("UTF-8", expectedInts)
@@ -334,8 +334,9 @@ class StringTest {
   }
 
   @Test def literalsHaveConsistentHashCodeImplementation(): Unit = {
-    assertTrue("foobar".hashCode == new String(
-      Array('f', 'o', 'o', 'b', 'a', 'r')).hashCode)
+    assertTrue(
+      "foobar".hashCode == new String(
+        Array('f', 'o', 'o', 'b', 'a', 'r')).hashCode)
   }
 
   @Ignore("#486")

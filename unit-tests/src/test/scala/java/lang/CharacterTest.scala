@@ -1,6 +1,7 @@
 package java.lang
 
-/** Test suite for [[java.lang.Character]]
+/**
+ * Test suite for [[java.lang.Character]]
  *
  * To be consistent the implementations should be based on
  * Unicode 7.0.
@@ -69,7 +70,7 @@ class CharacterTest {
 
     val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
     val resultCS = Character.codePointAt(str1, index)
-    val expected = 0x20AC // 'euro-character'
+    val expected = 0x20ac // 'euro-character'
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -82,7 +83,7 @@ class CharacterTest {
     val index    = 0
     val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
     val resultCS = Character.codePointAt(str1, index)
-    val expected = 0xDC00 // Character.MIN_LOW_SURROGATE, 56320 decimal
+    val expected = 0xdc00      // Character.MIN_LOW_SURROGATE, 56320 decimal
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -96,7 +97,7 @@ class CharacterTest {
 
     val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
     val resultCS = Character.codePointAt(str1, index)
-    val expected = 0xDBFF // Character.MAX_HIGH_SURROGATE, 56319 decimal
+    val expected = 0xdbff // Character.MAX_HIGH_SURROGATE, 56319 decimal
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -111,7 +112,7 @@ class CharacterTest {
 
     val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
     val resultCS = Character.codePointAt(str1, index)
-    val expected = 0x103FF // surrogate pair, decimal 66559
+    val expected = 0x103ff // surrogate pair, decimal 66559
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -125,7 +126,7 @@ class CharacterTest {
     indexes.foreach { index =>
       val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
       val resultCS = Character.codePointAt(str1, index)
-      val expected = 0xDBFF
+      val expected = 0xdbff
 
       assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                  resultCA == resultCS)
@@ -140,7 +141,7 @@ class CharacterTest {
     indexes.foreach { index =>
       val resultCA = Character.codePointAt(str1.toArray, index, str1.length)
       val resultCS = Character.codePointAt(str1, index)
-      val expected = 0xDC00
+      val expected = 0xdc00
 
       assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                  resultCA == resultCS)
@@ -214,7 +215,7 @@ class CharacterTest {
     val index    = 1
     val resultCA = Character.codePointBefore(str1.toArray, index)
     val resultCS = Character.codePointBefore(str1, index)
-    val expected = 0xDC00 // Character.MIN_LOW_SURROGATE, 56320 decimal
+    val expected = 0xdc00      // Character.MIN_LOW_SURROGATE, 56320 decimal
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -228,7 +229,7 @@ class CharacterTest {
 
     val resultCA = Character.codePointBefore(str1.toArray, index)
     val resultCS = Character.codePointBefore(str1, index)
-    val expected = 0xDBFF // Character.MAX_HIGH_SURROGATE, 56319 decimal
+    val expected = 0xdbff // Character.MAX_HIGH_SURROGATE, 56319 decimal
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -243,7 +244,7 @@ class CharacterTest {
 
     val resultCA = Character.codePointBefore(str1.toArray, index, str1.length)
     val resultCS = Character.codePointBefore(str1, index)
-    val expected = 0x103FF // surrogate pair, decimal 66559
+    val expected = 0x103ff // surrogate pair, decimal 66559
 
     assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                resultCA == resultCS)
@@ -257,7 +258,7 @@ class CharacterTest {
     indexes.foreach { index =>
       val resultCA = Character.codePointBefore(str1.toArray, index)
       val resultCS = Character.codePointBefore(str1, index)
-      val expected = 0xDBFF
+      val expected = 0xdbff
 
       assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                  resultCA == resultCS)
@@ -272,7 +273,7 @@ class CharacterTest {
     indexes.foreach { index =>
       val resultCA = Character.codePointBefore(str1.toArray, index)
       val resultCS = Character.codePointBefore(str1, index)
-      val expected = 0xDC00
+      val expected = 0xdc00
 
       assertTrue(s"resultCA: $resultCA != resultCS: $resultCS",
                  resultCA == resultCS)
@@ -417,7 +418,7 @@ class CharacterTest {
   @Test def toLowerCaseCompat(): Unit = {
     // compat characters are directly from the DB
     // (03F4,GREEK CAPITAL THETA SYMBOL,Lu,0,L,<compat> 0398,N,,03B8,)
-    assertTrue(toLowerCase(0x03F4) equals 0x03B8)
+    assertTrue(toLowerCase(0x03f4) equals 0x03b8)
     assertTrue(toLowerCase('Θ') equals 'θ')
     // (2161,ROMAN NUMERAL TWO,Nl,0,L,<compat> 0049 0049,N,,2171,)
     assertTrue(toLowerCase(0x2161) equals 0x2171)
@@ -443,7 +444,7 @@ class CharacterTest {
 
   @Test def toLowerCaseAbove(): Unit = {
     // top and above range
-    assertTrue(toLowerCase(0x10FFFF) equals 0x10FFFF)
+    assertTrue(toLowerCase(0x10ffff) equals 0x10ffff)
     assertTrue(toLowerCase(0x110000) equals 0x110000)
   }
 
@@ -465,10 +466,10 @@ class CharacterTest {
   @Test def toUpperCaseCompat(): Unit = {
     // compat characters are directly from the DB
     // (03D0,GREEK BETA SYMBOL,Ll,0,L,<compat> 03B2,N,0392,,0392)
-    assertTrue(toUpperCase(0x03D0) equals 0x0392)
+    assertTrue(toUpperCase(0x03d0) equals 0x0392)
     assertTrue(toUpperCase('β') equals 'Β')
     // (00B5,MICRO SIGN,Ll,0,L,<compat> 03BC,N,039C,,039C)
-    assertTrue(toUpperCase(0x00B5) equals 0x039C)
+    assertTrue(toUpperCase(0x00b5) equals 0x039c)
     assertTrue(toUpperCase('μ') equals 'Μ')
   }
 
@@ -493,7 +494,7 @@ class CharacterTest {
 
   @Test def toUpperCaseAbove(): Unit = {
     // top and above range
-    assertTrue(toUpperCase(0x10FFFF) equals 0x10FFFF)
+    assertTrue(toUpperCase(0x10ffff) equals 0x10ffff)
     assertTrue(toUpperCase(0x110000) equals 0x110000)
   }
 

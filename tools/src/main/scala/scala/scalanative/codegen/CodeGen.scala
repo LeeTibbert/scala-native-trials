@@ -32,9 +32,8 @@ object CodeGen {
     val buf = mutable.UnrolledBuffer.empty[Defn]
 
     partitionBy(defns)(_.name).par
-      .map {
-        case (_, defns) =>
-          Lower(defns)
+      .map { case (_, defns) =>
+        Lower(defns)
       }
       .seq
       .foreach { defns => buf ++= defns }
@@ -43,8 +42,8 @@ object CodeGen {
   }
 
   /** Generate code for given assembly. */
-  private def emit(config: build.Config, assembly: Seq[Defn])(
-      implicit meta: Metadata): Seq[Path] =
+  private def emit(config: build.Config, assembly: Seq[Defn])(implicit
+      meta: Metadata): Seq[Path] =
     Scope { implicit in =>
       val env          = assembly.map(defn => defn.name -> defn).toMap
       val workdir      = VirtualDirectory.real(config.workdir)
@@ -55,11 +54,10 @@ object CodeGen {
       // across IR module boundary unless LTO is turned on.
       def separate(): Seq[Path] =
         partitionBy(assembly, procs)(_.name.top.mangle).par
-          .map {
-            case (id, defns) =>
-              val sorted = defns.sortBy(_.name.show)
-              new Impl(targetTriple, env, sorted)
-                .gen(id.toString, workdir)
+          .map { case (id, defns) =>
+            val sorted = defns.sortBy(_.name.show)
+            new Impl(targetTriple, env, sorted)
+              .gen(id.toString, workdir)
           }
           .toSeq
           .seq
@@ -188,13 +186,12 @@ object CodeGen {
 
     def genConsts()(implicit sb: ShowBuilder): Unit = {
       import sb._
-      constMap.toSeq.sortBy(_._2.show).foreach {
-        case (v, name) =>
-          newline()
-          str("@")
-          genGlobal(name)
-          str(" = private unnamed_addr constant ")
-          genVal(v)
+      constMap.toSeq.sortBy(_._2.show).foreach { case (v, name) =>
+        newline()
+        str("@")
+        genGlobal(name)
+        str(" = private unnamed_addr constant ")
+        genVal(v)
       }
     }
 
@@ -300,8 +297,8 @@ object CodeGen {
       genType(retty)
     }
 
-    def genReferenceTypeAttribute(refty: Type.RefKind)(
-        implicit sb: ShowBuilder): Unit = {
+    def genReferenceTypeAttribute(refty: Type.RefKind)(implicit
+        sb: ShowBuilder): Unit = {
       import sb._
       val (nonnull, deref, size) = toDereferenceable(refty)
 
@@ -331,9 +328,10 @@ object CodeGen {
       }
     }
 
-    def genBlock(block: Block)(implicit cfg: CFG,
-                               fresh: Fresh,
-                               sb: ShowBuilder): Unit = {
+    def genBlock(block: Block)(implicit
+        cfg: CFG,
+        fresh: Fresh,
+        sb: ShowBuilder): Unit = {
       import sb._
       val Block(name, params, insts, isEntry) = block
       currentBlockName = name
@@ -360,57 +358,58 @@ object CodeGen {
       str(currentBlockSplit)
     }
 
-    def genBlockPrologue(block: Block)(implicit cfg: CFG,
-                                       fresh: Fresh,
-                                       sb: ShowBuilder): Unit = {
+    def genBlockPrologue(block: Block)(implicit
+        cfg: CFG,
+        fresh: Fresh,
+        sb: ShowBuilder): Unit = {
       import sb._
       if (!block.isEntry) {
         val params = block.params
-        params.zipWithIndex.foreach {
-          case (Val.Local(name, ty), n) =>
-            newline()
-            str("%")
-            genLocal(name)
-            str(" = phi ")
-            genType(ty)
-            str(" ")
-            rep(block.inEdges.toSeq, sep = ", ") { edge =>
-              def genRegularEdge(next: Next.Label): Unit = {
-                val Next.Label(_, vals) = next
-                genJustVal(vals(n))
-                str(", %")
-                genLocal(edge.from.name)
-                str(".")
-                str(edge.from.splitCount)
-              }
-              def genUnwindEdge(unwind: Next.Unwind): Unit = {
-                val Next.Unwind(Val.Local(exc, _), Next.Label(_, vals)) = unwind
-                genJustVal(vals(n))
-                str(", %")
-                genLocal(exc)
-                str(".landingpad.succ")
-              }
-
-              str("[")
-              edge.next match {
-                case n: Next.Label =>
-                  genRegularEdge(n)
-                case Next.Case(_, n: Next.Label) =>
-                  genRegularEdge(n)
-                case n: Next.Unwind =>
-                  genUnwindEdge(n)
-                case _ =>
-                  unreachable
-              }
-              str("]")
+        params.zipWithIndex.foreach { case (Val.Local(name, ty), n) =>
+          newline()
+          str("%")
+          genLocal(name)
+          str(" = phi ")
+          genType(ty)
+          str(" ")
+          rep(block.inEdges.toSeq, sep = ", ") { edge =>
+            def genRegularEdge(next: Next.Label): Unit = {
+              val Next.Label(_, vals) = next
+              genJustVal(vals(n))
+              str(", %")
+              genLocal(edge.from.name)
+              str(".")
+              str(edge.from.splitCount)
             }
+            def genUnwindEdge(unwind: Next.Unwind): Unit = {
+              val Next.Unwind(Val.Local(exc, _), Next.Label(_, vals)) = unwind
+              genJustVal(vals(n))
+              str(", %")
+              genLocal(exc)
+              str(".landingpad.succ")
+            }
+
+            str("[")
+            edge.next match {
+              case n: Next.Label =>
+                genRegularEdge(n)
+              case Next.Case(_, n: Next.Label) =>
+                genRegularEdge(n)
+              case n: Next.Unwind =>
+                genUnwindEdge(n)
+              case _ =>
+                unreachable
+            }
+            str("]")
+          }
         }
       }
     }
 
-    def genBlockLandingPads(block: Block)(implicit cfg: CFG,
-                                          fresh: Fresh,
-                                          sb: ShowBuilder): Unit = {
+    def genBlockLandingPads(block: Block)(implicit
+        cfg: CFG,
+        fresh: Fresh,
+        sb: ShowBuilder): Unit = {
       block.insts.foreach {
         case inst @ Inst.Let(_, _, unwind: Next.Unwind) =>
           import inst.pos
@@ -420,9 +419,10 @@ object CodeGen {
       }
     }
 
-    def genLandingPad(unwind: Next.Unwind)(implicit fresh: Fresh,
-                                           pos: nir.Position,
-                                           sb: ShowBuilder): Unit = {
+    def genLandingPad(unwind: Next.Unwind)(implicit
+        fresh: Fresh,
+        pos: nir.Position,
+        sb: ShowBuilder): Unit = {
       import sb._
       val Next.Unwind(Val.Local(excname, _), next) = unwind
 
@@ -649,19 +649,18 @@ object CodeGen {
           if (thenArgs == elseArgs) {
             genInst(Inst.Jump(thenNext)(inst.pos))
           } else {
-            val args = thenArgs.zip(elseArgs).map {
-              case (thenV, elseV) =>
-                val name = fresh()
-                newline()
-                str("%")
-                genLocal(name)
-                str(" = select ")
-                genVal(cond)
-                str(", ")
-                genVal(thenV)
-                str(", ")
-                genVal(elseV)
-                Val.Local(name, thenV.ty)
+            val args = thenArgs.zip(elseArgs).map { case (thenV, elseV) =>
+              val name = fresh()
+              newline()
+              str("%")
+              genLocal(name)
+              str(" = select ")
+              genVal(cond)
+              str(", ")
+              genVal(thenV)
+              str(", ")
+              genVal(elseV)
+              Val.Local(name, thenV.ty)
             }
             genInst(Inst.Jump(Next.Label(thenName, args))(inst.pos))
           }
@@ -850,8 +849,8 @@ object CodeGen {
       }
     }
 
-    def genCall(genBind: () => Unit, call: Op.Call, unwind: Next)(
-        implicit fresh: Fresh,
+    def genCall(genBind: () => Unit, call: Op.Call, unwind: Next)(implicit
+        fresh: Fresh,
         sb: ShowBuilder): Unit = {
       import sb._
       call match {

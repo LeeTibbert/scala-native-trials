@@ -50,13 +50,12 @@ final class BinarySerializer {
 
     defns
       .zip(positions)
-      .foreach {
-        case (defn, marker) =>
-          val offset: Int = currentPosition()
-          bufferUnderyling.jumpTo(marker)
-          putInt(offset)
-          bufferUnderyling.continue()
-          putDefn(defn)
+      .foreach { case (defn, marker) =>
+        val offset: Int = currentPosition()
+        bufferUnderyling.jumpTo(marker)
+        putInt(offset)
+        bufferUnderyling.continue()
+        putDefn(defn)
       }
 
     buffer.flush()
@@ -536,8 +535,10 @@ final class BinarySerializer {
 
     if (pos == Position.NoPosition) {
       put(FormatNoPositionValue.toByte)
-    } else if (lastPosition == Position.NoPosition ||
-               pos.source != lastPosition.source) {
+    } else if (
+      lastPosition == Position.NoPosition ||
+      pos.source != lastPosition.source
+    ) {
       writeFull()
       lastPosition = pos
     } else {
@@ -552,7 +553,9 @@ final class BinarySerializer {
       } else if (lineDiff >= -32 && lineDiff < 32 && columnIsByte) {
         put(((lineDiff << Format2Shift) | Format2MaskValue).toByte)
         put(column.toByte)
-      } else if (lineDiff >= Short.MinValue && lineDiff <= Short.MaxValue && columnIsByte) {
+      } else if (
+        lineDiff >= Short.MinValue && lineDiff <= Short.MaxValue && columnIsByte
+      ) {
         put(Format3MaskValue.toByte)
         putShort(lineDiff.toShort)
         put(column.toByte)
@@ -571,10 +574,10 @@ final class BinarySerializer {
       val file = pos.source
       if (pos.isDefined)
         fileIndexMap.getOrElseUpdate(file, {
-          val idx = filesList.size
-          filesList += file.toString
-          idx
-        })
+                                       val idx = filesList.size
+                                       filesList += file.toString
+                                       idx
+                                     })
     }
     defns.foreach {
       case defn @ Defn.Define(_, _, _, insts) =>

@@ -296,8 +296,10 @@ object Integer {
     parseInt(s, 10)
 
   def parseInt(s: String, radix: scala.Int): scala.Int = {
-    if (s == null || radix < Character.MIN_RADIX ||
-        radix > Character.MAX_RADIX) {
+    if (
+      s == null || radix < Character.MIN_RADIX ||
+      radix > Character.MAX_RADIX
+    ) {
       throw new NumberFormatException()
     }
 
@@ -600,8 +602,10 @@ object Integer {
   @inline def parseUnsignedInt(s: String): scala.Int = parseUnsignedInt(s, 10)
 
   def parseUnsignedInt(s: String, radix: scala.Int): scala.Int = {
-    if (s == null || radix < Character.MIN_RADIX ||
-        radix > Character.MAX_RADIX) throw new NumberFormatException(s)
+    if (
+      s == null || radix < Character.MIN_RADIX ||
+      radix > Character.MAX_RADIX
+    ) throw new NumberFormatException(s)
 
     val len = s.length()
 

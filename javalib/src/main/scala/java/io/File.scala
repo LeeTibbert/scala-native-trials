@@ -350,7 +350,8 @@ object File {
       fromCString(res)
     }
 
-  /** The purpose of this method is to take a path and fix the slashes up. This
+  /**
+   * The purpose of this method is to take a path and fix the slashes up. This
    *  includes changing them all to the current platforms fileSeparator and
    *  removing duplicates.
    */
@@ -371,7 +372,9 @@ object File {
     while (i < length) {
       val currentChar = newPath(i)
 
-      if ((separatorChar == '\\' && currentChar == '\\') || currentChar == '/') {
+      if (
+        (separatorChar == '\\' && currentChar == '\\') || currentChar == '/'
+      ) {
         // UNC Name requires 2 leading slashes
         if ((foundSlash && i == uncIndex) || !foundSlash) {
           newPath(newLength) = separatorChar
@@ -380,10 +383,12 @@ object File {
         }
       } else {
         // check for leading slashes before a drive
-        if (currentChar == ':'
-            && uncIndex > 0
-            && (newLength == 2 || (newLength == 3 && newPath(1) == separatorChar))
-            && newPath(0) == separatorChar) {
+        if (
+          currentChar == ':'
+          && uncIndex > 0
+          && (newLength == 2 || (newLength == 3 && newPath(1) == separatorChar))
+          && newPath(0) == separatorChar
+        ) {
           newPath(0) = newPath(newLength - 1)
           newLength = 1
           // allow trailing slash after drive letter
@@ -397,8 +402,10 @@ object File {
       i += 1
     }
 
-    if (foundSlash && (newLength > (uncIndex + 1) || (newLength == 2 && newPath(
-          0) != separatorChar))) {
+    if (
+      foundSlash && (newLength > (uncIndex + 1) || (newLength == 2 && newPath(
+        0) != separatorChar))
+    ) {
       newLength -= 1
     }
 
@@ -429,8 +436,8 @@ object File {
   def isAbsolute(path: String): Boolean =
     if (separatorChar == '\\') { // Windows. Must start with `\\` or `X:(\|/)`
       (path.length > 1 && path.startsWith(separator + separator)) ||
-      (path.length > 2 && path(0).isLetter && path(1) == ':' && (path(2) == '/' || path(
-        2) == '\\'))
+      (path.length > 2 && path(0).isLetter && path(1) == ':' && (path(
+        2) == '/' || path(2) == '\\'))
     } else {
       path.length > 0 && path.startsWith(separator)
     }
@@ -441,10 +448,10 @@ object File {
    * directories if resolveAbsolute is true.
    */
   // Ported from Apache Harmony
-  private def resolveLink(
-      path: CString,
-      resolveAbsolute: Boolean,
-      restart: Boolean = false)(implicit z: Zone): CString = {
+  private def resolveLink(path: CString,
+                          resolveAbsolute: Boolean,
+                          restart: Boolean = false)(implicit
+      z: Zone): CString = {
     val resolved =
       readLink(path) match {
         // path is not a symlink
@@ -477,8 +484,8 @@ object File {
     else resolved
   }
 
-  @tailrec private def resolve(path: CString, start: UInt = 0.toUInt)(
-      implicit z: Zone): CString = {
+  @tailrec private def resolve(path: CString, start: UInt = 0.toUInt)(implicit
+      z: Zone): CString = {
     val part: CString = alloc[Byte](limits.PATH_MAX.toUInt)
     val `1U`          = 1.toUInt
     // Find the next separator

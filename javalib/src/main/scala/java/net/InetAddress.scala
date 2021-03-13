@@ -195,7 +195,7 @@ private[net] trait InetAddressBase {
 
     if (parts.length == 1) {
       val longValue = parts(0).toLong
-      longValue >= 0 && longValue <= 0xFFFFFFFFL
+      longValue >= 0 && longValue <= 0xffffffffL
     } else {
       parts.forall(part => {
         part.length <= 3 || Integer.parseInt(part) <= 255
@@ -258,8 +258,10 @@ private[net] trait InetAddressBase {
             return false
           }
           // IPv4 ending, otherwise 7 :'s is bad
-          if (numberOfColons == 7 && ipAddress.charAt(0 + offset) != ':' &&
-              ipAddress.charAt(1 + offset) != ':') {
+          if (
+            numberOfColons == 7 && ipAddress.charAt(0 + offset) != ':' &&
+            ipAddress.charAt(1 + offset) != ':'
+          ) {
             return false
           }
           word = ""
@@ -316,8 +318,10 @@ private[net] trait InetAddressBase {
         return false
       }
       if (numberOfPercent == 0) {
-        if (word == "" && ipAddress.charAt(length - 1 - offset) == ':' &&
-            ipAddress.charAt(length - 2 - offset) != ':') {
+        if (
+          word == "" && ipAddress.charAt(length - 1 - offset) == ':' &&
+          ipAddress.charAt(length - 2 - offset) != ':'
+        ) {
           return false
         }
       }

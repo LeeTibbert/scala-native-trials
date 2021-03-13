@@ -82,16 +82,20 @@ final class URI private () extends Comparable[URI] with Serializable {
     this()
     var hostVar   = host
     var earlyStop = false
-    if (scheme == null && userInfo == null && host == null && path == null &&
-        query == null &&
-        fragment == null) {
+    if (
+      scheme == null && userInfo == null && host == null && path == null &&
+      query == null &&
+      fragment == null
+    ) {
       this.path = ""
       earlyStop = true
     }
     if (!earlyStop) {
-      if (scheme != null && path != null &&
-          path.length() > 0 &&
-          path.charAt(0) != '/') {
+      if (
+        scheme != null && path != null &&
+        path.length() > 0 &&
+        path.charAt(0) != '/'
+      ) {
         throw new URISyntaxException(path, "Relative path")
       }
       val uri = new JStringBuilder()
@@ -107,8 +111,10 @@ final class URI private () extends Comparable[URI] with Serializable {
         uri.append('@')
       }
       if (host != null) {
-        if (host.indexOf(':') != -1 && host.indexOf(']') == -1 && host.indexOf(
-              '[') == -1) {
+        if (
+          host.indexOf(':') != -1 && host.indexOf(']') == -1 && host.indexOf(
+            '[') == -1
+        ) {
           hostVar = "[" + host + "]"
         }
         uri.append(hostVar)
@@ -141,9 +147,11 @@ final class URI private () extends Comparable[URI] with Serializable {
            query: String,
            fragment: String) = {
     this()
-    if (scheme != null && path != null &&
-        path.length() > 0 &&
-        path.charAt(0) != '/') {
+    if (
+      scheme != null && path != null &&
+      path.length() > 0 &&
+      path.charAt(0) != '/'
+    ) {
       throw new URISyntaxException(path, "Relative path")
     }
     val uri = new JStringBuilder()
@@ -189,7 +197,9 @@ final class URI private () extends Comparable[URI] with Serializable {
       index1 = index
       index2 = temp.indexOf('/')
       index3 = temp.indexOf('?')
-      if (index != -1 && (index2 >= index || index2 == -1) && (index3 >= index || index3 == -1)) {
+      if (
+        index != -1 && (index2 >= index || index2 == -1) && (index3 >= index || index3 == -1)
+      ) {
         absolute = true
         scheme = temp.substring(0, index)
         if (scheme.length() == 0) {
@@ -207,9 +217,11 @@ final class URI private () extends Comparable[URI] with Serializable {
         schemespecificpart = temp
       }
 
-      if (scheme == null ||
-          schemespecificpart.length() > 0 &&
-          schemespecificpart.charAt(0) == '/') {
+      if (
+        scheme == null ||
+        schemespecificpart.length() > 0 &&
+        schemespecificpart.charAt(0) == '/'
+      ) {
         opaque = false
 
         temp = schemespecificpart
@@ -227,8 +239,10 @@ final class URI private () extends Comparable[URI] with Serializable {
             path = temp.substring(index)
           } else {
             authority = temp.substring(2)
-            if (authority.length() == 0 && query == null
-                && fragment == null) {
+            if (
+              authority.length() == 0 && query == null
+              && fragment == null
+            ) {
               throw new URISyntaxException(uri,
                                            "Authority expected",
                                            uri.length())
@@ -427,8 +441,10 @@ final class URI private () extends Comparable[URI] with Serializable {
         throw new URISyntaxException(host, "Illegal character in host name", 0)
       }
       val index: Int = host.lastIndexOf('.')
-      if (index < 0 || index == host.length() - 1 ||
-          !java.lang.Character.isDigit(host.charAt(index + 1))) {
+      if (
+        index < 0 || index == host.length() - 1 ||
+        !java.lang.Character.isDigit(host.charAt(index + 1))
+      ) {
         if (isValidDomainName(host)) {
           return true
         }
@@ -539,7 +555,8 @@ final class URI private () extends Comparable[URI] with Serializable {
             if (ipAddress.charAt(0) != '[') {
               return false
             }
-          case '.' => { numberOfPeriods += 1; numberOfPeriods - 1 }
+          case '.' =>
+            { numberOfPeriods += 1; numberOfPeriods - 1 }
             if (numberOfPeriods > 3) {
               return false
             }
@@ -549,12 +566,15 @@ final class URI private () extends Comparable[URI] with Serializable {
             if (numberOfColons != 6 && !doubleColon) {
               return false
             }
-            if (numberOfColons == 7 && ipAddress.charAt(0 + offset) != ':' &&
-                ipAddress.charAt(1 + offset) != ':') {
+            if (
+              numberOfColons == 7 && ipAddress.charAt(0 + offset) != ':' &&
+              ipAddress.charAt(1 + offset) != ':'
+            ) {
               return false
             }
             word = ""
-          case ':' => { numberOfColons += 1; numberOfColons - 1 }
+          case ':' =>
+            { numberOfColons += 1; numberOfColons - 1 }
             if (numberOfColons > 7) {
               return false
             }
@@ -587,8 +607,10 @@ final class URI private () extends Comparable[URI] with Serializable {
         if (numberOfColons != 7 && !doubleColon) {
           return false
         }
-        if (word == "" && ipAddress.charAt(length - 1 - offset) != ':' &&
-            ipAddress.charAt(length - 2 - offset) != ':') {
+        if (
+          word == "" && ipAddress.charAt(length - 1 - offset) != ':' &&
+          ipAddress.charAt(length - 2 - offset) != ':'
+        ) {
           return false
         }
       }
@@ -782,14 +804,18 @@ final class URI private () extends Comparable[URI] with Serializable {
       return false
     }
     val uri: URI = o.asInstanceOf[URI]
-    if (uri.fragment == null && fragment != null || uri.fragment != null && fragment == null) {
+    if (
+      uri.fragment == null && fragment != null || uri.fragment != null && fragment == null
+    ) {
       return false
     } else if (uri.fragment != null && fragment != null) {
       if (!equalsHexCaseInsensitive(uri.fragment, fragment)) {
         return false
       }
     }
-    if (uri.scheme == null && scheme != null || uri.scheme != null && scheme == null) {
+    if (
+      uri.scheme == null && scheme != null || uri.scheme != null && scheme == null
+    ) {
       return false
     } else if (uri.scheme != null && scheme != null) {
       if (!uri.scheme.equalsIgnoreCase(scheme)) {
@@ -803,17 +829,23 @@ final class URI private () extends Comparable[URI] with Serializable {
       if (!equalsHexCaseInsensitive(path, uri.path)) {
         return false
       }
-      if (uri.query != null && query == null || uri.query == null && query != null) {
+      if (
+        uri.query != null && query == null || uri.query == null && query != null
+      ) {
         return false
       } else if (uri.query != null && query != null) {
         if (!equalsHexCaseInsensitive(uri.query, query)) {
           return false
         }
       }
-      if (uri.authority != null && authority == null || uri.authority == null && authority != null) {
+      if (
+        uri.authority != null && authority == null || uri.authority == null && authority != null
+      ) {
         return false
       } else if (uri.authority != null && authority != null) {
-        if (uri.host != null && host == null || uri.host == null && host != null) {
+        if (
+          uri.host != null && host == null || uri.host == null && host != null
+        ) {
           return false
         } else if (uri.host == null && host == null) {
           // both are registry based, so compare the whole authority
@@ -826,7 +858,9 @@ final class URI private () extends Comparable[URI] with Serializable {
           if (port != uri.port) {
             return false
           }
-          if (uri.userinfo != null && userinfo == null || uri.userinfo == null && userinfo != null) {
+          if (
+            uri.userinfo != null && userinfo == null || uri.userinfo == null && userinfo != null
+          ) {
             return false
           } else if (uri.userinfo != null && userinfo != null) {
             return equalsHexCaseInsensitive(userinfo, uri.userinfo)
@@ -941,8 +975,10 @@ final class URI private () extends Comparable[URI] with Serializable {
       newpath.append(seglist(i))
       newpath.append('/')
     }
-    if (!path.endsWith("/") && seglist.length > 0 &&
-        include(seglist.length - 1)) {
+    if (
+      !path.endsWith("/") && seglist.length > 0 &&
+      include(seglist.length - 1)
+    ) {
       newpath.deleteCharAt(newpath.length() - 1)
     }
     var result: String = newpath.toString
@@ -983,12 +1019,16 @@ final class URI private () extends Comparable[URI] with Serializable {
     if (relative.opaque || opaque) {
       return relative
     }
-    if (if (scheme == null) relative.scheme != null
-        else scheme != relative.scheme) {
+    if (
+      if (scheme == null) relative.scheme != null
+      else scheme != relative.scheme
+    ) {
       return relative
     }
-    if (if (authority == null) relative.authority != null
-        else authority != relative.authority) {
+    if (
+      if (authority == null) relative.authority != null
+      else authority != relative.authority
+    ) {
       return relative
     }
     // normalize both paths
@@ -1029,10 +1069,12 @@ final class URI private () extends Comparable[URI] with Serializable {
     }
 
     var result: URI = null
-    if (relative.path.==("") && relative.scheme == null &&
-        relative.authority == null &&
-        relative.query == null &&
-        relative.fragment != null) {
+    if (
+      relative.path.==("") && relative.scheme == null &&
+      relative.authority == null &&
+      relative.query == null &&
+      relative.fragment != null
+    ) {
       result = duplicate()
       result.fragment = relative.fragment
       return result

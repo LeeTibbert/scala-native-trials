@@ -146,9 +146,11 @@ class Machine(re2: RE2) {
           return
         }
 
-        if (!re2.prefix.isEmpty() &&
-            rune1 != re2.prefixRune &&
-            in.canCheckPrefix()) {
+        if (
+          !re2.prefix.isEmpty() &&
+          rune1 != re2.prefixRune &&
+          in.canCheckPrefix()
+        ) {
           // Match requires literal prefix fast search for it.
           val advance = in.index(re2, pos)
           if (advance < 0) {
@@ -217,8 +219,10 @@ class Machine(re2: RE2) {
       return false
     }
 
-    if ((anchor == RE2.ANCHOR_START || anchor == RE2.ANCHOR_BOTH) &&
-        pos != 0) {
+    if (
+      (anchor == RE2.ANCHOR_START || anchor == RE2.ANCHOR_BOTH) &&
+      pos != 0
+    ) {
       return false
     }
 
@@ -283,7 +287,9 @@ class Machine(re2: RE2) {
         if (t == null) {
           () //continue
         } else {
-          if (longest && matched && t.cap.length > 0 && matchcap(0) < t.cap(0)) {
+          if (
+            longest && matched && t.cap.length > 0 && matchcap(0) < t.cap(0)
+          ) {
             // free(t)
             pool.add(t)
             () // continue
@@ -297,7 +303,10 @@ class Machine(re2: RE2) {
                   // expectations aren't met.
                   () // break switch
                 } else {
-                  if (t.cap.length > 0 && (!longest || !matched || matchcap(1) < pos)) {
+                  if (
+                    t.cap.length > 0 && (!longest || !matched || matchcap(
+                      1) < pos)
+                  ) {
                     t.cap(1) = pos
                     System.arraycopy(t.cap, 0, matchcap, 0, t.cap.length)
                   }
@@ -413,9 +422,11 @@ object Machine {
   // A queue is a 'sparse array' holding pending threads of execution.  See:
   // research.swtch.com/2008/03/using-uninitialized-memory-for-fun-and.html
   private class Queue(n: Int) {
-    val dense: Array[Entry] = new Array[Entry](n) // may contain stale Entries in slots >= size
-    val sparse: Array[Int]  = new Array[Int](n)   // may contain stale but in-bounds values.
-    var size: Int           = _                   // of prefix of |dense| that is logically populated
+    val dense: Array[Entry] =
+      new Array[Entry](n) // may contain stale Entries in slots >= size
+    val sparse: Array[Int] =
+      new Array[Int](n) // may contain stale but in-bounds values.
+    var size: Int = _ // of prefix of |dense| that is logically populated
 
     def contains(pc: Int): Boolean = {
       val j = sparse(pc) // (non-negative)

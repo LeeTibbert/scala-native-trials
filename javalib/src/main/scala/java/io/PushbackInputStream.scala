@@ -36,7 +36,7 @@ class PushbackInputStream(_in: InputStream, size: Int)
     if (buf == null) {
       throw new IOException()
     } else if (pos < buf.length) { // Is there a pushback byte available?
-      val b = buf(pos) & 0xFF
+      val b = buf(pos) & 0xff
       pos += 1
       b
     } else {

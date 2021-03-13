@@ -29,10 +29,9 @@ final class BinaryDeserializer(buffer: ByteBuffer, bufferName: String) {
 
   final def deserialize(): Seq[Defn] = {
     val allDefns = mutable.UnrolledBuffer.empty[Defn]
-    header.foreach {
-      case (g, offset) =>
-        buffer.position(offset)
-        allDefns += getDefn()
+    header.foreach { case (g, offset) =>
+      buffer.position(offset)
+      allDefns += getDefn()
     }
     allDefns.toSeq
   }

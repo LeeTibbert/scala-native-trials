@@ -12,7 +12,8 @@ class NirPlugin(val global: Global) extends Plugin {
     case _                     => List(prepNativeInterop, nirGen)
   }
 
-  /** A trick to avoid early initializers while still enforcing that `global`
+  /**
+   * A trick to avoid early initializers while still enforcing that `global`
    *  is initialized early.
    */
   abstract class NirGlobalAddonsEarlyInit[G <: Global with Singleton](

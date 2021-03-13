@@ -290,9 +290,9 @@ class JarInputStreamTest {
     assertThrows(classOf[ZipException], jis.getNextEntry())
 
     assertThrows(classOf[IOException], {
-      jis.close()        // Android throws exception here, already!
-      jis.getNextEntry() // But RI here, only!
-    })
+                   jis.close()        // Android throws exception here, already!
+                   jis.getNextEntry() // But RI here, only!
+                 })
   }
 
 }

@@ -11,9 +11,8 @@ final class MergeProcessor(insts: Array[Inst],
                            doInline: Boolean,
                            eval: Eval)(implicit linked: linker.Result) {
   val offsets: Map[Local, Int] =
-    insts.zipWithIndex.collect {
-      case (Inst.Label(local, _), offset) =>
-        local -> offset
+    insts.zipWithIndex.collect { case (Inst.Label(local, _), offset) =>
+      local -> offset
     }.toMap
   val blocks = mutable.Map.empty[Local, MergeBlock]
   var todo   = mutable.Set.empty[Local]
@@ -29,16 +28,16 @@ final class MergeProcessor(insts: Array[Inst],
     blocks.getOrElseUpdate(name, newMergeBlock)
   }
 
-  def merge(block: MergeBlock)(
-      implicit linked: linker.Result): (Seq[MergePhi], State) = {
+  def merge(block: MergeBlock)(implicit
+      linked: linker.Result): (Seq[MergePhi], State) = {
     import block.cfPos
     merge(block.name, block.label.params, block.incoming.toSeq.sortBy(_._1.id))
   }
 
   def merge(merge: Local,
             params: Seq[Val.Local],
-            incoming: Seq[(Local, (Seq[Val], State))])(
-      implicit linked: linker.Result,
+            incoming: Seq[(Local, (Seq[Val], State))])(implicit
+      linked: linker.Result,
       origDefPos: Position): (Seq[MergePhi], State) = {
     val names  = incoming.map { case (n, (_, _)) => n }
     val states = incoming.map { case (_, (_, s)) => s }
@@ -48,9 +47,8 @@ final class MergeProcessor(insts: Array[Inst],
         unreachable
       case Seq((Local(id), (values, state))) =>
         val newstate = state.fullClone(merge)
-        params.zip(values).foreach {
-          case (param, value) =>
-            newstate.storeLocal(param.name, value)
+        params.zip(values).foreach { case (param, value) =>
+          newstate.storeLocal(param.name, value)
         }
         val phis =
           if (id == -1 && !doInline) {
@@ -158,13 +156,11 @@ final class MergeProcessor(insts: Array[Inst],
 
           // 3. Merge params
 
-          params.zipWithIndex.foreach {
-            case (param, idx) =>
-              val values = incoming.map {
-                case (_, (values, _)) =>
-                  values(idx)
-              }
-              mergeLocals(param.name) = mergePhi(values, Some(param.ty))
+          params.zipWithIndex.foreach { case (param, idx) =>
+            val values = incoming.map { case (_, (values, _)) =>
+              values(idx)
+            }
+            mergeLocals(param.name) = mergePhi(values, Some(param.ty))
           }
 
           // 4. Merge delayed ops
@@ -172,11 +168,10 @@ final class MergeProcessor(insts: Array[Inst],
           def includeDelayedOp(op: Op, v: Val): Boolean = {
             states.forall { s => s.delayed.contains(op) && s.delayed(op) == v }
           }
-          states.head.delayed.foreach {
-            case (op, v) =>
-              if (includeDelayedOp(op, v)) {
-                mergeDelayed(op) = v
-              }
+          states.head.delayed.foreach { case (op, v) =>
+            if (includeDelayedOp(op, v)) {
+              mergeDelayed(op) = v
+            }
           }
 
           // 4. Merge emitted ops
@@ -184,11 +179,10 @@ final class MergeProcessor(insts: Array[Inst],
           def includeEmittedOp(op: Op, v: Val): Boolean = {
             states.forall { s => s.emitted.contains(op) && s.emitted(op) == v }
           }
-          states.head.emitted.foreach {
-            case (op, v) =>
-              if (includeEmittedOp(op, v)) {
-                mergeEmitted(op) = v
-              }
+          states.head.emitted.foreach { case (op, v) =>
+            if (includeEmittedOp(op, v)) {
+              mergeEmitted(op) = v
+            }
           }
         }
 
@@ -294,9 +288,8 @@ final class MergeProcessor(insts: Array[Inst],
     }
 
     invalid.values.foreach { block =>
-      block.incoming = block.incoming.filter {
-        case (name, _) =>
-          !invalid.contains(name)
+      block.incoming = block.incoming.filter { case (name, _) =>
+        !invalid.contains(name)
       }
       block.outgoing.clear()
       block.phis = null
@@ -384,8 +377,8 @@ final class MergeProcessor(insts: Array[Inst],
     }
   }
 
-  def toSeq(retTy: Type)(
-      implicit originDefnPos: nir.Position): Seq[MergeBlock] = {
+  def toSeq(retTy: Type)(implicit
+      originDefnPos: nir.Position): Seq[MergeBlock] = {
     val sortedBlocks = blocks.values.toSeq
       .filter(_.cf != null)
       .sortBy { block => offsets(block.label.name) }

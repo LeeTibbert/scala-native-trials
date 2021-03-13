@@ -14,7 +14,8 @@ package scala.scalanative.junit.utils
 
 object AssertThrows {
 
-  /** Backport implementation of Assert.assertThrows to be used until JUnit 4.13 is
+  /**
+   * Backport implementation of Assert.assertThrows to be used until JUnit 4.13 is
    *  released. See org.junit.Assert.scala in jUnitRuntime.
    */
   private def assertThrowsBackport(expectedThrowable: Class[_ <: Throwable],
@@ -22,7 +23,8 @@ object AssertThrows {
     expectThrowsBackport(expectedThrowable, runnable)
   }
 
-  /** Backport implementation of Assert.expectThrows to be used until JUnit 4.13 is
+  /**
+   * Backport implementation of Assert.expectThrows to be used until JUnit 4.13 is
    *  released. See org.junit.Assert.scala in jUnitRuntime.
    */
   private def expectThrowsBackport[T <: Throwable](
@@ -55,7 +57,8 @@ object AssertThrows {
     }
   }
 
-  /** Backport implementation of Assert.ThrowingRunnable to be used until
+  /**
+   * Backport implementation of Assert.ThrowingRunnable to be used until
    *  JUnit 4.13 is released. See org.junit.Assert.scala in jUnitRuntime.
    */
   private trait ThrowingRunnable {
@@ -70,15 +73,17 @@ object AssertThrows {
 
   def assertThrows[T <: Throwable, U](expectedThrowable: Class[T],
                                       code: => U): Unit = {
-    assertThrowsBackport(expectedThrowable, throwingRunnable {
-      code
-    })
+    assertThrowsBackport(expectedThrowable,
+                         throwingRunnable {
+                           code
+                         })
   }
 
   def expectThrows[T <: Throwable, U](expectedThrowable: Class[T],
                                       code: => U): T = {
-    expectThrowsBackport(expectedThrowable, throwingRunnable {
-      code
-    })
+    expectThrowsBackport(expectedThrowable,
+                         throwingRunnable {
+                           code
+                         })
   }
 }

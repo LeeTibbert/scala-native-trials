@@ -70,7 +70,9 @@ class DeflaterOutputStream(os: OutputStream,
     if (done) {
       throw new IOException("attempt to write after finish")
     } else {
-      if (off <= buffer.length && nbytes >= 0 && off >= 0 && buffer.length - off >= nbytes) {
+      if (
+        off <= buffer.length && nbytes >= 0 && off >= 0 && buffer.length - off >= nbytes
+      ) {
         if (!`def`.needsInput()) {
           throw new IOException()
         } else {

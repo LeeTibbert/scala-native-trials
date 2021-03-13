@@ -6,7 +6,8 @@ import java.math.BigInteger
 import org.junit.Test
 import org.junit.Assert._
 
-/** Additional tests for java.lang.String that require `java.util.Locale`
+/**
+ * Additional tests for java.lang.String that require `java.util.Locale`
  *  as well as classes in `java.text.*`.
  */
 class FormatterTestEx {

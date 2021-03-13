@@ -1,6 +1,7 @@
 package java.util
 
-/** Ported from Harmony, Scala.js and using Java API docs.
+/**
+ * Ported from Harmony, Scala.js and using Java API docs.
  *
  * TODO: Commented out code needed to finish implementation.
  *

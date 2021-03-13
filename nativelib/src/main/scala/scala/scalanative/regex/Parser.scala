@@ -71,9 +71,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
   // Returns null for a CHAR_CLASS that can be merged with the top-of-stack.
   private def push(re: Regexp): Regexp = {
     var returnNull = false
-    if (re.op == ROP.CHAR_CLASS &&
-        re.runes.length == 2 &&
-        re.runes(0) == re.runes(1)) {
+    if (
+      re.op == ROP.CHAR_CLASS &&
+      re.runes.length == 2 &&
+      re.runes(0) == re.runes(1)
+    ) {
       // Collapse range [x-x] -> single rune x.
       if (maybeConcat(re.runes(0), flags & ~RE2.FOLD_CASE)) {
         returnNull = true
@@ -82,17 +84,19 @@ class Parser(wholeRegexp: String, _flags: Int) {
         re.runes = Array[Int](re.runes(0))
         re.flags = flags & ~RE2.FOLD_CASE
       }
-    } else if ((re.op == ROP.CHAR_CLASS &&
-               re.runes.length == 4 &&
-               re.runes(0) == re.runes(1) &&
-               re.runes(2) == re.runes(3) &&
-               Unicode.simpleFold(re.runes(0)) == re.runes(2) &&
-               Unicode.simpleFold(re.runes(2)) == re.runes(0)) ||
-               (re.op == ROP.CHAR_CLASS &&
-               re.runes.length == 2 &&
-               re.runes(0) + 1 == re.runes(1) &&
-               Unicode.simpleFold(re.runes(0)) == re.runes(1) &&
-               Unicode.simpleFold(re.runes(1)) == re.runes(0))) {
+    } else if (
+      (re.op == ROP.CHAR_CLASS &&
+        re.runes.length == 4 &&
+        re.runes(0) == re.runes(1) &&
+        re.runes(2) == re.runes(3) &&
+        Unicode.simpleFold(re.runes(0)) == re.runes(2) &&
+        Unicode.simpleFold(re.runes(2)) == re.runes(0)) ||
+      (re.op == ROP.CHAR_CLASS &&
+        re.runes.length == 2 &&
+        re.runes(0) + 1 == re.runes(1) &&
+        Unicode.simpleFold(re.runes(0)) == re.runes(1) &&
+        Unicode.simpleFold(re.runes(1)) == re.runes(0))
+    ) {
       // Case-insensitive rune like [Aa] or [Δδ].
       if (maybeConcat(re.runes(0), flags | RE2.FOLD_CASE)) {
         returnNull = true
@@ -132,9 +136,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
 
       val re1 = stack.get(n - 1)
       val re2 = stack.get(n - 2)
-      if (!(re1.op != ROP.LITERAL ||
-            re2.op != ROP.LITERAL ||
-            (re1.flags & RE2.FOLD_CASE) != (re2.flags & RE2.FOLD_CASE))) {
+      if (
+        !(re1.op != ROP.LITERAL ||
+          re2.op != ROP.LITERAL ||
+          (re1.flags & RE2.FOLD_CASE) != (re2.flags & RE2.FOLD_CASE))
+      ) {
 
         // Push re1 into re2.
         re2.runes = concatRunes(re2.runes, re1.runes)
@@ -268,16 +274,20 @@ class Parser(wholeRegexp: String, _flags: Int) {
     re.op match {
       case ROP.CHAR_CLASS =>
         re.runes = new CharClass(re.runes).cleanClass().toArray()
-        if (re.runes.length == 2 &&
-            re.runes(0) == 0 &&
-            re.runes(1) == Unicode.MAX_RUNE) {
+        if (
+          re.runes.length == 2 &&
+          re.runes(0) == 0 &&
+          re.runes(1) == Unicode.MAX_RUNE
+        ) {
           re.runes = null
           re.op = ROP.ANY_CHAR
-        } else if (re.runes.length == 4 &&
-                   re.runes(0) == 0 &&
-                   re.runes(1) == '\n' - 1 &&
-                   re.runes(2) == '\n' + 1 &&
-                   re.runes(3) == Unicode.MAX_RUNE) {
+        } else if (
+          re.runes.length == 4 &&
+          re.runes(0) == 0 &&
+          re.runes(1) == '\n' - 1 &&
+          re.runes(2) == '\n' + 1 &&
+          re.runes(3) == Unicode.MAX_RUNE
+        ) {
           re.runes = null
           re.op = ROP.ANY_CHAR_NOT_NL
         }
@@ -400,9 +410,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
 
           if (iflags == strflags) {
             var same = 0
-            while (same < strlen &&
-                   same < istrlen &&
-                   str(same) == istr(same)) {
+            while (
+              same < strlen &&
+              same < istrlen &&
+              str(same) == istr(same)
+            ) {
               same += 1
             }
             if (same > 0) {
@@ -555,9 +567,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
             while (j < i) {
               val subMax = array(s + max)
               val subJ   = array(s + j)
-              if ((subMax.op < subJ.op) ||
-                  ((subMax.op == subJ.op) &&
-                  (subMax.runes.length < subJ.runes.length))) {
+              if (
+                (subMax.op < subJ.op) ||
+                ((subMax.op == subJ.op) &&
+                  (subMax.runes.length < subJ.runes.length))
+              ) {
                 max = j
               }
               j += 1
@@ -598,9 +612,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
       i = 0
       while (i < lensub) {
         var continue = false
-        if (i + 1 < lensub &&
-            array(s + i).op == ROP.EMPTY_MATCH &&
-            array(s + i + 1).op == ROP.EMPTY_MATCH) {
+        if (
+          i + 1 < lensub &&
+          array(s + i).op == ROP.EMPTY_MATCH &&
+          array(s + i + 1).op == ROP.EMPTY_MATCH
+        ) {
           continue = true
         }
         if (!continue) {
@@ -880,7 +896,8 @@ class Parser(wholeRegexp: String, _flags: Int) {
       if (!isValidCaptureName(name)) {
         throw new PatternSyntaxException(ERR_INVALID_NAMED_CAPTURE,
                                          s.substring(0, end),
-                                         0) // "(?P<name>"
+                                         0
+        ) // "(?P<name>"
       }
       // Like ordinary capture, but named.
       val re = op(ROP.LEFT_PAREN)
@@ -981,10 +998,12 @@ class Parser(wholeRegexp: String, _flags: Int) {
     val n = stack.size()
 
     var result = false
-    if (n >= 3 &&
-        stack.get(n - 2).op == ROP.VERTICAL_BAR &&
-        isCharClass(stack.get(n - 1)) &&
-        isCharClass(stack.get(n - 3))) {
+    if (
+      n >= 3 &&
+      stack.get(n - 2).op == ROP.VERTICAL_BAR &&
+      isCharClass(stack.get(n - 1)) &&
+      isCharClass(stack.get(n - 3))
+    ) {
       var re1 = stack.get(n - 1)
       var re3 = stack.get(n - 3)
       // Make re3 the more complex of the two.
@@ -1058,9 +1077,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
     val beforePos = t.pos()
 
     val result =
-      if ((flags & RE2.PERL_X) == 0 ||
-          !t.more() || t.pop() != '\\' || // consume '\\'
-          !t.more()) {
+      if (
+        (flags & RE2.PERL_X) == 0 ||
+        !t.more() || t.pop() != '\\' || // consume '\\'
+        !t.more()
+      ) {
         false
       } else {
         t.pop() // e.g. advance past 'd' in "\\d"
@@ -1085,8 +1106,10 @@ class Parser(wholeRegexp: String, _flags: Int) {
   private def parseUnicodeClass(t: StringIterator, cc: CharClass): Boolean = {
 
     val startPos = t.pos()
-    if ((flags & RE2.UNICODE_GROUPS) == 0 ||
-        !t.lookingAt("\\p") && !t.lookingAt("\\P")) {
+    if (
+      (flags & RE2.UNICODE_GROUPS) == 0 ||
+      !t.lookingAt("\\p") && !t.lookingAt("\\P")
+    ) {
       false
     } else {
       t.skip(1) // '\\'
@@ -1206,9 +1229,11 @@ class Parser(wholeRegexp: String, _flags: Int) {
 
       // POSIX: - is only okay unescaped as first or last in class.
       // Perl: - is okay anywhere.
-      if (t.more() && t.lookingAt('-') &&
-          (flags & RE2.PERL_X) == 0 &&
-          !first) {
+      if (
+        t.more() && t.lookingAt('-') &&
+        (flags & RE2.PERL_X) == 0 &&
+        !first
+      ) {
         val s = t.rest()
         if (s.equals("-") || !s.startsWith("-]")) {
           t.rewindTo(startPos)
@@ -1497,8 +1522,10 @@ object Parser {
           state = StateDone
           if (t.more() && t.lookingAt('}')) {
             t.skip(1) // '}'
-            if (min < 0 || min > 1000 ||
-                max == -2 || max > 1000 || max >= 0 && min > max) {
+            if (
+              min < 0 || min > 1000 ||
+              max == -2 || max > 1000 || max >= 0 && min > max
+            ) {
               // Numbers were negative or too big,
               // or max is present and min > max.
               throw new PatternSyntaxException(ERR_INVALID_REPEAT_SIZE,
@@ -1546,9 +1573,11 @@ object Parser {
     }
     val n = t.from(start)
 
-    if (n.isEmpty() ||
-        n.length() > 1 && n.charAt(0) == '0') { // disallow leading zeros
-      -1                                        // bad format
+    if (
+      n.isEmpty() ||
+      n.length() > 1 && n.charAt(0) == '0'
+    ) {  // disallow leading zeros
+      -1 // bad format
     } else if (n.length() > 8) {
       -2 // overflow
     } else {

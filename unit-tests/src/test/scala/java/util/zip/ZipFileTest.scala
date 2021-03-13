@@ -27,9 +27,9 @@ class ZipFileTest {
     assertTrue(!file.exists())
 
     assertThrows(classOf[IllegalArgumentException], {
-      val error = 3
-      new ZipFile(file, error)
-    })
+                   val error = 3
+                   new ZipFile(file, error)
+                 })
   }
 
   @Test def close(): Unit = {

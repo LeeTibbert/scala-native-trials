@@ -79,9 +79,11 @@ class JarFile(file: File, verify: Boolean, mode: Int)
         val entry     = metaEntries(i)
         val entryName = entry.getName()
         // Is this the entry for META-INF/MANIFEST.MF ?
-        if (manifestEntry == null && JarFile.asciiEqualsIgnoreCase(
-              JarFile.MANIFEST_NAME,
-              entryName)) {
+        if (
+          manifestEntry == null && JarFile.asciiEqualsIgnoreCase(
+            JarFile.MANIFEST_NAME,
+            entryName)
+        ) {
           manifestEntry = entry
           // If there is no verifier then we don't need to look any further,
           if (verifier == null) {
@@ -89,10 +91,13 @@ class JarFile(file: File, verify: Boolean, mode: Int)
           }
         } else {
           // Is this an entry that the verifier needs?
-          if (verifier != null && (JarFile.asciiEndsWithIgnoreCase(
-                entryName,
-                ".SF") || JarFile.asciiEndsWithIgnoreCase(entryName, ".DSA") || JarFile
-                .asciiEndsWithIgnoreCase(entryName, ".RSA"))) {
+          if (
+            verifier != null && (JarFile.asciiEndsWithIgnoreCase(
+              entryName,
+              ".SF") || JarFile.asciiEndsWithIgnoreCase(entryName,
+                                                        ".DSA") || JarFile
+              .asciiEndsWithIgnoreCase(entryName, ".RSA"))
+          ) {
             signed = true
             val is  = super.getInputStream(entry)
             val buf = JarFile.readFullyAndClose(is)
@@ -162,9 +167,11 @@ class JarFile(file: File, verify: Boolean, mode: Int)
     val allEntries = entries()
     while (allEntries.hasMoreElements()) {
       val ze = allEntries.nextElement()
-      if (ze.getName().startsWith(JarFile.META_DIR) && ze
-            .getName()
-            .length() > JarFile.META_DIR.length()) {
+      if (
+        ze.getName().startsWith(JarFile.META_DIR) && ze
+          .getName()
+          .length() > JarFile.META_DIR.length()
+      ) {
         list += ze
       }
     }
@@ -323,9 +330,11 @@ object JarFile extends ZipConstants {
       var done = false
       val buf  = new Array[Byte](Math.min(nbytes, 2048L).toInt)
       while (!done && cnt < nbytes) {
-        val x = read(buf, 0, {
-          rem = nbytes - cnt; if (rem > buf.length) buf.length else rem.toInt
-        })
+        val x = read(buf,
+                     0, {
+                       rem = nbytes - cnt;
+                       if (rem > buf.length) buf.length else rem.toInt
+                     })
         if (x == -1) {
           done = true
         } else {

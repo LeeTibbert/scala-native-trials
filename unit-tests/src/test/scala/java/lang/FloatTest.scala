@@ -300,15 +300,15 @@ class FloatTest {
 
     // Test correctness least significant digits  & number of digits after the
     // decimal point of values with 'infinite' number of fraction digits.
-    assertF2sEquals("3.1415927", (math.Pi * 1.0E+0).toFloat)
-    assertF2sEquals("31.415926", (math.Pi * 1.0E+1).toFloat)
-    assertF2sEquals("0.31415927", (math.Pi * 1.0E-1).toFloat)
+    assertF2sEquals("3.1415927", (math.Pi * 1.0e+0).toFloat)
+    assertF2sEquals("31.415926", (math.Pi * 1.0e+1).toFloat)
+    assertF2sEquals("0.31415927", (math.Pi * 1.0e-1).toFloat)
 
     // Test transitions to scientific notation.
-    assertF2sEquals("3141592.8", (math.Pi * 1.0E+6).toFloat)
-    assertF2sEquals("3.1415926E7", (math.Pi * 1.0E+7).toFloat)
-    assertF2sEquals("0.0031415927", (math.Pi * 1.0E-3).toFloat)
-    assertF2sEquals("3.1415926E-4", (math.Pi * 1.0E-4).toFloat)
+    assertF2sEquals("3141592.8", (math.Pi * 1.0e+6).toFloat)
+    assertF2sEquals("3.1415926E7", (math.Pi * 1.0e+7).toFloat)
+    assertF2sEquals("0.0031415927", (math.Pi * 1.0e-3).toFloat)
+    assertF2sEquals("3.1415926E-4", (math.Pi * 1.0e-4).toFloat)
   }
 
   @Test def isFinite(): Unit = {

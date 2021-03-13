@@ -23,7 +23,9 @@ class ZipFile(file: File, mode: Int, charset: Charset) extends Closeable {
 
   private final val fileName: String = file.getPath()
 
-  if (mode != ZipFile.OPEN_READ && mode != (ZipFile.OPEN_READ | ZipFile.OPEN_DELETE)) {
+  if (
+    mode != ZipFile.OPEN_READ && mode != (ZipFile.OPEN_READ | ZipFile.OPEN_DELETE)
+  ) {
     throw new IllegalArgumentException()
   }
 
@@ -179,7 +181,9 @@ class ZipFile(file: File, mode: Int, charset: Charset) extends Closeable {
     /*commentLen =*/
     ler.readShortLE(bin)
 
-    if (numEntries != totalNumEntries || diskNumber != 0 || diskWithCentralDir != 0) {
+    if (
+      numEntries != totalNumEntries || diskNumber != 0 || diskWithCentralDir != 0
+    ) {
       throw new ZipException("spanned archves not supported")
     }
 
@@ -244,7 +248,7 @@ object ZipFile extends ZipConstants {
     override def read(): Int = {
       val singleByteBuf = new Array[Byte](1)
       if (read(singleByteBuf, 0, 1) == 1) {
-        singleByteBuf(0) & 0xFF
+        singleByteBuf(0) & 0xff
       } else {
         -1
       }

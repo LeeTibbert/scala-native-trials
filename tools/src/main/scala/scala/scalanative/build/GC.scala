@@ -1,6 +1,7 @@
 package scala.scalanative.build
 
-/** Garbage Collector. Application is going
+/**
+ * Garbage Collector. Application is going
  *  to be automatically linked with corresponding
  *  libraries that implement given collector. One of the:
  *
@@ -26,7 +27,7 @@ object GC {
   private[scalanative] final case object Immix  extends GC("immix", Seq())
   private[scalanative] final case object Commix extends GC("commix", Seq())
 
-  /** Non-freeing garbage collector.*/
+  /** Non-freeing garbage collector. */
   def none: GC = None
 
   /** Conservative garbage collector based on libgc. */

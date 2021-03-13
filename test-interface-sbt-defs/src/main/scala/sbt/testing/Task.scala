@@ -1,6 +1,7 @@
 package sbt.testing
 
-/** A task to execute.
+/**
+ * A task to execute.
  *
  *  The client may decide when or how to execute the task based on its tags. A
  *  task can be any job, but is primarily intended for running tests and/or
@@ -10,7 +11,8 @@ package sbt.testing
  */
 trait Task {
 
-  /** A possibly zero-length array of string tags associated with this task.
+  /**
+   * A possibly zero-length array of string tags associated with this task.
    *
    *  A task may be tagged, for example, with a string that indicates it
    *  consumes a lot of CPU time. Users can configure the client to only run,
@@ -20,7 +22,8 @@ trait Task {
    */
   def tags(): Array[String]
 
-  /** Executes this task, possibly returning to the client new tasks to execute.
+  /**
+   * Executes this task, possibly returning to the client new tasks to execute.
    *
    *  @param eventHandler an event handler to which to fire events during the run
    *  @param loggers an array of loggers to which to emit log messages during the run
@@ -28,7 +31,8 @@ trait Task {
    */
   def execute(eventHandler: EventHandler, loggers: Array[Logger]): Array[Task]
 
-  /** Returns the <code>TaskDef</code> that was used to request this
+  /**
+   * Returns the <code>TaskDef</code> that was used to request this
    *  <code>Task</code>.
    *
    *  @return the <code>TaskDef</code> that was used to request this

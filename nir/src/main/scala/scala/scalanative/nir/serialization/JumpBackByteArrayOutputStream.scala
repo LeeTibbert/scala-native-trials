@@ -2,7 +2,8 @@ package scala.scalanative.nir.serialization
 
 // ported from Scala.js
 
-/** A ByteArrayOutput stream that allows to jump back to a given
+/**
+ * A ByteArrayOutput stream that allows to jump back to a given
  *  position and complete some bytes. Methods must be called in the
  *  following one of two orders:
  *  - [[markJump]]

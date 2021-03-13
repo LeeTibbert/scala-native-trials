@@ -590,7 +590,7 @@ class MatcherTest {
   @Test def optionalMatchEmptyStrings(): Unit = {
     val OptionalA = "(a?)".r
     "a" match { case OptionalA("a") => assertTrue(true) }
-    "" match { case OptionalA("")   => assertTrue(true) }
+    "" match { case OptionalA("") => assertTrue(true) }
   }
 
   @Test def testPattern(): Unit = {

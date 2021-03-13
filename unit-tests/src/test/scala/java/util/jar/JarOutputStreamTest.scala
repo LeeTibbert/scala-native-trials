@@ -42,9 +42,9 @@ class JarOutputStreamTest {
     fooJar.delete()
 
     assertThrows(classOf[IOException], {
-      val joutFoo = new JarOutputStream(fos)
-      joutFoo.putNextEntry(ze)
-    })
+                   val joutFoo = new JarOutputStream(fos)
+                   joutFoo.putNextEntry(ze)
+                 })
   }
 
 }

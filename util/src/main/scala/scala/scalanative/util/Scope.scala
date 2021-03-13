@@ -3,7 +3,8 @@ package util
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.UnaryOperator
 
-/** Scoped implicit lifetime.
+/**
+ * Scoped implicit lifetime.
  *
  *  The main idea behind the Scope is to encode resource lifetimes through
  *  a concept of an implicit scope. Scopes are necessary to acquire resources.
@@ -24,7 +25,8 @@ trait Scope {
 
 object Scope {
 
-  /** Opens an implicit scope, evaluates the function and cleans up all the
+  /**
+   * Opens an implicit scope, evaluates the function and cleans up all the
    *  resources as soon as execution leaves the demercated block.
    */
   def apply[T](f: Scope => T): T = {
@@ -33,7 +35,8 @@ object Scope {
     finally scope.close()
   }
 
-  /** Scope that never closes. Resources allocated in this scope are
+  /**
+   * Scope that never closes. Resources allocated in this scope are
    *  going to be acquired as long as application is running.
    */
   val forever: Scope = new Impl {
@@ -41,7 +44,7 @@ object Scope {
       throw new UnsupportedOperationException("Can't close forever Scope.")
   }
 
-  /** Unsafe manually managed scope.*/
+  /** Unsafe manually managed scope. */
   def unsafe(): Scope = new Impl {}
 
   private sealed class Impl extends Scope {

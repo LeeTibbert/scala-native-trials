@@ -91,19 +91,19 @@ object Arrays {
   }
 
   @inline
-  private def sortRangeImpl[@specialized T: ClassTag](
-      a: Array[T],
-      fromIndex: Int,
-      toIndex: Int)(implicit ord: Ordering[T]): Unit = {
+  private def sortRangeImpl[@specialized T: ClassTag](a: Array[T],
+                                                      fromIndex: Int,
+                                                      toIndex: Int)(implicit
+      ord: Ordering[T]): Unit = {
     checkRangeIndices(a, fromIndex, toIndex)
     stableMergeSort[T](a, fromIndex, toIndex)
   }
 
   @inline
-  private def sortRangeAnyRefImpl(
-      a: Array[AnyRef],
-      fromIndex: Int,
-      toIndex: Int)(implicit ord: Ordering[AnyRef]): Unit = {
+  private def sortRangeAnyRefImpl(a: Array[AnyRef],
+                                  fromIndex: Int,
+                                  toIndex: Int)(implicit
+      ord: Ordering[AnyRef]): Unit = {
     checkRangeIndices(a, fromIndex, toIndex)
     stableMergeSortAnyRef(a, fromIndex, toIndex)
   }
@@ -113,20 +113,21 @@ object Arrays {
     stableMergeSort[T](a, 0, a.length)
 
   @inline
-  private def sortAnyRefImpl(a: Array[AnyRef])(
-      implicit ord: Ordering[AnyRef]): Unit =
+  private def sortAnyRefImpl(a: Array[AnyRef])(implicit
+      ord: Ordering[AnyRef]): Unit =
     stableMergeSortAnyRef(a, 0, a.length)
 
   private final val inPlaceSortThreshold = 16
 
-  /** Sort array `a` with merge sort and insertion sort,
+  /**
+   * Sort array `a` with merge sort and insertion sort,
    *  using the Ordering on its elements.
    */
   @inline
-  private def stableMergeSort[@specialized K: ClassTag](
-      a: Array[K],
-      start: Int,
-      end: Int)(implicit ord: Ordering[K]): Unit = {
+  private def stableMergeSort[@specialized K: ClassTag](a: Array[K],
+                                                        start: Int,
+                                                        end: Int)(implicit
+      ord: Ordering[K]): Unit = {
     if (end - start > inPlaceSortThreshold)
       stableSplitMerge(a, new Array[K](a.length), start, end)
     else
@@ -134,11 +135,11 @@ object Arrays {
   }
 
   @noinline
-  private def stableSplitMerge[@specialized K](
-      a: Array[K],
-      temp: Array[K],
-      start: Int,
-      end: Int)(implicit ord: Ordering[K]): Unit = {
+  private def stableSplitMerge[@specialized K](a: Array[K],
+                                               temp: Array[K],
+                                               start: Int,
+                                               end: Int)(implicit
+      ord: Ordering[K]): Unit = {
     val length = end - start
     if (length > inPlaceSortThreshold) {
       val middle = start + (length / 2)
@@ -152,18 +153,20 @@ object Arrays {
   }
 
   @inline
-  private def stableMerge[@specialized K](
-      a: Array[K],
-      temp: Array[K],
-      start: Int,
-      middle: Int,
-      end: Int)(implicit ord: Ordering[K]): Unit = {
+  private def stableMerge[@specialized K](a: Array[K],
+                                          temp: Array[K],
+                                          start: Int,
+                                          middle: Int,
+                                          end: Int)(implicit
+      ord: Ordering[K]): Unit = {
     var outIndex     = start
     var leftInIndex  = start
     var rightInIndex = middle
     while (outIndex < end) {
-      if (leftInIndex < middle &&
-          (rightInIndex >= end || ord.lteq(a(leftInIndex), a(rightInIndex)))) {
+      if (
+        leftInIndex < middle &&
+        (rightInIndex >= end || ord.lteq(a(leftInIndex), a(rightInIndex)))
+      ) {
         temp(outIndex) = a(leftInIndex)
         leftInIndex += 1
       } else {
@@ -178,10 +181,10 @@ object Arrays {
   // search variant of insertion sort
   // Caller must pass end >= start or math will fail.  Also, start >= 0.
   @noinline
-  private final def insertionSort[@specialized T](
-      a: Array[T],
-      start: Int,
-      end: Int)(implicit ord: Ordering[T]): Unit = {
+  private final def insertionSort[@specialized T](a: Array[T],
+                                                  start: Int,
+                                                  end: Int)(implicit
+      ord: Ordering[T]): Unit = {
     val n = end - start
     if (n >= 2) {
       if (ord.compare(a(start), a(start + 1)) > 0) {
@@ -216,7 +219,8 @@ object Arrays {
     }
   }
 
-  /** Sort array `a` with merge sort and insertion sort,
+  /**
+   * Sort array `a` with merge sort and insertion sort,
    *  using the Ordering on its elements.
    */
   @inline
@@ -229,11 +233,11 @@ object Arrays {
   }
 
   @noinline
-  private def stableSplitMergeAnyRef(
-      a: Array[AnyRef],
-      temp: Array[AnyRef],
-      start: Int,
-      end: Int)(implicit ord: Ordering[AnyRef]): Unit = {
+  private def stableSplitMergeAnyRef(a: Array[AnyRef],
+                                     temp: Array[AnyRef],
+                                     start: Int,
+                                     end: Int)(implicit
+      ord: Ordering[AnyRef]): Unit = {
     val length = end - start
     if (length > inPlaceSortThreshold) {
       val middle = start + (length / 2)
@@ -247,18 +251,20 @@ object Arrays {
   }
 
   @inline
-  private def stableMergeAnyRef(
-      a: Array[AnyRef],
-      temp: Array[AnyRef],
-      start: Int,
-      middle: Int,
-      end: Int)(implicit ord: Ordering[AnyRef]): Unit = {
+  private def stableMergeAnyRef(a: Array[AnyRef],
+                                temp: Array[AnyRef],
+                                start: Int,
+                                middle: Int,
+                                end: Int)(implicit
+      ord: Ordering[AnyRef]): Unit = {
     var outIndex     = start
     var leftInIndex  = start
     var rightInIndex = middle
     while (outIndex < end) {
-      if (leftInIndex < middle &&
-          (rightInIndex >= end || ord.lteq(a(leftInIndex), a(rightInIndex)))) {
+      if (
+        leftInIndex < middle &&
+        (rightInIndex >= end || ord.lteq(a(leftInIndex), a(rightInIndex)))
+      ) {
         temp(outIndex) = a(leftInIndex)
         leftInIndex += 1
       } else {

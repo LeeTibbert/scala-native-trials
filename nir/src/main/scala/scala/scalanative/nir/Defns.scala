@@ -10,14 +10,14 @@ sealed abstract class Defn {
 
 object Defn {
   // low-level
-  final case class Var(attrs: Attrs, name: Global, ty: Type, rhs: Val)(
-      implicit val pos: Position)
+  final case class Var(attrs: Attrs, name: Global, ty: Type, rhs: Val)(implicit
+      val pos: Position)
       extends Defn
   final case class Const(attrs: Attrs, name: Global, ty: Type, rhs: Val)(
       implicit val pos: Position)
       extends Defn
-  final case class Declare(attrs: Attrs, name: Global, ty: Type)(
-      implicit val pos: Position)
+  final case class Declare(attrs: Attrs, name: Global, ty: Type)(implicit
+      val pos: Position)
       extends Defn
   final case class Define(attrs: Attrs,
                           name: Global,

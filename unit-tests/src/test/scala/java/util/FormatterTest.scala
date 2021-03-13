@@ -1545,7 +1545,8 @@ class FormatterTest {
     assertF("0x0.000000ee4d8a7p-1022", "%a", 1.23456478651e-315)
     assertF("0x1.ep-1047",
             "%.0a",
-            1.23456478651e-315) // behaves like .1, apparently
+            1.23456478651e-315
+    ) // behaves like .1, apparently
     assertF("0x1.ep-1047", "%.1a", 1.23456478651e-315)
     assertF("0x1.ddp-1047", "%.2a", 1.23456478651e-315)
     assertF("0x1.dc9bp-1047", "%.4a", 1.23456478651e-315)
@@ -1554,7 +1555,8 @@ class FormatterTest {
     assertF("0x1.dc9b14e00000p-1047", "%.12a", 1.23456478651e-315)
     assertF("0x0.000000ee4d8a7p-1022",
             "%.13a",
-            1.23456478651e-315) // back to 0x0.
+            1.23456478651e-315
+    ) // back to 0x0.
 
     // Float values
 
@@ -1778,7 +1780,8 @@ class FormatterTest {
     expectFormatterThrows(classOf[MissingFormatArgumentException], "%10$d", 1)
   }
 
-  /** Tests scenarios where there are multiple errors at the same time, one of
+  /**
+   * Tests scenarios where there are multiple errors at the same time, one of
    *  them being that the conversion is unknown, to make sure that the right
    *  one takes precedence.
    */
@@ -1866,7 +1869,8 @@ class FormatterTest {
                           Some(5))
   }
 
-  /** Tests scenarios where there are multiple errors at the same time, to
+  /**
+   * Tests scenarios where there are multiple errors at the same time, to
    *  make sure that the right one takes precedence.
    */
   @Test def formatExceptionPrecedenceForRegularConversionsTest_Issue4352()
@@ -1950,7 +1954,8 @@ class FormatterTest {
                           5)
   }
 
-  /** Tests scenarios where there are multiple errors at the same time with the
+  /**
+   * Tests scenarios where there are multiple errors at the same time with the
    *  `%` conversion, to make sure that the right one takes precedence.
    */
   @Test def formatExceptionPrecedenceForPercentTest_Issue4352(): Unit = {
@@ -1990,7 +1995,8 @@ class FormatterTest {
     }
   }
 
-  /** Tests scenarios where there are multiple errors at the same time with the
+  /**
+   * Tests scenarios where there are multiple errors at the same time with the
    *  `n` conversion, to make sure that the right one takes precedence.
    */
   @Test def formatExceptionPrecedenceForNTest_Issue4352(): Unit = {

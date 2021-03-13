@@ -183,7 +183,7 @@ object Float {
   final val MAX_EXPONENT      = 127
   final val MAX_VALUE         = 3.40282346638528860e+38f
   final val MIN_EXPONENT      = -126
-  final val MIN_NORMAL        = 1.17549435E-38f
+  final val MIN_NORMAL        = 1.17549435e-38f
   final val MIN_VALUE         = 1.40129846432481707e-45f
   final val NaN               = 0.0f / 0.0f
   final val NEGATIVE_INFINITY = 1.0f / -0.0f
@@ -255,7 +255,7 @@ object Float {
       val bitValue    = floatToIntBits(f)
       val negative    = (bitValue & 0x80000000) != 0
       val exponent    = (bitValue & 0x7f800000) >>> 23
-      var significand = (bitValue & 0x007FFFFF) << 1
+      var significand = (bitValue & 0x007fffff) << 1
 
       if (exponent == 0 && significand == 0) {
         if (negative) "-0x0.0p0"
@@ -273,7 +273,7 @@ object Float {
           hexString.append("0.")
 
           var fractionDigits = 6
-          while ((significand != 0) && ((significand & 0xF) == 0)) {
+          while ((significand != 0) && ((significand & 0xf) == 0)) {
             significand >>>= 4
             fractionDigits -= 1
           }
@@ -293,7 +293,7 @@ object Float {
           hexString.append("1.")
 
           var fractionDigits = 6
-          while ((significand != 0) && ((significand & 0xF) == 0)) {
+          while ((significand != 0) && ((significand & 0xf) == 0)) {
             significand >>>= 4
             fractionDigits -= 1
           }

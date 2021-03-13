@@ -153,10 +153,10 @@ class JarFileTest {
     val b = new Array[Byte](1024)
     is.read(b, 0, 1024)
     jf.close()
-    assertTrue(b(0) == 0xCA.toByte)
-    assertTrue(b(1) == 0xFE.toByte)
-    assertTrue(b(2) == 0xBA.toByte)
-    assertTrue(b(3) == 0xBE.toByte)
+    assertTrue(b(0) == 0xca.toByte)
+    assertTrue(b(1) == 0xfe.toByte)
+    assertTrue(b(2) == 0xba.toByte)
+    assertTrue(b(3) == 0xbe.toByte)
   }
 
   @Ignore("#956")
@@ -253,9 +253,10 @@ class JarFileTest {
     val zipEntry = jarFile.getEntry("Test.class")
     val in       = jarFile.getInputStream(zipEntry)
     val buffer   = new Array[Byte](1024)
-    assertThrows(classOf[SecurityException], while (in.available() > 0) {
-      in.read(buffer)
-    })
+    assertThrows(classOf[SecurityException],
+                 while (in.available() > 0) {
+                   in.read(buffer)
+                 })
   }
 
   @Ignore("#956")
@@ -275,9 +276,10 @@ class JarFileTest {
     val zipEntry = jarFile.getEntry("Test.class")
     val in       = jarFile.getInputStream(zipEntry)
     val buffer   = new Array[Byte](1024)
-    assertThrows(classOf[SecurityException], while (in.available() > 0) {
-      in.read(buffer)
-    })
+    assertThrows(classOf[SecurityException],
+                 while (in.available() > 0) {
+                   in.read(buffer)
+                 })
   }
 
   @Ignore("#956")
@@ -322,7 +324,7 @@ class JarFileTest {
     val sb = new StringBuilder()
     var i  = 0
     while (i < r) {
-      sb.append((buffer(i) & 0xFF).toChar)
+      sb.append((buffer(i) & 0xff).toChar)
       i += 1
     }
     val contents = sb.toString()

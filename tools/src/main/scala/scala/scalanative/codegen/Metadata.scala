@@ -36,9 +36,8 @@ class Metadata(val linked: linker.Result, proxies: Seq[Defn]) {
         .collect { case info: Trait => info }
         .toIndexedSeq
         .sortBy(_.name.show)
-    traits.zipWithIndex.foreach {
-      case (node, id) =>
-        ids(node) = id
+    traits.zipWithIndex.foreach { case (node, id) =>
+      ids(node) = id
     }
     traits
   }

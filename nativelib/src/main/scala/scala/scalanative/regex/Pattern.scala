@@ -153,7 +153,9 @@ object Pattern {
     if ((flags & MULTILINE) != 0) {
       flregex = "(?m)" + flregex
     }
-    if ((flags & ~(MULTILINE | DOTALL | CASE_INSENSITIVE | DISABLE_UNICODE_GROUPS)) != 0) {
+    if (
+      (flags & ~(MULTILINE | DOTALL | CASE_INSENSITIVE | DISABLE_UNICODE_GROUPS)) != 0
+    ) {
       throw new IllegalArgumentException(
         "Flags should only be a combination " +
           "of MULTILINE, DOTALL, CASE_INSENSITIVE, DISABLE_UNICODE_GROUPS")

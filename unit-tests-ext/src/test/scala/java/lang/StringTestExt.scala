@@ -70,24 +70,28 @@ class StringTestExt {
     // But combining marks with combining class 0 will cut the link
     assertEquals("i\u034f\u033D", "I\u034f\u033D".toLowerCase(Lithuanian))
     assertEquals("i\uD804\uDC00\u033D",
-                 "I\uD804\uDC00\u033D".toLowerCase(Lithuanian)) // 11000
+                 "I\uD804\uDC00\u033D".toLowerCase(Lithuanian)
+    ) // 11000
   }
 
   @Test def testToLowerCaseWithLocale_CornerCasesFor_TurkishAndAzeri(): Unit = {
     // Can put another combining mark between I and 0307, as long as its class is not Above
     assertEquals("i\u0315", "I\u0315\u0307".toLowerCase(Turkish))
     assertEquals("i\uD834\uDD7C",
-                 "I\uD834\uDD7C\u0307".toLowerCase(Turkish)) // 1D17C
+                 "I\uD834\uDD7C\u0307".toLowerCase(Turkish)
+    ) // 1D17C
 
     // But other Above combining marks will cut the link
     assertEquals("ı\u033D\u0307", "I\u033D\u0307".toLowerCase(Turkish))
     assertEquals("ı\uD834\uDD85\u0307",
-                 "I\uD834\uDD85\u0307".toLowerCase(Turkish)) // 1D185
+                 "I\uD834\uDD85\u0307".toLowerCase(Turkish)
+    ) // 1D185
 
     // Even combining marks with combining class 0 will cut the link
     assertEquals("ı\u034f\u0307", "I\u034f\u0307".toLowerCase(Turkish))
     assertEquals("ı\uD804\uDC00\u0307",
-                 "I\uD804\uDC00\u0307".toLowerCase(Turkish)) // 11000
+                 "I\uD804\uDC00\u0307".toLowerCase(Turkish)
+    ) // 11000
   }
 
   @Test def testToUpperCaseWithLocale(): Unit = {
@@ -145,7 +149,8 @@ class StringTestExt {
     assertEquals("I\u031A\u0301", "i\u031A\u0307\u0301".toUpperCase(Lithuanian))
     assertEquals("I\u033C\u0301", "i\u033C\u0307\u0301".toUpperCase(Lithuanian))
     assertEquals("I\uD834\uDD7C\u0301",
-                 "i\uD834\uDD7C\u0307\u0301".toUpperCase(Lithuanian)) // 1D17C
+                 "i\uD834\uDD7C\u0307\u0301".toUpperCase(Lithuanian)
+    ) // 1D17C
 
     // But other Above combining marks will cut the link
     assertEquals("I\u033D\u0307\u0301",
@@ -153,12 +158,14 @@ class StringTestExt {
     assertEquals("I\u0346\u0307\u0301",
                  "i\u0346\u0307\u0301".toUpperCase(Lithuanian))
     assertEquals("I\uD834\uDD85\u0307\u0301",
-                 "i\uD834\uDD85\u0307\u0301".toUpperCase(Lithuanian)) // 1D185
+                 "i\uD834\uDD85\u0307\u0301".toUpperCase(Lithuanian)
+    ) // 1D185
 
     // Even combining marks with combining class 0 will cut the link
     assertEquals("I\u034f\u0307\u0301",
                  "i\u034f\u0307\u0301".toUpperCase(Lithuanian))
     assertEquals("I\uD804\uDC00\u0307\u0301",
-                 "i\uD804\uDC00\u0307\u0301".toUpperCase(Lithuanian)) // 1D185
+                 "i\uD804\uDC00\u0307\u0301".toUpperCase(Lithuanian)
+    ) // 1D185
   }
 }

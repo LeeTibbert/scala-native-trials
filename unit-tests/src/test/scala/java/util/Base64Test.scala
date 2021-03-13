@@ -190,8 +190,9 @@ class Base64Test {
   }
 
   @Test def decodeInputStream(): Unit = {
-    for ((encoded, (decoder, expected)) <- encodedResults.zip(
-           decodersAndInputs)) {
+    for (
+      (encoded, (decoder, expected)) <- encodedResults.zip(decodersAndInputs)
+    ) {
       val byteInstream = new ByteArrayInputStream(encoded.getBytes(ISO_8859_1))
       val instream     = decoder.wrap(byteInstream)
       val read         = new Array[Byte](expected.length)

@@ -11,24 +11,21 @@ object Stats {
     val totalTimes   = mutable.Map.empty[String, Long]
     val totalCounts  = mutable.Map.empty[String, Long]
     val totalThreads = mutable.Map.empty[String, Long]
-    times.foreach {
-      case (k, v) =>
-        val key = k.split(":")(1)
-        totalTimes(key) = totalTimes.getOrElse(key, 0L) + v
-        totalThreads(key) = totalThreads.getOrElse(key, 0L) + 1
+    times.foreach { case (k, v) =>
+      val key = k.split(":")(1)
+      totalTimes(key) = totalTimes.getOrElse(key, 0L) + v
+      totalThreads(key) = totalThreads.getOrElse(key, 0L) + 1
     }
-    counts.foreach {
-      case (k, v) =>
-        val key = k.split(":")(1)
-        totalCounts(key) = totalCounts.getOrElse(key, 0L) + v
+    counts.foreach { case (k, v) =>
+      val key = k.split(":")(1)
+      totalCounts(key) = totalCounts.getOrElse(key, 0L) + v
     }
     println("--- Total")
-    totalTimes.toSeq.sortBy(_._1).foreach {
-      case (key, time) =>
-        val ms      = (time / 1000000D).toString
-        val count   = totalCounts(key)
-        val threads = totalThreads(key)
-        println(s"$key: $ms ms, $count times, $threads threads")
+    totalTimes.toSeq.sortBy(_._1).foreach { case (key, time) =>
+      val ms      = (time / 1000000D).toString
+      val count   = totalCounts(key)
+      val threads = totalThreads(key)
+      println(s"$key: $ms ms, $count times, $threads threads")
     }
     if (dists.nonEmpty) {
       println("--- Total (Dist)")
@@ -37,13 +34,11 @@ object Stats {
   }
   private def printDist(): Unit = {
     val elems = dists.toSeq.sortBy(_._1)
-    elems.foreach {
-      case (key, measurements) =>
-        println(key + ":")
-        println("  min: " + measurements.min)
-        println("  max: " + measurements.max)
-        println(
-          "  avg: " + measurements.map(_.toDouble).sum / measurements.size)
+    elems.foreach { case (key, measurements) =>
+      println(key + ":")
+      println("  min: " + measurements.min)
+      println("  max: " + measurements.max)
+      println("  avg: " + measurements.map(_.toDouble).sum / measurements.size)
     }
   }
   private def printThread(id: String): Unit = {

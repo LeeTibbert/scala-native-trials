@@ -91,7 +91,7 @@ class PatternTest {
     pass("\\p{Space}", " ")
     pass("\\p{Upper}", "A")
     pass("\\p{XDigit}", "a")
-    pass("\\p{Cntrl}", new String(Array[Byte](0x7F)))
+    pass("\\p{Cntrl}", new String(Array[Byte](0x7f)))
   }
 
   @Test def unicodeClasses(): Unit = {
@@ -391,7 +391,7 @@ class PatternTest {
           e.getIndex == 4 &&
           e.getPattern == "foo\\L" &&
           e.getMessage ==
-            """|Illegal/unsupported escape sequence near index 4
+          """|Illegal/unsupported escape sequence near index 4
 	     |foo\L
 	     |    ^""".stripMargin
       })

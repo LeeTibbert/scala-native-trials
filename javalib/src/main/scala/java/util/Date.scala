@@ -7,7 +7,8 @@ import scalanative.posix.sys.types.size_t
 import scalanative.unsafe._
 import scalanative.unsigned._
 
-/** Ported from Scala JS and Apache Harmony
+/**
+ * Ported from Scala JS and Apache Harmony
  * - omits deprecated methods
  * - toString code created ab ovo for Scala Native.
  */

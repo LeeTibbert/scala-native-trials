@@ -16,7 +16,8 @@ final class InstantiatableClass private[reflect] (
     val declaredConstructors: List[InvokableConstructor]
 ) {
 
-  /** Instantiates a new instance of this class using the zero-argument
+  /**
+   * Instantiates a new instance of this class using the zero-argument
    *  constructor.
    *
    *  @throws java.lang.InstantiationException (caused by a
@@ -30,7 +31,8 @@ final class InstantiatableClass private[reflect] (
     } { ctor => ctor.newInstance() }
   }
 
-  /** Looks up a public constructor identified by the types of its formal
+  /**
+   * Looks up a public constructor identified by the types of its formal
    *  parameters.
    *
    *  If no such public constructor exists, returns `None`.
@@ -51,13 +53,14 @@ final class InvokableConstructor private[reflect] (
       args.size == parameterTypes.size,
       "Reflect: wrong number of arguments for InvokableConstructor"
     )
-    val adaptedArgs = (args zip parameterTypes).map {
-      case (arg, tpe) => wideningPrimConversionIfRequired(arg, tpe)
+    val adaptedArgs = (args zip parameterTypes).map { case (arg, tpe) =>
+      wideningPrimConversionIfRequired(arg, tpe)
     }
     newInstanceFun.apply(adaptedArgs.toArray)
   }
 
-  /** Perform a widening primitive conversion if required.
+  /**
+   * Perform a widening primitive conversion if required.
    *
    *  According to
    *  https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.1.2
@@ -152,7 +155,8 @@ object Reflect {
       new InstantiatableClass(runtimeClass, invokableConstructors.toList)
   }
 
-  /** Reflectively looks up a loadable module class.
+  /**
+   * Reflectively looks up a loadable module class.
    *
    *  A module class is the technical term referring to the class of a Scala
    *  `object`. The object or one of its super types (classes or traits) must
@@ -171,7 +175,8 @@ object Reflect {
   def lookupLoadableModuleClass(fqcn: String): Option[LoadableModuleClass] =
     loadableModuleClasses.get(fqcn)
 
-  /** Reflectively looks up an instantiable class.
+  /**
+   * Reflectively looks up an instantiable class.
    *
    *  The class or one of its super types (classes or traits) must be annotated
    *  with

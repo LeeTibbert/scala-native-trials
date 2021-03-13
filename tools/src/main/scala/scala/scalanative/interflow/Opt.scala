@@ -47,16 +47,15 @@ trait Opt { self: Interflow =>
     // are always a subtype of the original declared type, but in
     // some cases they might not be obviously related, despite
     // having the same concrete allocated class inhabitants.
-    val args = argtys.zip(origtys).map {
-      case (argty, origty) =>
-        val ty = if (!Sub.is(argty, origty)) {
-          log(
-            s"using original argument type ${origty.show} instead of ${argty.show}")
-          origty
-        } else {
-          argty
-        }
-        Val.Local(fresh(), ty)
+    val args = argtys.zip(origtys).map { case (argty, origty) =>
+      val ty = if (!Sub.is(argty, origty)) {
+        log(
+          s"using original argument type ${origty.show} instead of ${argty.show}")
+        origty
+      } else {
+        argty
+      }
+      Val.Local(fresh(), ty)
     }
 
     // If any of the argument types is nothing, this method
@@ -92,8 +91,8 @@ trait Opt { self: Interflow =>
       }
       block.toInsts()
     }
-    val rets = insts.collect {
-      case Inst.Ret(v) => v.ty
+    val rets = insts.collect { case Inst.Ret(v) =>
+      v.ty
     }
 
     val retty = rets match {
@@ -109,8 +108,8 @@ trait Opt { self: Interflow =>
               args: Seq[Val],
               state: State,
               doInline: Boolean,
-              retTy: Type)(
-      implicit originDefnPos: nir.Position
+              retTy: Type)(implicit
+      originDefnPos: nir.Position
   ): Seq[MergeBlock] = {
     val processor =
       MergeProcessor.fromEntry(insts, args, state, doInline, blockFresh, this)

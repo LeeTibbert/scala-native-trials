@@ -69,8 +69,10 @@ class Regexp {
         out.append("(?:)")
       case Op.STAR | Op.PLUS | Op.QUEST | Op.REPEAT =>
         val sub = subs(0)
-        if (sub.op > Op.CAPTURE ||
-            sub.op == Op.LITERAL && sub.runes.length > 1) {
+        if (
+          sub.op > Op.CAPTURE ||
+          sub.op == Op.LITERAL && sub.runes.length > 1
+        ) {
           out.append("(?:")
           sub.appendTo(out)
           out.append(')')
@@ -172,8 +174,10 @@ class Regexp {
           out.append('[')
           if (runes.length == 0) {
             out.append("^\\x00-\\x{10FFFF}")
-          } else if (runes(0) == 0 &&
-                     runes(runes.length - 1) == Unicode.MAX_RUNE) {
+          } else if (
+            runes(0) == 0 &&
+            runes(runes.length - 1) == Unicode.MAX_RUNE
+          ) {
             // Contains 0 and MAX_RUNE.  Probably a negated class.
             // Print the gaps.
             out.append('^')
@@ -274,13 +278,15 @@ object Regexp {
     final val END_TEXT         = 9  // Matches empty string at end of text
     final val WORD_BOUNDARY    = 10 // Matches word boundary `\b`
     final val NO_WORD_BOUNDARY = 11 // Matches word non-boundary `\B`
-    final val CAPTURE          = 12 // Capturing subexpr with index cap, optional name name
-    final val STAR             = 13 // Matches subs[0] zero or more times.
-    final val PLUS             = 14 // Matches subs[0] one or more times.
-    final val QUEST            = 15 // Matches subs[0] zero or one times.
-    final val REPEAT           = 16 // Matches subs[0] [min, max] times max=-1 => no limit.
-    final val CONCAT           = 17 // Matches concatenation of subs[]
-    final val ALTERNATE        = 18 // Matches union of subs[]
+    final val CAPTURE =
+      12 // Capturing subexpr with index cap, optional name name
+    final val STAR  = 13 // Matches subs[0] zero or more times.
+    final val PLUS  = 14 // Matches subs[0] one or more times.
+    final val QUEST = 15 // Matches subs[0] zero or one times.
+    final val REPEAT =
+      16 // Matches subs[0] [min, max] times max=-1 => no limit.
+    final val CONCAT    = 17 // Matches concatenation of subs[]
+    final val ALTERNATE = 18 // Matches union of subs[]
 
     // Pseudo ops, used internally by Parser for parsing stack:
     final val LEFT_PAREN   = 19

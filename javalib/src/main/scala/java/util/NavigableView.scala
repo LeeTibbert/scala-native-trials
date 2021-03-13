@@ -149,7 +149,7 @@ private[util] class NavigableView[E](original: NavigableSet[E],
     val boxed    = Box(toElement)
 
     val headSetFun =
-      if (inclusive)() => innerNow.compatOps.rangeTo(boxed)
+      if (inclusive) () => innerNow.compatOps.rangeTo(boxed)
       else () => innerNow.compatOps.rangeUntil(boxed)
 
     new NavigableView(this, headSetFun, None, true, Some(toElement), inclusive)
@@ -160,7 +160,7 @@ private[util] class NavigableView[E](original: NavigableSet[E],
     val boxed    = Box(fromElement)
 
     val tailSetFun =
-      if (inclusive)() => innerNow.compatOps.rangeFrom(boxed)
+      if (inclusive) () => innerNow.compatOps.rangeFrom(boxed)
       else () => innerNow.compatOps.rangeFrom(boxed).diff(Set(boxed))
 
     new NavigableView(this,

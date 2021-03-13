@@ -95,14 +95,14 @@ private[lang] object PipeIO {
 
   private final object NullInput extends Stream {
     @stub
-    override def process: UnixProcess                                = ???
-    override def available(): Int                                    = 0
-    override def close(): Unit                                       = {}
+    override def process: UnixProcess = ???
+    override def available(): Int     = 0
+    override def close(): Unit = {}
     override def read(): Int                                         = 0
     override def read(buf: Array[scala.Byte], offset: Int, len: Int) = -1
   }
   private final object NullOutput extends OutputStream {
-    override def close(): Unit       = {}
+    override def close(): Unit = {}
     override def write(b: Int): Unit = {}
   }
 }

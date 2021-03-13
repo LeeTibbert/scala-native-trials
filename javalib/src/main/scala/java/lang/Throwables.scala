@@ -25,7 +25,8 @@ private[lang] object StackTrace {
     StackTraceElement.fromSymbol(name)
   }
 
-  /** Creates a stack trace element in given unwind context.
+  /**
+   * Creates a stack trace element in given unwind context.
    *  Finding a name of the symbol for current function is expensive,
    *  so we cache stack trace elements based on current instruction pointer.
    */

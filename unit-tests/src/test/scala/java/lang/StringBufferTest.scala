@@ -134,7 +134,7 @@ class StringBufferTest {
     buf.appendCodePoint(0x10000)
     assertEquals("a\uD800\uDC00", buf.toString)
     buf.append("fixture")
-    buf.appendCodePoint(0x00010FFFF)
+    buf.appendCodePoint(0x00010ffff)
     assertEquals("a\uD800\uDC00fixture\uDBFF\uDFFF", buf.toString)
   }
 }

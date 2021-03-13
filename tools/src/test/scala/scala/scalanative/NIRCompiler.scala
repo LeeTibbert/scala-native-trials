@@ -80,8 +80,8 @@ object NIRCompiler {
    * @return The result of applying fn to the NIRCompiler
    */
   def apply[T](fn: api.NIRCompiler => T): T =
-    withSources(Map.empty[String, String]) {
-      case (_, compiler) => fn(compiler)
+    withSources(Map.empty[String, String]) { case (_, compiler) =>
+      fn(compiler)
     }
 
   /**
@@ -121,8 +121,8 @@ object NIRCompiler {
    */
   def writeSources(sources: Map[String, String]): Path = {
     val baseDir = Files.createTempDirectory("scala-native-sources")
-    sources foreach {
-      case (name, content) => makeFile(baseDir, name, content)
+    sources foreach { case (name, content) =>
+      makeFile(baseDir, name, content)
     }
     baseDir
   }

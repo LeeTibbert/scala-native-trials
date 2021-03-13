@@ -221,7 +221,7 @@ object Manifest {
     var i      = 0
     var result = false
     while (!result && i < length) {
-      if (buffer(i) == 0x0A || buffer(i) == 0x0D) {
+      if (buffer(i) == 0x0a || buffer(i) == 0x0d) {
         result = true
       }
       i += 1

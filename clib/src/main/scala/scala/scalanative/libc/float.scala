@@ -35,7 +35,8 @@ object float {
   @name("scalanative_float_dbl_epsilon")
   def DBL_EPSILON: CDouble = extern
 
-  /** Rounding mode for floating point addition.
+  /**
+   * Rounding mode for floating point addition.
    *
    * -1 indeterminable
    * 0 towards zero
@@ -46,7 +47,8 @@ object float {
   @name("scalanative_float_flt_rounds")
   def FLT_ROUNDS: CInt = extern
 
-  /** The base radix representation of the exponent.
+  /**
+   * The base radix representation of the exponent.
    *
    * A base-2 is binary,
    * base-10 is the normal decimal representation

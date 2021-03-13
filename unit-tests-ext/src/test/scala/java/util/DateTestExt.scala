@@ -5,7 +5,8 @@ import java.time.Instant
 import org.junit.Assert._
 import org.junit.Test
 
-/** Additional tests for `java.util.Date` that require javalib extension
+/**
+ * Additional tests for `java.util.Date` that require javalib extension
  *  dummies.
  */
 class DateTestExt {

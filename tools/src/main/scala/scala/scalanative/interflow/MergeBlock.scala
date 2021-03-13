@@ -22,12 +22,11 @@ final class MergeBlock(val label: Inst.Label, val name: Local) {
     val result = new nir.Buffer()(Fresh(0))
     def mergeNext(next: Next.Label): Next.Label = {
       val nextBlock = outgoing(next.name)
-      val mergeValues = nextBlock.phis.flatMap {
-        case MergePhi(_, incoming) =>
-          incoming.collect {
-            case (name, value) if name == block.label.name =>
-              value
-          }
+      val mergeValues = nextBlock.phis.flatMap { case MergePhi(_, incoming) =>
+        incoming.collect {
+          case (name, value) if name == block.label.name =>
+            value
+        }
       }
       Next.Label(nextBlock.name, mergeValues)
     }

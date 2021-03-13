@@ -35,9 +35,8 @@ sealed abstract class ScopeInfo extends Info {
 
     def overwrite(l: Seq[ScopeInfo]): Seq[ScopeInfo] = {
       val indexes = mutable.Map.empty[ScopeInfo, Int]
-      l.zipWithIndex.foreach {
-        case (v, idx) =>
-          indexes(v) = idx
+      l.zipWithIndex.foreach { case (v, idx) =>
+        indexes(v) = idx
       }
       l.zipWithIndex.collect {
         case (v, idx) if indexes(v) == idx =>

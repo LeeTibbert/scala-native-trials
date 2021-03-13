@@ -319,9 +319,11 @@ object RyuFloat {
       lastRemovedDigit = 4
     }
     var output = dv +
-      (if ((dv == dm &&
+      (if (
+         (dv == dm &&
            !(dmIsTrailingZeros && roundingMode.acceptLowerBound(even))) ||
-           (lastRemovedDigit >= 5)) 1
+         (lastRemovedDigit >= 5)
+       ) 1
        else 0)
     val olength = dplength - removed
 

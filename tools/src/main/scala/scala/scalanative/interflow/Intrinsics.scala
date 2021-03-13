@@ -31,8 +31,8 @@ trait Intrinsics { self: Interflow =>
     Global.Member(Rt.Runtime.name, Rt.ToRawPtrSig)
   ) ++ arrayIntrinsics
 
-  def intrinsic(ty: Type, name: Global, rawArgs: Seq[Val])(
-      implicit state: State,
+  def intrinsic(ty: Type, name: Global, rawArgs: Seq[Val])(implicit
+      state: State,
       origPos: Position): Option[Val] = {
     val Global.Member(_, sig) = name
 

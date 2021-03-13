@@ -302,8 +302,10 @@ object Long {
     parseLong(s, 10)
 
   @inline def parseLong(s: String, radix: Int): scala.Long = {
-    if (s == null || radix < Character.MIN_RADIX ||
-        radix > Character.MAX_RADIX) throw new NumberFormatException(s)
+    if (
+      s == null || radix < Character.MIN_RADIX ||
+      radix > Character.MAX_RADIX
+    ) throw new NumberFormatException(s)
 
     val length = s.length()
 
@@ -497,8 +499,10 @@ object Long {
     parseUnsignedLong(s, 10)
 
   def parseUnsignedLong(s: String, radix: Int): scala.Long = {
-    if (s == null || radix < Character.MIN_RADIX ||
-        radix > Character.MAX_RADIX) throw new NumberFormatException(s)
+    if (
+      s == null || radix < Character.MIN_RADIX ||
+      radix > Character.MAX_RADIX
+    ) throw new NumberFormatException(s)
 
     val len = s.length()
 

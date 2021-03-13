@@ -40,7 +40,8 @@
  */
 package java.math
 
-/** Provides the basic arithmetic mutable operations for {@link BigInteger}.
+/**
+ * Provides the basic arithmetic mutable operations for {@link BigInteger}.
  *
  *  Object that provides the basic arithmetic mutable operations for
  *  {@link BigInteger}. The operations provided are listed below. <ul
@@ -52,7 +53,8 @@ private[math] object Elementary {
 
   private final val UINT_MAX = 0xffffffffL
 
-  /** Adds two {@link BigInteger}.
+  /**
+   * Adds two {@link BigInteger}.
    *
    *  @see BigInteger#add(BigInteger) .
    *  @param op1
@@ -107,7 +109,9 @@ private[math] object Elementary {
 
         if (cmp == BigInteger.EQUALS)
           return BigInteger.ZERO
-        else if (cmp == BigInteger.GREATER) // a minuend should not be shorter than subtrahend
+        else if (
+          cmp == BigInteger.GREATER
+        ) // a minuend should not be shorter than subtrahend
           (op1Sign, subtract(op1.digits, op1Len, op2.digits, op2Len))
         else
           (op2Sign, subtract(op2.digits, op2Len, op1.digits, op1Len))
@@ -129,7 +133,8 @@ private[math] object Elementary {
     else BigInteger.GREATER
   }
 
-  /** In place add on positive or negative {@link BigInteger}.
+  /**
+   * In place add on positive or negative {@link BigInteger}.
    *
    *  Same as @link #inplaceAdd(BigInteger, BigInteger), but without the
    *  restriction of non-positive values.
@@ -175,7 +180,8 @@ private[math] object Elementary {
     // scalastyle:on return
   }
 
-  /** In place subtract of positive or negative {@link BigInteger}.
+  /**
+   * In place subtract of positive or negative {@link BigInteger}.
    *
    *  Same as @link #inplaceSubtract(BigInteger, BigInteger), but without the
    *  restriction of non-positive values.
@@ -220,7 +226,8 @@ private[math] object Elementary {
     op1.unCache()
   }
 
-  /** Performs {@code op1 += op2}.
+  /**
+   * Performs {@code op1 += op2}.
    *
    *  {@code op1} must have enough place to store the result
    *  (i.e. {@code op1.bitLength() >= op2.bitLength()}).
@@ -237,7 +244,8 @@ private[math] object Elementary {
     op1.unCache()
   }
 
-  /** Performs: {@code op1 += addend}.
+  /**
+   * Performs: {@code op1 += addend}.
    *
    *  The number must to have place to hold a possible carry.
    */
@@ -250,7 +258,8 @@ private[math] object Elementary {
     op1.unCache()
   }
 
-  /** Adds an integer value to the array of integers remembering carry.
+  /**
+   * Adds an integer value to the array of integers remembering carry.
    *
    *  @return a possible generated carry (0 or 1)
    */
@@ -266,7 +275,8 @@ private[math] object Elementary {
     carry.toInt
   }
 
-  /** Performs {@code op1 -= op2}.
+  /**
+   * Performs {@code op1 -= op2}.
    *
    *  {@code op1} must have enough place to store the result
    *  (i.e. {@code op1.bitLength() >= op2.bitLength()}).
@@ -285,7 +295,8 @@ private[math] object Elementary {
     op1.unCache()
   }
 
-  /** Subtracts two {@link BigInteger}.
+  /**
+   * Subtracts two {@link BigInteger}.
    *
    *  @see BigInteger#subtract(BigInteger) .
    *  @param op1
@@ -347,7 +358,8 @@ private[math] object Elementary {
     // scalastyle:on return
   }
 
-  /**  Adds the value represented by {@code b} to the value represented by {@code a}.
+  /**
+   *  Adds the value represented by {@code b} to the value represented by {@code a}.
    *
    *  It is assumed the magnitude of a is not less than the magnitude of b.
    *
@@ -440,7 +452,8 @@ private[math] object Elementary {
     }
   }
 
-  /** Subtracts the value represented by {@code b} from the value represented by {@code a}.
+  /**
+   * Subtracts the value represented by {@code b} from the value represented by {@code a}.
    *
    *  It is assumed the magnitude of a is not less than the magnitude of b.
    *
@@ -455,7 +468,8 @@ private[math] object Elementary {
     res
   }
 
-  /** Performs {@code res = a - b}.
+  /**
+   * Performs {@code res = a - b}.
    *
    *  It is assumed the magnitude of a is not less than the magnitude of b.
    */
@@ -480,7 +494,8 @@ private[math] object Elementary {
     }
   }
 
-  /** Compares two arrays.
+  /**
+   * Compares two arrays.
    *
    *  Compares two arrays, representing unsigned integer in little-endian order.
    *  Returns +1,0,-1 if a is - respective - greater, equal or lesser then b

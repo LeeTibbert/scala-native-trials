@@ -9,7 +9,8 @@ import scala.tools.nsc.plugins.{
   PluginComponent => NscPluginComponent
 }
 
-/** The Scala Native JUnit plugin replaces reflection based test lookup.
+/**
+ * The Scala Native JUnit plugin replaces reflection based test lookup.
  *
  *  For each JUnit test `my.pkg.X`, it generates a bootstrapper module/object
  *  `my.pkg.X\$scalanative\$junit\$bootstrapper` implementing

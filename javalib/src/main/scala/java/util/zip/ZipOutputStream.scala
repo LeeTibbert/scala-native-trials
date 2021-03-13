@@ -61,12 +61,12 @@ class ZipOutputStream(_out: OutputStream, charset: Charset)
       writeLong(out, EXTSIG)
       writeLong(out, { currentEntry.crc = crc.getValue(); currentEntry.crc })
       writeLong(out, {
-        currentEntry.compressedSize = `def`.getTotalOut();
-        currentEntry.compressedSize
-      })
+                  currentEntry.compressedSize = `def`.getTotalOut();
+                  currentEntry.compressedSize
+                })
       writeLong(out, {
-        currentEntry.size = `def`.getTotalIn(); currentEntry.size
-      })
+                  currentEntry.size = `def`.getTotalIn(); currentEntry.size
+                })
     }
     // Update the CentralDirectory
     writeLong(cDir, CENSIG)
@@ -152,16 +152,20 @@ class ZipOutputStream(_out: OutputStream, charset: Charset)
     if (currentEntry != null) {
       closeEntry()
     }
-    if (ze.getMethod() == STORED
-        || (compressMethod == STORED && ze.getMethod() == -1)) {
+    if (
+      ze.getMethod() == STORED
+      || (compressMethod == STORED && ze.getMethod() == -1)
+    ) {
       if (ze.crc == -1) {
         throw new ZipException("Crc mismatch")
       }
       if (ze.size == -1 && ze.compressedSize == -1) {
         throw new ZipException("Size mismatch")
       }
-      if (ze.size != ze.compressedSize && ze.compressedSize != -1
-          && ze.size != -1) {
+      if (
+        ze.size != ze.compressedSize && ze.compressedSize != -1
+        && ze.size != -1
+      ) {
         throw new ZipException("Size mismatch")
       }
     }
@@ -224,7 +228,7 @@ class ZipOutputStream(_out: OutputStream, charset: Charset)
   }
 
   def setComment(comment: String): Unit = {
-    if (comment.length() > 0xFFFF) {
+    if (comment.length() > 0xffff) {
       throw new IllegalArgumentException("String is too long")
     } else {
       this.comment = comment
@@ -232,7 +236,9 @@ class ZipOutputStream(_out: OutputStream, charset: Charset)
   }
 
   def setLevel(level: Int): Unit = {
-    if (level < Deflater.DEFAULT_COMPRESSION || level > Deflater.BEST_COMPRESSION) {
+    if (
+      level < Deflater.DEFAULT_COMPRESSION || level > Deflater.BEST_COMPRESSION
+    ) {
       throw new IllegalArgumentException()
     } else {
       compressLevel = level
@@ -248,23 +254,25 @@ class ZipOutputStream(_out: OutputStream, charset: Charset)
 
   private def writeLong(os: OutputStream, i: Long): Long = {
     // Write out the long value as an unsigned int
-    os.write((i & 0xFF).toInt)
-    os.write(((i >> 8) & 0xFF).toInt)
-    os.write(((i >> 16) & 0xFF).toInt)
-    os.write(((i >> 24) & 0xFF).toInt)
+    os.write((i & 0xff).toInt)
+    os.write(((i >> 8) & 0xff).toInt)
+    os.write(((i >> 16) & 0xff).toInt)
+    os.write(((i >> 24) & 0xff).toInt)
     i
   }
 
   private def writeShort(os: OutputStream, i: Int): Int = {
-    os.write(i & 0xFF)
-    os.write((i >> 8) & 0xFF)
+    os.write(i & 0xff)
+    os.write((i >> 8) & 0xff)
     i
   }
 
   override def write(buffer: Array[Byte], off: Int, nbytes: Int): Unit = {
     // avoid int overflow, check null buf
-    if ((off < 0 || (nbytes < 0) || off > buffer.length)
-        || (buffer.length - off < nbytes)) {
+    if (
+      (off < 0 || (nbytes < 0) || off > buffer.length)
+      || (buffer.length - off < nbytes)
+    ) {
       throw new IndexOutOfBoundsException()
     }
 

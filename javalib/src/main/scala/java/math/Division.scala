@@ -44,7 +44,8 @@ package java.math
 import scala.annotation.tailrec
 import BigInteger.QuotAndRem
 
-/** Provides BigInteger division and modular arithmetic.
+/**
+ * Provides BigInteger division and modular arithmetic.
  *
  *  Object that provides all operations related with division and modular
  *  arithmetic to {@link BigInteger}. Some methods are provided in both mutable
@@ -62,7 +63,8 @@ private[math] object Division {
 
   private final val UINT_MAX = 0xffffffffL
 
-  /** Divides an array by another array.
+  /**
+   * Divides an array by another array.
    *
    *  Divides the array 'a' by the array 'b' and gets the quotient and the
    *  remainder. Implements the Knuth's division algorithm. See D. Knuth, The Art
@@ -83,7 +85,10 @@ private[math] object Division {
              aLength: Int,
              b: Array[Int],
              bLength: Int): Array[Int] = {
-    val normA       = new Array[Int](aLength + 1) // the normalized dividend an extra byte is needed for correct shift
+    val normA =
+      new Array[Int](
+        aLength + 1
+      ) // the normalized dividend an extra byte is needed for correct shift
     val normB       = new Array[Int](bLength + 1) // the normalized divisor
     val normBLength = bLength
     /*
@@ -189,7 +194,8 @@ private[math] object Division {
     }
   }
 
-  /** Computes the quotient and the remainder after a division by an {@code Int}.
+  /**
+   * Computes the quotient and the remainder after a division by an {@code Int}.
    *
    *  @return an array of the form {@code [quotient, remainder]}.
    */
@@ -225,7 +231,8 @@ private[math] object Division {
     }
   }
 
-  /** Divides an array by an integer value.
+  /**
+   * Divides an array by an integer value.
    *
    *  Implements the Knuth's division algorithm.
    *  See D. Knuth, The Art of Computer Programming, vol. 2.
@@ -281,7 +288,8 @@ private[math] object Division {
     rem.toInt
   }
 
-  /** Divides an unsigned long a by an unsigned int b.
+  /**
+   * Divides an unsigned long a by an unsigned int b.
    *
    *  It is supposed that the most significant bit of b is set to 1, i.e. b < 0
    *
@@ -326,7 +334,8 @@ private[math] object Division {
     (rem << 32) | (quot & UINT_MAX)
   }
 
-  /** Performs modular exponentiation using the Montgomery Reduction.
+  /**
+   * Performs modular exponentiation using the Montgomery Reduction.
    *
    *  It requires that all parameters be positive and the modulus be even.
    *  Based <i>The square and multiply algorithm and the Montgomery Reduction C. K. Koc -
@@ -360,7 +369,8 @@ private[math] object Division {
     x1.add(q.multiply(y))
   }
 
-  /** Performs the final reduction of the Montgomery algorithm.
+  /**
+   * Performs the final reduction of the Montgomery algorithm.
    *
    *  @see #monPro(BigInteger, BigInteger, BigInteger, long)
    *  @see #monSquare(BigInteger, BigInteger, long)
@@ -375,9 +385,8 @@ private[math] object Division {
       var i = modulusLen - 1
       while (i >= 0) {
         if (res(i) != modulusDigits(i)) {
-          doSub =
-            (res(i) != 0) &&
-              ((res(i) & UINT_MAX) > (modulusDigits(i) & UINT_MAX))
+          doSub = (res(i) != 0) &&
+            ((res(i) & UINT_MAX) > (modulusDigits(i) & UINT_MAX))
           //force break
           i = 0
         }
@@ -392,7 +401,8 @@ private[math] object Division {
     result
   }
 
-  /** Return the greatest common divisor of two BigIntegers
+  /**
+   * Return the greatest common divisor of two BigIntegers
    *
    *  @param val1 must be greater than zero
    *  @param val2 must be greater than zero
@@ -458,7 +468,8 @@ private[math] object Division {
     op2.shiftLeft(pow2Count)
   }
 
-  /** Return the greatest common divisor of two, positive BigIntegers.
+  /**
+   * Return the greatest common divisor of two, positive BigIntegers.
    *
    *  Performs the same as {@link #gcdBinary(BigInteger, BigInteger)}, but with
    *  numbers of 31 bits, represented in positives values of {@code Int} type.
@@ -492,7 +503,8 @@ private[math] object Division {
     op2 << pow2Count
   }
 
-  /** Performs {@code x = x mod (2<sup>n</sup>)}.
+  /**
+   * Performs {@code x = x mod (2<sup>n</sup>)}.
    *
    *  @param x a positive number, it will store the result.
    *  @param n a positive exponent of {@code 2}.
@@ -511,7 +523,8 @@ private[math] object Division {
     }
   }
 
-  /** Calculates a modInverse based on the Lórencz algorithm.
+  /**
+   * Calculates a modInverse based on the Lórencz algorithm.
    *
    *  Based on "New Algorithm for Classical Modular Inverse" Róbert Lórencz. LNCS
    *  2523 (2002)
@@ -519,8 +532,9 @@ private[math] object Division {
    *  @return a^(-1) mod m
    */
   def modInverseLorencz(a: BigInteger, modulo: BigInteger): BigInteger = {
-    val max     = Math.max(a.numberLength, modulo.numberLength)
-    val uDigits = new Array[Int](max + 1) // enough place to make all the inplace operation
+    val max = Math.max(a.numberLength, modulo.numberLength)
+    val uDigits =
+      new Array[Int](max + 1) // enough place to make all the inplace operation
     val vDigits = new Array[Int](max + 1)
     System.arraycopy(modulo.digits, 0, uDigits, 0, modulo.numberLength)
     System.arraycopy(a.digits, 0, vDigits, 0, a.numberLength)
@@ -596,7 +610,8 @@ private[math] object Division {
     r
   }
 
-  /** Calculates modInverse based on Savas algorithm
+  /**
+   * Calculates modInverse based on Savas algorithm
    *
    *  Calculates a.modInverse(p) Based on: Savas, E; Koc, C "The Montgomery
    *  Modular Inverse - Revised".
@@ -675,7 +690,8 @@ private[math] object Division {
     }
   }
 
-  /** Calculates a modInverse raised to the power of two.
+  /**
+   * Calculates a modInverse raised to the power of two.
    *
    *  @param x an odd positive number.
    *  @param n the exponent by which 2 is raised.
@@ -694,7 +710,8 @@ private[math] object Division {
     y
   }
 
-  /** The Montgomery Product of two integers.
+  /**
+   * The Montgomery Product of two integers.
    *
    *  Implements the Montgomery Product of two integers represented by {@code
    *  int} arrays. The arrays are supposed in <i>little endian</i> notation.
@@ -722,7 +739,8 @@ private[math] object Division {
     finalSubtraction(res, modulus)
   }
 
-  /** Multiplies an array and subtracts it from a subarray of another array.
+  /**
+   * Multiplies an array and subtracts it from a subarray of another array.
    *
    *  @param a the array to subtract from
    *  @param start the start element of the subarray of a
@@ -751,7 +769,8 @@ private[math] object Division {
     (carry1 >> 32).toInt
   }
 
-  /** Performs modular exponentiation using the Montgomery Reduction.
+  /**
+   * Performs modular exponentiation using the Montgomery Reduction.
    *
    *  It requires that all parameters be positive and the modulus be odd.
    *
@@ -779,7 +798,8 @@ private[math] object Division {
     monPro(res, BigInteger.ONE, modulus, n2)
   }
 
-  /** Performs {@code base<sup>exponent</sup> mod (2<sup>j</sup>)}.
+  /**
+   * Performs {@code base<sup>exponent</sup> mod (2<sup>j</sup>)}.
    *
    *  It requires that all parameters be positive.
    *
@@ -813,7 +833,8 @@ private[math] object Division {
     res
   }
 
-  /** Divides a <code>BigInteger</code> by a signed <code>Int</code>.
+  /**
+   * Divides a <code>BigInteger</code> by a signed <code>Int</code>.
    *
    *  Returns the remainder.
    *
@@ -824,7 +845,8 @@ private[math] object Division {
   def remainder(dividend: BigInteger, divisor: Int): Int =
     remainderArrayByInt(dividend.digits, dividend.numberLength, divisor)
 
-  /** Divides an array by an integer value.
+  /**
+   * Divides an array by an integer value.
    *
    *  Implements the Knuth's division algorithm.
    *  See D. Knuth, The Art of Computer Programming, vol. 2.
@@ -848,7 +870,8 @@ private[math] object Division {
     result.toInt
   }
 
-  /** The Montgomery modular exponentiation.
+  /**
+   * The Montgomery modular exponentiation.
    *
    *  Implements the Montgomery modular exponentiation based in <i>The sliding
    *  windows algorithm and the MongomeryReduction</i>.
@@ -939,7 +962,8 @@ private[math] object Division {
     (n2 & UINT_MAX).toInt
   }
 
-  /** How many iteration of Lorencz's algorithm would perform the same operation.
+  /**
+   * How many iteration of Lorencz's algorithm would perform the same operation.
    *
    *  @param bi
    *  @param n

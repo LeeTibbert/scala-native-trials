@@ -327,7 +327,7 @@ object Math {
     } else if (Float.isInfinite(a)) {
       Float.POSITIVE_INFINITY
     } else if (abs(a) == Float.MAX_VALUE) {
-      2.028241E31F // pow(2, 104).toFloat
+      2.028241e31F // pow(2, 104).toFloat
     } else {
       val f = abs(a)
       cmath.nextafterf(f, Float.MAX_VALUE) - f
@@ -338,7 +338,7 @@ object Math {
     if (Double.isInfinite(a)) {
       scala.Double.PositiveInfinity
     } else if (a == scala.Double.MaxValue || a == -Double.MAX_VALUE) {
-      1.9958403095347198E292D // pow(2, 971)
+      1.9958403095347198e292D // pow(2, 971)
     } else {
       val d = abs(a)
       cmath.nextafter(d, scala.Double.MaxValue) - d

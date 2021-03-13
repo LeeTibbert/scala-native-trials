@@ -45,15 +45,15 @@ class GZIPOutputStream(out: OutputStream, size: Int, syncFlush: Boolean)
   private def writeLong(i: Long): Unit = {
     // Write out the long value as an unsigned int
     val unsigned = i.toInt
-    out.write(unsigned & 0xFF)
-    out.write((unsigned >> 8) & 0xFF)
-    out.write((unsigned >> 16) & 0xFF)
-    out.write((unsigned >> 24) & 0xFF)
+    out.write(unsigned & 0xff)
+    out.write((unsigned >> 8) & 0xff)
+    out.write((unsigned >> 16) & 0xff)
+    out.write((unsigned >> 24) & 0xff)
   }
 
   private def writeShort(i: Int): Int = {
-    out.write(i & 0xFF)
-    out.write((i >> 8) & 0xFF)
+    out.write(i & 0xff)
+    out.write((i >> 8) & 0xff)
     i
   }
 }

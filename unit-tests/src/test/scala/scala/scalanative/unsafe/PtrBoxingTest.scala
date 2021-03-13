@@ -157,9 +157,9 @@ class PtrBoxingTest {
 
   @Test def testToString(): Unit = {
     assertThrows(classOf[NullPointerException], {
-      val nullBoxed: Any = nullPtr
-      nullBoxed.toString
-    })
+                   val nullBoxed: Any = nullPtr
+                   nullBoxed.toString
+                 })
     val boxed1: Any = ptr
     assertTrue(boxed1.toString == ("Ptr@" + toHexString(ptr.toLong)))
     val boxed2: Any = ptr2

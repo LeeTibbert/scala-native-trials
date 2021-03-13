@@ -916,9 +916,9 @@ class FilesTest {
       // Follow the broken link; expect a NoSuchFileException to be thrown.
 
       assertThrows(classOf[NoSuchFileException], {
-        val fvoSet = Set(FileVisitOption.FOLLOW_LINKS).toJavaSet
-        Files.walkFileTree(dirPath, fvoSet, Int.MaxValue, visitor)
-      })
+                     val fvoSet = Set(FileVisitOption.FOLLOW_LINKS).toJavaSet
+                     Files.walkFileTree(dirPath, fvoSet, Int.MaxValue, visitor)
+                   })
     }
   }
 

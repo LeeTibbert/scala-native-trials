@@ -267,8 +267,10 @@ final class _String()
         val c2 = string.value(o2)
         o1 += 1
         o2 += 1
-        if (c1 != c2 && toUpperCase(c1) != toUpperCase(c2) &&
-            toLowerCase(c1) != toLowerCase(c2)) {
+        if (
+          c1 != c2 && toUpperCase(c1) != toUpperCase(c2) &&
+          toLowerCase(c1) != toLowerCase(c2)
+        ) {
           return false
         }
       }
@@ -558,8 +560,10 @@ final class _String()
           val c2 = target(start)
           thisStart += 1
           start += 1
-          if (c1 != c2 && toUpperCase(c1) != toUpperCase(c2) &&
-              toLowerCase(c1) != toLowerCase(c2)) {
+          if (
+            c1 != c2 && toUpperCase(c1) != toUpperCase(c2) &&
+            toLowerCase(c1) != toLowerCase(c2)
+          ) {
             return false
           }
         }
@@ -1010,7 +1014,8 @@ for (cp <- 0 to Character.MAX_CODE_POINT) {
     buf.toString
   }
 
-  /** Replaces special characters in this string (possibly in special contexts)
+  /**
+   * Replaces special characters in this string (possibly in special contexts)
    *  by dedicated strings.
    *
    *  This method encodes the general pattern of
@@ -1163,7 +1168,9 @@ for (cp <- 0 to Character.MAX_CODE_POINT) {
     var separatorCount = 0
     var begin          = 0
     var end            = 0
-    while (separatorCount + 1 != max && { end = indexOf(ch, begin); end != -1 }) {
+    while (
+      separatorCount + 1 != max && { end = indexOf(ch, begin); end != -1 }
+    ) {
       separatorCount += 1
       begin = end + 1
     }

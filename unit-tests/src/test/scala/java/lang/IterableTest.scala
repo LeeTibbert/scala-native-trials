@@ -11,7 +11,8 @@ import scala.reflect.ClassTag
 import org.junit.Test
 import org.junit.Assert._
 
-/** Tests the implementation of the java standard library Iterable
+/**
+ * Tests the implementation of the java standard library Iterable
  */
 trait IterableTest {
 

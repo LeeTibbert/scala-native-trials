@@ -102,7 +102,8 @@ abstract class JUnitTest {
     case _           => false
   }
 
-  /** Orders test output by test (method) name.
+  /**
+   * Orders test output by test (method) name.
    *
    *  This assumes the total output is of the following form:
    *  <no test> ...

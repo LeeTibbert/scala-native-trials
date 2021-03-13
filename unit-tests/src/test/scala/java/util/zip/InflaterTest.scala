@@ -335,11 +335,11 @@ class InflaterTest {
     var offSet      = 0
     var lengthError = 101
     assertThrows(classOf[ArrayIndexOutOfBoundsException], {
-      if (inflater.needsInput()) {
-        inflater.setInput(outPutBuff1)
-      }
-      inflater.inflate(outPutInf, offSet, lengthError)
-    })
+                   if (inflater.needsInput()) {
+                     inflater.setInput(outPutBuff1)
+                   }
+                   inflater.inflate(outPutInf, offSet, lengthError)
+                 })
 
     assertTrue(inflater.inflate(outPutInf, offSet, 0) == 0)
     inflater.end()
@@ -395,13 +395,13 @@ class InflaterTest {
     var r         = 0
     // An exception should be throws because of header inconsistency.
     assertThrows(classOf[DataFormatException], {
-      while (!inflate.finished()) {
-        if (inflate.needsInput()) {
-          inflate.setInput(outPutBuff1)
-        }
-        inflate.inflate(outPutInf)
-      }
-    })
+                   while (!inflate.finished()) {
+                     if (inflate.needsInput()) {
+                       inflate.setInput(outPutBuff1)
+                     }
+                     inflate.inflate(outPutInf)
+                   }
+                 })
   }
 
   @Test def needsDictionary(): Unit = {
@@ -600,7 +600,9 @@ class InflaterTest {
     var pass12  = false
 
     i = 0
-    while (!passNo1 && i < (if (dataLenNo < dataLen1) dataLenNo else dataLen1)) {
+    while (
+      !passNo1 && i < (if (dataLenNo < dataLen1) dataLenNo else dataLen1)
+    ) {
       if (outputNo(i) != output1(i)) {
         passNo1 = true
       }
@@ -608,7 +610,9 @@ class InflaterTest {
     }
 
     var j = 0
-    while (!passNo2 && j < (if (dataLenNo < dataLen1) dataLenNo else dataLen2)) {
+    while (
+      !passNo2 && j < (if (dataLenNo < dataLen1) dataLenNo else dataLen2)
+    ) {
       if (outputNo(j) != output2(j)) {
         passNo2 = true
       }

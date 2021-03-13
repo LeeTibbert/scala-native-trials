@@ -81,7 +81,8 @@ object Statics {
 
   def releaseFence(): Unit = ()
 
-  /** Just throws an exception.
+  /**
+   * Just throws an exception.
    *
    *  Used by the synthetic `productElement` and `productElementName` methods
    *  in case classes. Delegating the exception-throwing to this function

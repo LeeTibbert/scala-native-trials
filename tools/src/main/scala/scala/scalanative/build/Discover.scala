@@ -7,7 +7,8 @@ import scala.util.Try
 import scala.sys.process._
 import scalanative.build.IO.RichPath
 
-/** Utilities for discovery of command-line tools and settings required
+/**
+ * Utilities for discovery of command-line tools and settings required
  *  to build Scala Native applications.
  */
 object Discover {
@@ -79,7 +80,8 @@ object Discover {
     libs
   }
 
-  /** Tests whether the clang compiler is greater or equal to the
+  /**
+   * Tests whether the clang compiler is greater or equal to the
    *  minumum version required.
    */
   private[scalanative] def checkClangVersion(pathToClangBinary: Path): Unit = {
@@ -128,7 +130,8 @@ object Discover {
   private[scalanative] val docSetup =
     "http://www.scala-native.org/en/latest/user/setup.html"
 
-  /** Discover the binary path using environment
+  /**
+   * Discover the binary path using environment
    *  variables or the command from the path.
    */
   private[scalanative] def discover(binaryName: String,

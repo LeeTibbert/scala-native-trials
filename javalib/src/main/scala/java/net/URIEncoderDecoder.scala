@@ -30,11 +30,14 @@ object URIEncoderDecoder {
           }
           i += 3
         } while (i < s.length && s.charAt(i) == '%')
-      } else if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-                   (ch >= '0' && ch <= '9') ||
-                   legal.indexOf(ch) > -1 ||
-                   (ch > 127 && !java.lang.Character.isSpaceChar(ch) && !java.lang.Character
-                     .isISOControl(ch)))) {
+      } else if (
+        !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+          (ch >= '0' && ch <= '9') ||
+          legal.indexOf(ch) > -1 ||
+          (ch > 127 && !java.lang.Character.isSpaceChar(
+            ch) && !java.lang.Character
+            .isISOControl(ch)))
+      ) {
         throw new URISyntaxException(s, "Illegal character", i)
       }
       if (!continue) i += 1
@@ -45,9 +48,11 @@ object URIEncoderDecoder {
     var i: Int = 0
     while (i < s.length) {
       val ch: Char = s.charAt(i)
-      if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-            (ch >= '0' && ch <= '9') ||
-            legal.indexOf(ch) > -1)) {
+      if (
+        !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+          (ch >= '0' && ch <= '9') ||
+          legal.indexOf(ch) > -1)
+      ) {
         throw new URISyntaxException(s, "Illegal character", i)
       }
       i += 1
@@ -58,11 +63,14 @@ object URIEncoderDecoder {
     val buf: StringBuilder = new StringBuilder()
     for (i <- 0 until s.length) {
       val ch: Char = s.charAt(i)
-      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-          (ch >= '0' && ch <= '9') ||
-          legal.indexOf(ch) > -1 ||
-          (ch > 127 && !java.lang.Character.isSpaceChar(ch) && !java.lang.Character
-            .isISOControl(ch))) {
+      if (
+        (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+        (ch >= '0' && ch <= '9') ||
+        legal.indexOf(ch) > -1 ||
+        (ch > 127 && !java.lang.Character.isSpaceChar(
+          ch) && !java.lang.Character
+          .isISOControl(ch))
+      ) {
         buf.append(ch)
       } else {
         val bytes: Array[Byte] = new String(Array(ch)).getBytes(encoding)

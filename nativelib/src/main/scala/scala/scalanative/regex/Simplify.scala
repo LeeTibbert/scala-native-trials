@@ -161,13 +161,17 @@ object Simplify {
       return sub
     }
     // The operators are idempotent if the flags match.
-    if (op == sub.op &&
-        (flags & RE2.NON_GREEDY) == (sub.flags & RE2.NON_GREEDY)) {
+    if (
+      op == sub.op &&
+      (flags & RE2.NON_GREEDY) == (sub.flags & RE2.NON_GREEDY)
+    ) {
       return sub
     }
-    if (re != null && re.op == op &&
-        (re.flags & RE2.NON_GREEDY) == (flags & RE2.NON_GREEDY) &&
-        sub == re.subs(0)) {
+    if (
+      re != null && re.op == op &&
+      (re.flags & RE2.NON_GREEDY) == (flags & RE2.NON_GREEDY) &&
+      sub == re.subs(0)
+    ) {
       return re
     }
 

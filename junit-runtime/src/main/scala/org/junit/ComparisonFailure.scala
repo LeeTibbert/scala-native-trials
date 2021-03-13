@@ -41,10 +41,11 @@ object ComparisonFailure {
       var suffixLength = 0
       var maxSuffixLength = Math.min(expected.length() - prefix.length(),
                                      actual.length() - prefix.length()) - 1
-      while (suffixLength <= maxSuffixLength &&
-             charAtFromEnd(expected, suffixLength) == charAtFromEnd(
-               actual,
-               suffixLength)) {
+      while (
+        suffixLength <= maxSuffixLength &&
+        charAtFromEnd(expected, suffixLength) == charAtFromEnd(actual,
+                                                               suffixLength)
+      ) {
         suffixLength += 1
       }
       expected.substring(expected.length() - suffixLength)

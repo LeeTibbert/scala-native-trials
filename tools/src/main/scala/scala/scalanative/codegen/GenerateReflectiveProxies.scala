@@ -41,10 +41,11 @@ object GenerateReflectiveProxies {
     defnTy.args.map(argty => Type.box.getOrElse(argty, argty))
 
   private def genProxyTy(defnTy: Type.Function, args: Seq[Type]) =
-    Type.Function(args, defnTy.ret match {
-      case Type.Unit => Type.Unit
-      case _         => Type.Ref(Global.Top("java.lang.Object"))
-    })
+    Type.Function(args,
+                  defnTy.ret match {
+                    case Type.Unit => Type.Unit
+                    case _         => Type.Ref(Global.Top("java.lang.Object"))
+                  })
 
   private def genProxyLabel(args: Seq[Type])(implicit pos: nir.Position) = {
     val argLabels = Val.Local(fresh(), args.head) ::
@@ -72,9 +73,8 @@ object GenerateReflectiveProxies {
       params.head ::
         unboxes
           .zip(params.tail)
-          .map {
-            case (let, local) =>
-              Val.Local(let.name, Type.unbox.getOrElse(local.ty, local.ty))
+          .map { case (let, local) =>
+            Val.Local(let.name, Type.unbox.getOrElse(local.ty, local.ty))
           }
           .toList
 
@@ -91,8 +91,8 @@ object GenerateReflectiveProxies {
         Inst.Let(Op.Copy(Val.Local(callName, defnRetTy)), Next.None)
     }
 
-  private def genRet(retValBoxName: Local, proxyRetTy: Type)(
-      implicit pos: nir.Position) =
+  private def genRet(retValBoxName: Local, proxyRetTy: Type)(implicit
+      pos: nir.Position) =
     proxyRetTy match {
       case Type.Unit => Inst.Ret(Val.Unit)
       case _         => Inst.Ret(Val.Local(retValBoxName, proxyRetTy))

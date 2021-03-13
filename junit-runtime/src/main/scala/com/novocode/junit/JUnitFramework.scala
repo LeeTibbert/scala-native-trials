@@ -4,7 +4,8 @@ package com.novocode.junit
 
 import sbt.testing._
 
-/** Forwarder framework so no additional framework name is needed in sbt.
+/**
+ * Forwarder framework so no additional framework name is needed in sbt.
  *
  *  Note that a type alias is not enough, since sbt looks at the runtime type.
  */

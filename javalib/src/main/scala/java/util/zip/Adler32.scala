@@ -23,7 +23,9 @@ class Adler32 extends Checksum {
 
   def update(buf: Array[Byte], off: Int, nbytes: Int): Unit = {
     // avoid int overflow, check null buf
-    if (off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes) {
+    if (
+      off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes
+    ) {
       adler = updateImpl(buf, off, nbytes, adler)
     } else {
       throw new ArrayIndexOutOfBoundsException()

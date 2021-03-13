@@ -129,8 +129,7 @@ class TreeSet[E](_comparator: Comparator[_ >: E])
     val iter    = c.iterator()
     var changed = false
     while (iter.hasNext())
-      changed =
-        inner.remove(Box(iter.next()).asInstanceOf[Box[E]]) || changed
+      changed = inner.remove(Box(iter.next()).asInstanceOf[Box[E]]) || changed
     changed
   }
 

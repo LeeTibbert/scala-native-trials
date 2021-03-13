@@ -47,12 +47,12 @@ class ZipInputStreamTest {
     val zis1 = new ZipInputStream(bis)
 
     assertThrows(classOf[ZipException], {
-      var i = 0
-      while (i < 6) {
-        zis1.getNextEntry()
-        i += 1
-      }
-    })
+                   var i = 0
+                   while (i < 6) {
+                     zis1.getNextEntry()
+                     i += 1
+                   }
+                 })
 
     zis1.close()
     assertThrows(classOf[IOException], zis1.getNextEntry())

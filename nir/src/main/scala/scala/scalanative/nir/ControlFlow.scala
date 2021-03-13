@@ -5,7 +5,8 @@ import scala.collection.mutable
 import util.unsupported
 import nir._
 
-/** Analysis that's used to answer following questions:
+/**
+ * Analysis that's used to answer following questions:
  *
  *  * What are the predecessors of given block?
  *

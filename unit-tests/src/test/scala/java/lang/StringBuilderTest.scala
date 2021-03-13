@@ -141,7 +141,7 @@ class StringBuilderTest {
     b.appendCodePoint(0x10000)
     assertEquals("a\uD800\uDC00", b.toString)
     b.append("fixture")
-    b.appendCodePoint(0x00010FFFF)
+    b.appendCodePoint(0x00010ffff)
     assertEquals("a\uD800\uDC00fixture\uDBFF\uDFFF", b.toString)
   }
 }

@@ -26,13 +26,15 @@ final class TestAdapter(config: TestAdapter.Config) {
   private[this] var nextRunID = 0
   private[this] var runs      = Set.empty[RunMux.RunID]
 
-  /** A custom execution context that delegates to the global one for execution,
+  /**
+   * A custom execution context that delegates to the global one for execution,
    *  but handles failures internally.
    */
   private implicit val executionContext: ExecutionContext =
     ExecutionContext.fromExecutor(ExecutionContext.global, reportFailure)
 
-  /** Creates an `sbt.testing.Framework` for each framework that can be found.
+  /**
+   * Creates an `sbt.testing.Framework` for each framework that can be found.
    *
    *  The returned Frameworks bind to this TestAdapter and are only valid until
    *  [[close]] is called.
@@ -63,7 +65,8 @@ final class TestAdapter(config: TestAdapter.Config) {
     stopEverything(cause)
   }
 
-  /** Called when a throwable bubbles up the execution stack.
+  /**
+   * Called when a throwable bubbles up the execution stack.
    *
    *  We terminate everything if this happens to make sure nothing hangs waiting
    *  on an async operation to complete.

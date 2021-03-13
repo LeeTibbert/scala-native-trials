@@ -60,8 +60,8 @@ final class Ptr[T] private[scalanative] (
   @alwaysinline def update(offset: Word, value: T)(implicit tag: Tag[T]): Unit =
     (this + offset).`unary_!_=`(value)
 
-  @alwaysinline def update(offset: UWord, value: T)(
-      implicit tag: Tag[T]): Unit =
+  @alwaysinline def update(offset: UWord, value: T)(implicit
+      tag: Tag[T]): Unit =
     (this + offset).`unary_!_=`(value)
 
 }
@@ -70,6 +70,6 @@ object Ptr {
   @alwaysinline implicit def ptrToCArray[T <: CArray[_, _]](ptr: Ptr[T])(
       implicit tag: Tag[T]): T = !ptr
 
-  @alwaysinline implicit def ptrToCStruct[T <: CStruct](ptr: Ptr[T])(
-      implicit tag: Tag[T]): T = !ptr
+  @alwaysinline implicit def ptrToCStruct[T <: CStruct](ptr: Ptr[T])(implicit
+      tag: Tag[T]): T = !ptr
 }

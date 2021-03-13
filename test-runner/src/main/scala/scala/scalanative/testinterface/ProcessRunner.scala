@@ -16,9 +16,8 @@ private[testinterface] class ProcessRunner(executableFile: File,
       new ProcessBuilder(executableFile.toString +: port.toString +: args: _*)
         .inheritIO()
 
-    envVars.foreach {
-      case (k, v) =>
-        builder.environment().put(k, v)
+    envVars.foreach { case (k, v) =>
+      builder.environment().put(k, v)
     }
 
     logger.info(s"Starting process '$executableFile' on port '$port'.")

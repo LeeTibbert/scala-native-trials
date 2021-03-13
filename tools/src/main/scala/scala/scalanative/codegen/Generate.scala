@@ -8,16 +8,16 @@ import scala.scalanative.linker.Class
 object Generate {
   import Impl._
 
-  def apply(entry: Global.Top, defns: Seq[Defn])(
-      implicit meta: Metadata): Seq[Defn] =
+  def apply(entry: Global.Top, defns: Seq[Defn])(implicit
+      meta: Metadata): Seq[Defn] =
     (new Impl(entry, defns)).generate()
 
   implicit def linked(implicit meta: Metadata): linker.Result =
     meta.linked
   private implicit val pos: Position = Position.NoPosition
 
-  private class Impl(entry: Global.Top, defns: Seq[Defn])(
-      implicit meta: Metadata) {
+  private class Impl(entry: Global.Top, defns: Seq[Defn])(implicit
+      meta: Metadata) {
     val buf = mutable.UnrolledBuffer.empty[Defn]
 
     def generate(): Seq[Defn] = {
@@ -41,8 +41,10 @@ object Generate {
 
     def genDefnsExcludingGenerated(): Unit = {
       defns.foreach { defn =>
-        if (defn.name != ClassHasTraitName
-            && defn.name != TraitHasTraitName) {
+        if (
+          defn.name != ClassHasTraitName
+          && defn.name != TraitHasTraitName
+        ) {
           buf += defn
         }
       }
@@ -161,19 +163,19 @@ object Generate {
                                Seq()),
                        unwind)
           } ++ Seq(
-          Inst.Let(rt.name, Op.Module(Runtime.name), unwind),
-          Inst.Let(arr.name,
-                   Op.Call(RuntimeInitSig, RuntimeInit, Seq(rt, argc, argv)),
-                   unwind),
-          Inst.Let(module.name, Op.Module(entry.top), unwind),
-          Inst.Let(Op.Call(entryMainTy, entryMain, Seq(module, arr)), unwind),
-          Inst.Let(Op.Call(RuntimeLoopSig, RuntimeLoop, Seq(module)), unwind),
-          Inst.Ret(Val.Int(0)),
-          Inst.Label(handler, Seq(exc)),
-          Inst.Let(Op.Call(PrintStackTraceSig, PrintStackTrace, Seq(exc)),
-                   Next.None),
-          Inst.Ret(Val.Int(1))
-        )
+            Inst.Let(rt.name, Op.Module(Runtime.name), unwind),
+            Inst.Let(arr.name,
+                     Op.Call(RuntimeInitSig, RuntimeInit, Seq(rt, argc, argv)),
+                     unwind),
+            Inst.Let(module.name, Op.Module(entry.top), unwind),
+            Inst.Let(Op.Call(entryMainTy, entryMain, Seq(module, arr)), unwind),
+            Inst.Let(Op.Call(RuntimeLoopSig, RuntimeLoop, Seq(module)), unwind),
+            Inst.Ret(Val.Int(0)),
+            Inst.Label(handler, Seq(exc)),
+            Inst.Let(Op.Call(PrintStackTraceSig, PrintStackTrace, Seq(exc)),
+                     Next.None),
+            Inst.Ret(Val.Int(1))
+          )
       )
     }
 

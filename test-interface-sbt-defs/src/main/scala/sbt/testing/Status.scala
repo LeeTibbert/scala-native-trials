@@ -1,6 +1,7 @@
 package sbt.testing
 
-/** Represents the status of running a test.
+/**
+ * Represents the status of running a test.
  *
  *  Test frameworks can decided which of these to use and what they mean, but
  *  in general, the intended meanings are:

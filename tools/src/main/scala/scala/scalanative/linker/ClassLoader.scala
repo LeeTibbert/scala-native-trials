@@ -48,8 +48,8 @@ object ClassLoader {
     }
 
     lazy val classesWithEntryPoints: Iterable[Global] = {
-      scopes.filter {
-        case (_, defns) => Defn.existsEntryPoint(defns.toSeq)
+      scopes.filter { case (_, defns) =>
+        Defn.existsEntryPoint(defns.toSeq)
       }.keySet
     }
 

@@ -6,7 +6,8 @@ import org.junit.Assert._
 
 import scala.scalanative.junit.utils.AssertThrows._
 
-/** Sanity tests for the dummy implemenation of `java.time.Instant`.
+/**
+ * Sanity tests for the dummy implemenation of `java.time.Instant`.
  *
  *  These tests ensure that our dummy implementation of `java.time.Instant`
  *  behave in an appropriate way. We only test specific behaviors that can
@@ -34,7 +35,8 @@ class InstantTest {
     }
 
     testException(-31557014167219201L,
-                  999999999) // 1ns before the smallest allowed value
+                  999999999
+    ) // 1ns before the smallest allowed value
     testException(-1234567891011121314L, 123456789)
     testException(Long.MinValue, 0)
     testException(31556889864403200L, 0) // 1ns after the biggest allowed value

@@ -250,8 +250,10 @@ private[niocharset] object UTF_8
       else {
         val codePoint = (((b1 & 0xf) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f))
         // By construction, 0 <= codePoint <= 0xffff < MIN_SUPPLEMENTARY_CODE_POINT
-        if ((codePoint < 0x800) ||
-            (codePoint >= MIN_SURROGATE && codePoint <= MAX_SURROGATE)) {
+        if (
+          (codePoint < 0x800) ||
+          (codePoint >= MIN_SURROGATE && codePoint <= MAX_SURROGATE)
+        ) {
           // Should have been encoded with only 1 or 2 bytes
           // or it is a surrogate, which is not a valid code point
           DecodedMultiByte(CoderResult.malformedForLength(3))

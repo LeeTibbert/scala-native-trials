@@ -1,6 +1,7 @@
 package sbt.testing
 
-/** Represents one run of a suite of tests.
+/**
+ * Represents one run of a suite of tests.
  *
  *  The run represented by a <code>Runner</code> has a lifecycle. The run
  *  begins when the <code>Runner</code> is instantiated by the framework and
@@ -14,7 +15,8 @@ package sbt.testing
  */
 trait Runner {
 
-  /** Returns an array of tasks that when executed will run tests and suites
+  /**
+   * Returns an array of tasks that when executed will run tests and suites
    *  determined by the passed <code>TaskDef</code>s.
    *
    *  <p>
@@ -44,7 +46,8 @@ trait Runner {
    */
   def tasks(taskDefs: Array[TaskDef]): Array[Task]
 
-  /** Indicates the client is done with this <code>Runner</code> instance.
+  /**
+   * Indicates the client is done with this <code>Runner</code> instance.
    *
    *  After invoking the <code>done</code> method on a <code>Runner</code>
    *  instance, the client should no longer invoke the <code>task</code> methods
@@ -93,13 +96,15 @@ trait Runner {
    */
   def remoteArgs(): Array[String]
 
-  /** Returns the arguments that were used to create this <code>Runner</code>.
+  /**
+   * Returns the arguments that were used to create this <code>Runner</code>.
    *
    *  @return an array of argument that is used to create this Runner.
    */
   def args: Array[String]
 
-  /** Ported from Scala.js
+  /**
+   * Ported from Scala.js
    *  Scala Native specific: Invoked on the controller <code>Runner</code>, if a worker
    *  sends a message (through the channel provided by the client).
    *
@@ -113,7 +118,8 @@ trait Runner {
    */
   def receiveMessage(msg: String): Option[String]
 
-  /** Ported from Scala.js
+  /**
+   * Ported from Scala.js
    *  Scala Native specific: Serialize a task created by <code>tasks</code> or
    *  returned from <code>execute</code>.
    *
@@ -123,7 +129,8 @@ trait Runner {
    */
   def serializeTask(task: Task, serializer: TaskDef => String): String
 
-  /** Ported from Scala.js
+  /**
+   * Ported from Scala.js
    *  Scala Native specific: Deserialize a task that has been serialized by
    *  <code>serializeTask</code> of another or this <code>Runner</code>.
    *

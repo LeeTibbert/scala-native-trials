@@ -6,8 +6,8 @@ import scalanative.linker._
 import scalanative.util.unreachable
 
 trait Inline { self: Interflow =>
-  def shallInline(name: Global, args: Seq[Val])(
-      implicit state: State,
+  def shallInline(name: Global, args: Seq[Val])(implicit
+      state: State,
       linked: linker.Result): Boolean = {
     val maybeDefn = mode match {
       case build.Mode.Debug =>
@@ -129,9 +129,10 @@ trait Inline { self: Interflow =>
     }
   }
 
-  def inline(name: Global, args: Seq[Val])(implicit state: State,
-                                           linked: linker.Result,
-                                           origPos: Position): Val =
+  def inline(name: Global, args: Seq[Val])(implicit
+      state: State,
+      linked: linker.Result,
+      origPos: Position): Val =
     in(s"inlining ${name.show}") {
       val defn = mode match {
         case build.Mode.Debug =>

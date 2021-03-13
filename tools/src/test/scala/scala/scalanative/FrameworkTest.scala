@@ -12,10 +12,9 @@ class FrameworkTest extends codegen.CodeGenSpec with Matchers {
          """object A {
            |  def main(args: Array[String]): Unit =
            |    println("Hello, world!")
-           |}""".stripMargin) {
-      case (_, res) =>
-        val defNames = res.defns map (_.name)
-        defNames should contain(Global.Top("A$"))
+           |}""".stripMargin) { case (_, res) =>
+      val defNames = res.defns map (_.name)
+      defNames should contain(Global.Top("A$"))
     }
   }
 
@@ -27,11 +26,10 @@ class FrameworkTest extends codegen.CodeGenSpec with Matchers {
                      |}""".stripMargin
     )
 
-    link("B$", sources) {
-      case (_, res) =>
-        val defNames = res.defns map (_.name)
-        defNames should contain(Global.Top("A"))
-        defNames should contain(Global.Top("B$"))
+    link("B$", sources) { case (_, res) =>
+      val defNames = res.defns map (_.name)
+      defNames should contain(Global.Top("A"))
+      defNames should contain(Global.Top("B$"))
     }
   }
 }

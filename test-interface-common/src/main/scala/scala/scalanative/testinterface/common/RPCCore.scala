@@ -10,7 +10,8 @@ import scala.scalanative.testinterface.common.Serializer.{
 }
 import scala.util.{Failure, Success, Try}
 
-/** Core RPC dispatcher.
+/**
+ * Core RPC dispatcher.
  *
  *  Tracks and assigns call identities on top of a message passing interface.
  *
@@ -46,7 +47,8 @@ private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {
       def getPending(): Option[PendingCall] = {
         val callID = in.readLong()
 
-        /** Note that `callID` might not be in `pending` anymore if it got
+        /**
+         * Note that `callID` might not be in `pending` anymore if it got
          * removed during a close operation. In this case we're not doing
          * anything.
          */
@@ -72,7 +74,8 @@ private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {
         case _ =>
           endpoints.get(opCode) match {
             case null =>
-              /** Quick and dirty way to provide more error detail for certain
+              /**
+               * Quick and dirty way to provide more error detail for certain
                * known problems.
                * This is not ideal, but the best we can do, since we do not know
                * all possible opCodes we could receive (we'd need something like
@@ -190,7 +193,8 @@ private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {
     require(old != null, "Endpoint was not attached.")
   }
 
-  /** Close the communication channel.
+  /**
+   * Close the communication channel.
    *
    *  This only affects the current calls (i.e. the client part of the
    *  interface). Endpoint attachment is unaffected.

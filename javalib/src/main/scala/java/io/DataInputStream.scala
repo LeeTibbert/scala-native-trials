@@ -145,10 +145,10 @@ class DataInputStream(in: InputStream)
     rebuffer(sizeof[Short].toInt).getShort()
 
   override final def readUnsignedByte(): Int =
-    readByte() & 0xFF
+    readByte() & 0xff
 
   override final def readUnsignedShort(): Int =
-    rebuffer(sizeof[Short].toInt).getShort() & 0xFFFF
+    rebuffer(sizeof[Short].toInt).getShort() & 0xffff
 
   def readUTF(): String =
     DataInputStream.readUTF(this)

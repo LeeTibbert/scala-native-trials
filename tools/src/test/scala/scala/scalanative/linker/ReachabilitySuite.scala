@@ -45,8 +45,8 @@ trait ReachabilitySuite extends AnyFunSuite {
     Scope { implicit in =>
       val outDir   = Files.createTempDirectory("native-test-out")
       val compiler = NIRCompiler.getCompiler(outDir)
-      val sourceMap = sources.zipWithIndex.map {
-        case (b, i) => (s"file$i.scala", b)
+      val sourceMap = sources.zipWithIndex.map { case (b, i) =>
+        (s"file$i.scala", b)
       }.toMap
       val sourcesDir = NIRCompiler.writeSources(sourceMap)
       val files      = compiler.compile(sourcesDir)

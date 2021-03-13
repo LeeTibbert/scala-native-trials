@@ -19,8 +19,10 @@ object URLEncoder {
     def loop(i: Int): Unit = {
       if (i < s.length) {
         val ch = s.charAt(i)
-        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || " .-*_"
-              .indexOf(ch) > -1) {
+        if (
+          (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || " .-*_"
+            .indexOf(ch) > -1
+        ) {
           if (start >= 0) {
             convert(s.substring(start, i), buf, enc)
             start = -1

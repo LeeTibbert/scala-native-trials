@@ -14,8 +14,10 @@ abstract class ComparisonCriteria {
                           expecteds: AnyRef,
                           actuals: AnyRef,
                           outer: Boolean): Unit = {
-    if (expecteds != actuals &&
-        !java.util.Arrays.deepEquals(Array(expecteds), Array(actuals))) {
+    if (
+      expecteds != actuals &&
+      !java.util.Arrays.deepEquals(Array(expecteds), Array(actuals))
+    ) {
 
       val header = if (message == null) "" else s"$message: "
 

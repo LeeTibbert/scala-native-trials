@@ -15,7 +15,7 @@ class ByteArrayInputStream(protected val buf: Array[Byte],
     if (pos >= count)
       -1
     else {
-      val res = buf(pos) & 0xFF // convert to unsigned int
+      val res = buf(pos) & 0xff // convert to unsigned int
       pos += 1
       res
     }

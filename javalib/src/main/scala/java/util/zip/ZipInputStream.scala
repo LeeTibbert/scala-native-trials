@@ -242,8 +242,10 @@ class ZipInputStream(_in: InputStream, charset: Charset)
       return -1
     }
     // avoid int overflow, check null buffer
-    if (start > buffer.length || length < 0 || start < 0
-        || buffer.length - start < length) {
+    if (
+      start > buffer.length || length < 0 || start < 0
+      || buffer.length - start < length
+    ) {
       throw new ArrayIndexOutOfBoundsException()
     }
 
@@ -326,14 +328,14 @@ class ZipInputStream(_in: InputStream, charset: Charset)
     new ZipEntry(name)
 
   private def getShort(buffer: Array[Byte], off: Int): Int =
-    (buffer(off) & 0xFF) | ((buffer(off + 1) & 0xFF) << 8)
+    (buffer(off) & 0xff) | ((buffer(off + 1) & 0xff) << 8)
 
   private def getLong(buffer: Array[Byte], off: Int): Long = {
     var l = 0L
-    l |= (buffer(off) & 0xFF)
-    l |= (buffer(off + 1) & 0xFF) << 8
-    l |= (buffer(off + 2) & 0xFF) << 16
-    l |= (buffer(off + 3) & 0xFF).toLong << 24
+    l |= (buffer(off) & 0xff)
+    l |= (buffer(off + 1) & 0xff) << 8
+    l |= (buffer(off + 2) & 0xff) << 16
+    l |= (buffer(off + 3) & 0xff).toLong << 24
     l
   }
 
@@ -354,11 +356,11 @@ class ZipInputStream(_in: InputStream, charset: Charset)
 
         val b = buf(count)
         count += 1
-        if ((b & 0xC0) != 0x80)
+        if ((b & 0xc0) != 0x80)
           throw new UTFDataFormatException(
             s"Second byte at ${count - 1} doesn't match UTF8 specification.")
 
-        out(s) = (((a & 0x1F) << 6) | (b & 0x3F)).toChar
+        out(s) = (((a & 0x1f) << 6) | (b & 0x3f)).toChar
         s += 1
       } else if ((a & 0xf0) == 0xe0) {
         if (count + 1 >= utfSize)
@@ -369,11 +371,11 @@ class ZipInputStream(_in: InputStream, charset: Charset)
         count += 1
         val c = buf(count)
         count += 1
-        if (((b & 0xC0) != 0x80) || ((c & 0xC0) != 0x80))
+        if (((b & 0xc0) != 0x80) || ((c & 0xc0) != 0x80))
           throw new UTFDataFormatException(
             s"Second or third byte at ${count - 2} doesnt match UTF8 specification.")
 
-        out(s) = (((a & 0x0F) << 12) | ((b & 0x3F) << 6) | (c & 0x3F)).toChar
+        out(s) = (((a & 0x0f) << 12) | ((b & 0x3f) << 6) | (c & 0x3f)).toChar
         s += 1
       } else {
         throw new UTFDataFormatException(

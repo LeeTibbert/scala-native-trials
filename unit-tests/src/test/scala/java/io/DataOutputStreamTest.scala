@@ -106,10 +106,10 @@ class DataOutputStreamTest {
 
     checker.check(
       0x00, 0x48, // H
-      0x00, 0xF6, // ö
-      0x00, 0x6C, // l
-      0x00, 0x6C, // l
-      0x00, 0xF6, // ö
+      0x00, 0xf6, // ö
+      0x00, 0x6c, // l
+      0x00, 0x6c, // l
+      0x00, 0xf6, // ö
       0x00, 0x20, // [space]
       0x00, 0x57, // W
       0x01, 0x03, // ă
@@ -208,10 +208,10 @@ class DataOutputStreamTest {
 
     checker.check(
       0x48, // H
-      0xF6, // ö
-      0x6C, // l
-      0x6C, // l
-      0xF6, // ö
+      0xf6, // ö
+      0x6c, // l
+      0x6c, // l
+      0xf6, // ö
       0x20, // [space]
       0x57, // W
       0x03, // ă
@@ -228,10 +228,10 @@ class DataOutputStreamTest {
 
     checker.check(
       0x00, 0x48, // H
-      0x00, 0xF6, // ö
-      0x00, 0x6C, // l
-      0x00, 0x6C, // l
-      0x00, 0xF6, // ö
+      0x00, 0xf6, // ö
+      0x00, 0x6c, // l
+      0x00, 0x6c, // l
+      0x00, 0xf6, // ö
       0x00, 0x20, // [space]
       0x00, 0x57, // W
       0x01, 0x03, // ă
@@ -264,7 +264,7 @@ class DataOutputStreamTest {
       longString = longString + longString
 
     assertThrows(classOf[UTFDataFormatException], {
-      stream.writeUTF(longString)
-    })
+                   stream.writeUTF(longString)
+                 })
   }
 }

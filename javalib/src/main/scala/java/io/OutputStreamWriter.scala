@@ -14,14 +14,16 @@ class OutputStreamWriter(private[this] var out: OutputStream,
 
   private[this] var closed: Boolean = false
 
-  /** Incoming buffer: pending Chars that have been written to this instance
+  /**
+   * Incoming buffer: pending Chars that have been written to this instance
    *  of OutputStreamWriter, but not yet encoded.
    *  Normally, this should always be at most 1 Char, if it is a high surrogate
    *  which ended up alone at the end of the input of a write().
    */
   private[this] var inBuf: String = ""
 
-  /** Outgoing buffer: Bytes that have been decoded (from `inBuf`), but not
+  /**
+   * Outgoing buffer: Bytes that have been decoded (from `inBuf`), but not
    *  yet written to the underlying output stream.
    *  The valid bytes are between 0 and outBuf.position.
    */
@@ -162,7 +164,8 @@ class OutputStreamWriter(private[this] var out: OutputStream,
     }
   }
 
-  /** Flushes the internal buffer of this writer, but not the underlying
+  /**
+   * Flushes the internal buffer of this writer, but not the underlying
    *  output stream.
    */
   private[io] def flushBuffer(): Unit = {

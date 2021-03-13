@@ -55,9 +55,11 @@ class Prog {
     }
 
     // Have prefix gather characters.
-    while (i.runeOp() == IOP.RUNE &&
-           i.runes.length == 1 &&
-           (i.arg & RE2.FOLD_CASE) == 0) {
+    while (
+      i.runeOp() == IOP.RUNE &&
+      i.runes.length == 1 &&
+      (i.arg & RE2.FOLD_CASE) == 0
+    ) {
       prefix.appendCodePoint(i.runes(0)) // an int, not a byte.
       i = skipNop(i.out)
     }

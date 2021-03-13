@@ -34,9 +34,11 @@ class CheckedInputStream(in: InputStream, cksum: Checksum)
       val b             = new Array[Byte](Math.min(nbytes, 2048L).toInt)
       var x, v          = 0
       while (skipped != nbytes) {
-        x = in.read(b, 0, {
-          v = (nbytes - skipped).toInt; if (v > b.length) b.length else v
-        })
+        x = in.read(b,
+                    0, {
+                      v = (nbytes - skipped).toInt;
+                      if (v > b.length) b.length else v
+                    })
         if (x == -1) {
           return skipped
         }

@@ -54,19 +54,17 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {
     infos.values.foreach {
       case cls: Class =>
         val responds = cls.responds.toArray
-        responds.foreach {
-          case (sig, name) =>
-            if (!done.contains(name)) {
-              cls.responds -= sig
-            }
+        responds.foreach { case (sig, name) =>
+          if (!done.contains(name)) {
+            cls.responds -= sig
+          }
         }
 
         val defaultResponds = cls.defaultResponds.toArray
-        defaultResponds.foreach {
-          case (sig, name) =>
-            if (!done.contains(name)) {
-              cls.defaultResponds -= sig
-            }
+        defaultResponds.foreach { case (sig, name) =>
+          if (!done.contains(name)) {
+            cls.defaultResponds -= sig
+          }
         }
 
       case _ =>
@@ -716,8 +714,10 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {
       case Rt.ScalaEqualsSig =>
         val scalaImpl = lookupSig(cls, Rt.ScalaEqualsSig).get
         val javaImpl  = lookupSig(cls, Rt.JavaEqualsSig).get
-        if (javaImpl.top != Rt.Object.name &&
-            scalaImpl.top == Rt.Object.name) {
+        if (
+          javaImpl.top != Rt.Object.name &&
+          scalaImpl.top == Rt.Object.name
+        ) {
           Some(javaImpl)
         } else {
           Some(scalaImpl)
@@ -725,8 +725,10 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {
       case Rt.ScalaHashCodeSig =>
         val scalaImpl = lookupSig(cls, Rt.ScalaHashCodeSig).get
         val javaImpl  = lookupSig(cls, Rt.JavaHashCodeSig).get
-        if (javaImpl.top != Rt.Object.name &&
-            scalaImpl.top == Rt.Object.name) {
+        if (
+          javaImpl.top != Rt.Object.name &&
+          scalaImpl.top == Rt.Object.name
+        ) {
           Some(javaImpl)
         } else {
           Some(scalaImpl)
@@ -747,14 +749,13 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {
     if (missing.nonEmpty) {
       val log = config.logger
       log.error(s"Found ${missing.size} missing definitions while linking")
-      missing.foreach {
-        case (global, positions) =>
-          log.error(s"Not found $global")
-          positions.toList
-            .sortBy(p => (p.path, p.line))
-            .foreach { pos =>
-              log.error(s"\tat ${pos.path.toString}:${pos.line}")
-            }
+      missing.foreach { case (global, positions) =>
+        log.error(s"Not found $global")
+        positions.toList
+          .sortBy(p => (p.path, p.line))
+          .foreach { pos =>
+            log.error(s"\tat ${pos.path.toString}:${pos.line}")
+          }
       }
       throw new LinkingException(
         "Undefined definitions found in reachability phase")

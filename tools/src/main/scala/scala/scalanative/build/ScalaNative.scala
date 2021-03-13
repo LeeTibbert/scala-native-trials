@@ -12,7 +12,8 @@ import scala.scalanative.util.Scope
 /** Internal utilities to instrument Scala Native linker, optimizer and codegen. */
 private[scalanative] object ScalaNative {
 
-  /** Compute all globals that must be reachable
+  /**
+   * Compute all globals that must be reachable
    *  based on given configuration.
    */
   def entries(config: Config): Seq[Global] = {
@@ -23,11 +24,12 @@ private[scalanative] object ScalaNative {
     entry +: CodeGen.depends
   }
 
-  /** Given the classpath and main entry point, link under closed-world
+  /**
+   * Given the classpath and main entry point, link under closed-world
    *  assumption.
    */
-  def link(config: Config, entries: Seq[Global])(
-      implicit scope: Scope): linker.Result =
+  def link(config: Config, entries: Seq[Global])(implicit
+      scope: Scope): linker.Result =
     dump(config, "linked") {
       check(config) {
         config.logger.time("Linking")(Link(config, entries))
@@ -108,29 +110,27 @@ private[scalanative] object ScalaNative {
               grouped.getOrElseUpdate(err.name, mutable.UnrolledBuffer.empty)
             errs += err
           }
-          grouped.foreach {
-            case (name, errs) =>
-              warn("")
-              warn(s"Found ${errs.length} errors on ${name.show} :")
-              warn("")
-              linked.defns
-                .collectFirst {
-                  case defn if defn != null && defn.name == name => defn
-                }
-                .foreach { defn =>
-                  val str   = defn.show
-                  val lines = str.split("\n")
-                  lines.zipWithIndex.foreach {
-                    case (line, idx) =>
-                      warn(String
-                        .format("  %04d  ", java.lang.Integer.valueOf(idx)) + line)
-                  }
-                }
-              warn("")
-              errs.foreach { err =>
-                warn("  in " + err.ctx.reverse.mkString(" / ") + " : ")
-                warn("    " + err.msg)
+          grouped.foreach { case (name, errs) =>
+            warn("")
+            warn(s"Found ${errs.length} errors on ${name.show} :")
+            warn("")
+            linked.defns
+              .collectFirst {
+                case defn if defn != null && defn.name == name => defn
               }
+              .foreach { defn =>
+                val str   = defn.show
+                val lines = str.split("\n")
+                lines.zipWithIndex.foreach { case (line, idx) =>
+                  warn(String
+                    .format("  %04d  ", java.lang.Integer.valueOf(idx)) + line)
+                }
+              }
+            warn("")
+            errs.foreach { err =>
+              warn("  in " + err.ctx.reverse.mkString(" / ") + " : ")
+              warn("    " + err.msg)
+            }
 
           }
           warn("")

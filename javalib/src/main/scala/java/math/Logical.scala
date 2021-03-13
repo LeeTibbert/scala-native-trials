@@ -25,7 +25,8 @@ package java.math
 
 import scala.annotation.tailrec
 
-/** Logical operations over {@code BigInteger}.
+/**
+ * Logical operations over {@code BigInteger}.
  *
  *  The library implements some logical operations over {@code BigInteger}. The
  *  operations provided are listed below.
@@ -753,9 +754,11 @@ private[math] object Logical {
       if (digit == 0) {
         val limit = Math.min(positive.numberLength, negative.numberLength)
         i += 1
-        while (i < limit && {
-                 digit = positive.digits(i) ^ ~negative.digits(i); digit
-               } == 0) {
+        while (
+          i < limit && {
+            digit = positive.digits(i) ^ ~negative.digits(i); digit
+          } == 0
+        ) {
           i += 1
         }
         if (digit == 0) {

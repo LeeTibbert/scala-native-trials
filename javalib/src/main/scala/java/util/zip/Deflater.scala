@@ -11,7 +11,9 @@ class Deflater(private var compressLevel: Int, noHeader: Boolean) {
   def this(compressLevel: Int) = this(compressLevel, noHeader = false)
   def this() = this(Deflater.DEFAULT_COMPRESSION)
 
-  if (compressLevel < Deflater.DEFAULT_COMPRESSION || compressLevel > Deflater.BEST_COMPRESSION) {
+  if (
+    compressLevel < Deflater.DEFAULT_COMPRESSION || compressLevel > Deflater.BEST_COMPRESSION
+  ) {
     throw new IllegalArgumentException()
   }
 
@@ -35,7 +37,9 @@ class Deflater(private var compressLevel: Int, noHeader: Boolean) {
       throw new IllegalStateException()
     }
     // avoid int overflow, check null buf
-    if (off > buf.length || nbytes < 0 || off < 0 || buf.length - off < nbytes) {
+    if (
+      off > buf.length || nbytes < 0 || off < 0 || buf.length - off < nbytes
+    ) {
       throw new ArrayIndexOutOfBoundsException()
     }
     // put a stub buffer, no effect
@@ -134,7 +138,9 @@ class Deflater(private var compressLevel: Int, noHeader: Boolean) {
   def setDictionary(buf: Array[Byte], off: Int, nbytes: Int): Unit =
     if (stream == null) {
       throw new IllegalStateException()
-    } else if (off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes) {
+    } else if (
+      off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes
+    ) {
       val bytes = buf.asInstanceOf[ByteArray].at(off)
       val err   = zlib.deflateSetDictionary(stream, bytes, nbytes.toUInt)
       if (err != zlib.Z_OK) {
@@ -150,7 +156,9 @@ class Deflater(private var compressLevel: Int, noHeader: Boolean) {
   def setInput(buf: Array[Byte], off: Int, nbytes: Int): Unit =
     if (stream == null) {
       throw new IllegalStateException()
-    } else if (off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes) {
+    } else if (
+      off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes
+    ) {
       inLength = nbytes
       inRead = 0
       if (inputBuffer == null) {
@@ -172,14 +180,18 @@ class Deflater(private var compressLevel: Int, noHeader: Boolean) {
     }
 
   def setLevel(level: Int): Unit =
-    if (level < Deflater.DEFAULT_COMPRESSION || level > Deflater.BEST_COMPRESSION) {
+    if (
+      level < Deflater.DEFAULT_COMPRESSION || level > Deflater.BEST_COMPRESSION
+    ) {
       throw new IllegalArgumentException()
     } else {
       compressLevel = level
     }
 
   def setStrategy(strategy: Int): Unit =
-    if (strategy < Deflater.DEFAULT_STRATEGY || strategy > Deflater.HUFFMAN_ONLY) {
+    if (
+      strategy < Deflater.DEFAULT_STRATEGY || strategy > Deflater.HUFFMAN_ONLY
+    ) {
       throw new IllegalArgumentException()
     } else {
       this.strategy = strategy

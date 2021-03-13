@@ -132,19 +132,25 @@ class Compiler private () {
     i.arg = flags
     f.out = f.i << 1
     // Special cases for exec machine.
-    if ((flags & RE2.FOLD_CASE) == 0 && runes.length == 1 ||
-        runes.length == 2 &&
-        runes(0) == runes(1)) {
+    if (
+      (flags & RE2.FOLD_CASE) == 0 && runes.length == 1 ||
+      runes.length == 2 &&
+      runes(0) == runes(1)
+    ) {
       i.op = IOP.RUNE1
-    } else if (runes.length == 2 &&
-               runes(0) == 0 &&
-               runes(1) == Unicode.MAX_RUNE) {
+    } else if (
+      runes.length == 2 &&
+      runes(0) == 0 &&
+      runes(1) == Unicode.MAX_RUNE
+    ) {
       i.op = IOP.RUNE_ANY
-    } else if (runes.length == 4 &&
-               runes(0) == 0 &&
-               runes(1) == '\n' - 1 &&
-               runes(2) == '\n' + 1 &&
-               runes(3) == Unicode.MAX_RUNE) {
+    } else if (
+      runes.length == 4 &&
+      runes(0) == 0 &&
+      runes(1) == '\n' - 1 &&
+      runes(2) == '\n' + 1 &&
+      runes(3) == Unicode.MAX_RUNE
+    ) {
       i.op = IOP.RUNE_ANY_NOT_NL
     }
     f

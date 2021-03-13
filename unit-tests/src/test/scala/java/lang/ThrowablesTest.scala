@@ -136,14 +136,15 @@ class ThrowablesTest {
 
   @Test def addSuppressedExceptionInvalidArguments(): Unit = {
     assertThrows(classOf[java.lang.NullPointerException], {
-      val throwable = new Throwable()
-      throwable.addSuppressed(null)
-    })
+                   val throwable = new Throwable()
+                   throwable.addSuppressed(null)
+                 })
 
     assertThrows(classOf[java.lang.IllegalArgumentException], {
-      val throwable = new Throwable("Expect IllegalArgumentException")
-      throwable.addSuppressed(throwable)
-    })
+                   val throwable =
+                     new Throwable("Expect IllegalArgumentException")
+                   throwable.addSuppressed(throwable)
+                 })
   }
 
   @Test def addSuppressedExceptionEnabledEqualsTrue(): Unit = {
@@ -187,14 +188,14 @@ class ThrowablesTest {
 
   @Test def initCauseCauseCasesWhichThrowAnException(): Unit = {
     assertThrows(classOf[java.lang.IllegalArgumentException], {
-      val throwable = new Throwable()
-      throwable.initCause(throwable)
-    })
+                   val throwable = new Throwable()
+                   throwable.initCause(throwable)
+                 })
 
     assertThrows(classOf[java.lang.IllegalStateException], {
-      val throwable = new Throwable(new Throwable("Lyta-Zod"))
-      throwable.initCause(new Throwable("Jayna-Zod"))
-    })
+                   val throwable = new Throwable(new Throwable("Lyta-Zod"))
+                   throwable.initCause(new Throwable("Jayna-Zod"))
+                 })
 
     locally {
       val throwable = new Throwable()
@@ -238,9 +239,9 @@ class ThrowablesTest {
 
   @Test def setStackTraceStackTraceInvalidArguments(): Unit = {
     assertThrows(classOf[java.lang.NullPointerException], {
-      val throwable = new Throwable()
-      throwable.setStackTrace(null)
-    })
+                   val throwable = new Throwable()
+                   throwable.setStackTrace(null)
+                 })
 
     assertThrows(
       classOf[java.lang.NullPointerException], {

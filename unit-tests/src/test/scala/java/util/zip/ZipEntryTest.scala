@@ -111,7 +111,7 @@ class ZipEntryTest {
     assertTrue(zentry.getComment() == null)
     val s = new StringBuffer()
     var i = 0
-    while (i < 0xFFFF) {
+    while (i < 0xffff) {
       s.append('a')
       i += 1
     }
@@ -155,17 +155,19 @@ class ZipEntryTest {
     zentry = zfile.getEntry("File1.txt")
     zentry.setExtra("Test setting extra information".getBytes())
     assertTrue(
-      new String(zentry.getExtra(), 0, zentry.getExtra().length) == "Test setting extra information")
+      new String(zentry.getExtra(),
+                 0,
+                 zentry.getExtra().length) == "Test setting extra information")
 
     zentry = new ZipEntry("test.tst")
-    var ba = new Array[Byte](0xFFFF)
+    var ba = new Array[Byte](0xffff)
     zentry.setExtra(ba)
     assertTrue(zentry.getExtra() == ba)
 
     assertThrows(classOf[IllegalArgumentException], {
-      ba = new Array[Byte](0xFFFF + 1)
-      zentry.setExtra(ba)
-    })
+                   ba = new Array[Byte](0xffff + 1)
+                   zentry.setExtra(ba)
+                 })
 
     val zeInput = new ZipEntry("InputZip")
     val extraB  = Array[Byte]('a', 'b', 'd', 'e')
@@ -191,9 +193,9 @@ class ZipEntryTest {
 
     val error = 1
     assertThrows(classOf[IllegalArgumentException], {
-      zentry = new ZipEntry("test.tst")
-      zentry.setMethod(error)
-    })
+                   zentry = new ZipEntry("test.tst")
+                   zentry.setMethod(error)
+                 })
   }
 
   @Test def setSizeLong(): Unit = {

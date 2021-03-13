@@ -3,7 +3,8 @@ package sbt.testing
 import java.util.Arrays
 import java.io.Serializable
 
-/** A bundle of information used to request a <code>Task</code> from a test
+/**
+ * A bundle of information used to request a <code>Task</code> from a test
  *  framework.
  *
  *  An array of <code>TaskDef</code> is passed to
@@ -71,17 +72,20 @@ final class TaskDef(_fullyQualifiedName: String,
   if (_selectors == null)
     throw new NullPointerException("selectors was null");
 
-  /** The fully qualified name of the test class requested by this
+  /**
+   * The fully qualified name of the test class requested by this
    *  <code>TaskDef</code>.
    */
   def fullyQualifiedName(): String = _fullyQualifiedName
 
-  /** The fingerprint that the test class requested by this
+  /**
+   * The fingerprint that the test class requested by this
    *  <code>TaskDef</code> matches.
    */
   def fingerprint(): Fingerprint = _fingerprint
 
-  /** Indicates whether or not the test class requested by this
+  /**
+   * Indicates whether or not the test class requested by this
    *  <code>TaskDef</code> was "explicitly specified."
    *
    *  For more information on what explicitly specified means, see the main
@@ -89,7 +93,8 @@ final class TaskDef(_fullyQualifiedName: String,
    */
   def explicitlySpecified(): Boolean = _explicitlySpecified
 
-  /** One to many selectors describing the nature of the <code>Task</code>
+  /**
+   * One to many selectors describing the nature of the <code>Task</code>
    *  requested by this <code>TaskDef</code>.
    *
    *  A <code>Selector</code> can indicate a direct, such as command-line,

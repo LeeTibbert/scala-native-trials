@@ -166,8 +166,10 @@ trait NirGenStat[G <: nsc.Global with Singleton] { self: NirGenPhase[G] =>
       val sym   = cd.symbol
       val attrs = nir.Attrs(isExtern = sym.isExternModule)
 
-      for (f <- sym.info.decls
-           if !f.isMethod && f.isTerm && !f.isModule) {
+      for (
+        f <- sym.info.decls
+        if !f.isMethod && f.isTerm && !f.isModule
+      ) {
         val ty                = genType(f.tpe)
         val name              = genFieldName(f)
         val pos: nir.Position = f.pos
@@ -261,11 +263,11 @@ trait NirGenStat[G <: nsc.Global with Singleton] { self: NirGenPhase[G] =>
     }
 
     // Allocate and construct an object, using the provided ExprBuffer.
-    private def allocAndConstruct(
-        exprBuf: ExprBuffer,
-        name: Global,
-        argTypes: Seq[nir.Type],
-        args: Seq[Val])(implicit pos: nir.Position): Val = {
+    private def allocAndConstruct(exprBuf: ExprBuffer,
+                                  name: Global,
+                                  argTypes: Seq[nir.Type],
+                                  args: Seq[Val])(implicit
+        pos: nir.Position): Val = {
 
       val alloc = exprBuf.classalloc(name, unwind(curFresh))
       exprBuf.call(
@@ -352,17 +354,17 @@ trait NirGenStat[G <: nsc.Global with Singleton] { self: NirGenPhase[G] =>
       val fqSymName = Global.Top(fqSymId)
 
       // Create a new Tuple2 and initialise it with the provided values.
-      def createTuple2(exprBuf: ExprBuffer, _1: Val, _2: Val)(
-          implicit pos: nir.Position): Val = {
+      def createTuple2(exprBuf: ExprBuffer, _1: Val, _2: Val)(implicit
+          pos: nir.Position): Val = {
         allocAndConstruct(exprBuf,
                           tuple2,
                           Seq(jlObjectRef, jlObjectRef),
                           Seq(_1, _2))
       }
 
-      def genClassConstructorsInfo(
-          exprBuf: ExprBuffer,
-          ctors: Seq[global.Symbol])(implicit pos: nir.Position): Val = {
+      def genClassConstructorsInfo(exprBuf: ExprBuffer,
+                                   ctors: Seq[global.Symbol])(implicit
+          pos: nir.Position): Val = {
         val applyMethodSig =
           Sig.Method("apply", Seq(jlObjectRef, jlObjectRef))
 

@@ -6,7 +6,8 @@ final class OptionalThrowable(private val exception: Throwable)
 
   def this() = this(null)
 
-  /** Indicates whether this <code>OptionalThrowable</code> is "defined,"
+  /**
+   * Indicates whether this <code>OptionalThrowable</code> is "defined,"
    *  <em>i.e.</em>, contains a <code>Throwable</code>.
    *
    * @return true if this <code>OptionalThrowable</code> contains a
@@ -14,7 +15,8 @@ final class OptionalThrowable(private val exception: Throwable)
    */
   def isDefined(): Boolean = exception != null
 
-  /** Indicates whether this <code>OptionalThrowable</code> is "empty,"
+  /**
+   * Indicates whether this <code>OptionalThrowable</code> is "empty,"
    *  <em>i.e.</em>, contains no <code>Throwable</code>.
    *
    *  @return true if this <code>OptionalThrowable</code> contains no
@@ -22,7 +24,8 @@ final class OptionalThrowable(private val exception: Throwable)
    */
   def isEmpty(): Boolean = exception == null
 
-  /** Returns the <code>Throwable</code> contained in this
+  /**
+   * Returns the <code>Throwable</code> contained in this
    *  <code>OptionalThrowable</code> if defined, else throws
    *  <code>IllegalStateException</code>.
    *

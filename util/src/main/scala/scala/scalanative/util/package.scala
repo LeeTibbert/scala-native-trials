@@ -2,13 +2,15 @@ package scala.scalanative
 
 package object util {
 
-  /** Marker methods, called whenever a specific control-flow branch
+  /**
+   * Marker methods, called whenever a specific control-flow branch
    *  should never happen.
    */
   def unreachable: Nothing =
     throw UnreachableException
 
-  /** Marker method, called whenever a specific control-flow branch
+  /**
+   * Marker method, called whenever a specific control-flow branch
    *  is not supported.
    */
   def unsupported(v: Any): Nothing =

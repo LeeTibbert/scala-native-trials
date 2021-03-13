@@ -14,7 +14,8 @@ class InputStreamReader(private[this] var in: InputStream,
 
   private[this] var closed: Boolean = false
 
-  /** Buffer in which to read bytes from the underlying input stream.
+  /**
+   * Buffer in which to read bytes from the underlying input stream.
    *
    *  Class invariant: contains bytes already read from `in` but not yet
    *  decoded.
@@ -22,12 +23,14 @@ class InputStreamReader(private[this] var in: InputStream,
   private[this] var inBuf: ByteBuffer = ByteBuffer.allocate(4096)
   inBuf.limit(0)
 
-  /** Tells whether the end of the underlying input stream has been reached.
+  /**
+   * Tells whether the end of the underlying input stream has been reached.
    *  Class invariant: if true, then `in.read()` has returned -1.
    */
   private[this] var endOfInput: Boolean = false
 
-  /** Buffer in which to decode bytes into chars.
+  /**
+   * Buffer in which to decode bytes into chars.
    *  Usually, it is not used, because we try to decode directly to the
    *  destination array. So as long as we do not really need one, we share
    *  an empty buffer.
@@ -230,7 +233,8 @@ class InputStreamReader(private[this] var in: InputStream,
 object InputStreamReader {
   private final val Overflow = -2
 
-  /** Empty CharBuffer shared by all InputStreamReaders as long as they do
+  /**
+   * Empty CharBuffer shared by all InputStreamReaders as long as they do
    *  not really need one.
    *  Since we do not use `mark()`, it is fine to share them, because `mark()`
    *  is the only piece of mutable state for an empty buffer. Everything else

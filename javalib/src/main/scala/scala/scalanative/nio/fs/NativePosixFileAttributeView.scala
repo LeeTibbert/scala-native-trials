@@ -46,8 +46,8 @@ final class NativePosixFileAttributeView(path: Path, options: Array[LinkOption])
   override def setPermissions(perms: Set[PosixFilePermission]): Unit =
     Zone { implicit z =>
       var mask = 0.toUInt
-      NativePosixFileAttributeView.permMap.foreach {
-        case (flag, value) => if (perms.contains(value)) mask = mask | flag
+      NativePosixFileAttributeView.permMap.foreach { case (flag, value) =>
+        if (perms.contains(value)) mask = mask | flag
       }
       if (stat.chmod(toCString(path.toString), mask) != 0) {
         throwIOException()
@@ -142,9 +142,8 @@ final class NativePosixFileAttributeView(path: Path, options: Array[LinkOption])
 
       override def permissions() = {
         val set = new HashSet[PosixFilePermission]
-        NativePosixFileAttributeView.permMap.foreach {
-          case (flag, value) =>
-            if ((st_mode & flag).toInt != 0) set.add(value)
+        NativePosixFileAttributeView.permMap.foreach { case (flag, value) =>
+          if ((st_mode & flag).toInt != 0) set.add(value)
         }
         set
       }

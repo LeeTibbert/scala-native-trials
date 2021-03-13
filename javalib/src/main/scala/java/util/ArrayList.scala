@@ -151,8 +151,10 @@ class ArrayList[E] private (private[this] var inner: Array[Any],
 
     // JVM documents fromIndex == toIndex as having 'no effect'
     if (fromIndex != toIndex) {
-      if ((fromIndex < 0) || (fromIndex >= _size) || (toIndex > size())
-          || (toIndex < fromIndex)) {
+      if (
+        (fromIndex < 0) || (fromIndex >= _size) || (toIndex > size())
+        || (toIndex < fromIndex)
+      ) {
         // N.B.: JVM docs specify IndexOutOfBounds but use de facto.
         throw new ArrayIndexOutOfBoundsException()
       } else {

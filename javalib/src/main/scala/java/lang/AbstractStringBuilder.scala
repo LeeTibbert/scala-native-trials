@@ -261,8 +261,10 @@ abstract class AbstractStringBuilder private (unit: Unit) {
                     start: scala.Int,
                     end: scala.Int): Unit = {
     val chars0 = if (chars != null) chars else "null"
-    if (index < 0 || index > count || start < 0 || end < 0 || start > end ||
-        end > chars0.length()) {
+    if (
+      index < 0 || index > count || start < 0 || end < 0 || start > end ||
+      end > chars0.length()
+    ) {
       throw new IndexOutOfBoundsException()
     }
     insert0(index, chars0.subSequence(start, end).toString)
@@ -478,8 +480,10 @@ abstract class AbstractStringBuilder private (unit: Unit) {
       return ""
     }
     val wasted = value.length - count
-    if (wasted >= 256 ||
-        (wasted >= INITIAL_CAPACITY && wasted >= (count >> 1))) {
+    if (
+      wasted >= 256 ||
+      (wasted >= INITIAL_CAPACITY && wasted >= (count >> 1))
+    ) {
       return new String(value, 0, count)
     }
     shared = true

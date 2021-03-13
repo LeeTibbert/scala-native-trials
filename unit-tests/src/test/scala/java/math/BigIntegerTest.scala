@@ -14,9 +14,9 @@ class BigIntegerTest {
   @Test def byteValueExactWithBigIntegerGreaterThanByteMaxValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = byteMaxBi.add(BigInteger.ONE)
-      bi.byteValueExact()
-    })
+                   val bi = byteMaxBi.add(BigInteger.ONE)
+                   bi.byteValueExact()
+                 })
   }
 
   @Test def byteValueExactWithBigIntegerEqualsByteMaxValueShouldNotThrow()
@@ -32,9 +32,9 @@ class BigIntegerTest {
   @Test def byteValueExactWithBigIntegerLessThanByteMinValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = byteMinBi.subtract(BigInteger.ONE)
-      bi.byteValueExact()
-    })
+                   val bi = byteMinBi.subtract(BigInteger.ONE)
+                   bi.byteValueExact()
+                 })
   }
 
 // intValueExact
@@ -45,9 +45,9 @@ class BigIntegerTest {
   @Test def intValueExactWithBigIntegerGreaterThanIntegerMaxValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = intMaxBi.add(BigInteger.ONE)
-      bi.intValueExact()
-    })
+                   val bi = intMaxBi.add(BigInteger.ONE)
+                   bi.intValueExact()
+                 })
   }
 
   @Test def intValueExactWithBigIntegerEqualEqualIntegerMaxValueShouldNotThrow()
@@ -63,9 +63,9 @@ class BigIntegerTest {
   @Test def intValueExactWithBigIntegerLessThanIntegerMinValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = intMinBi.subtract(BigInteger.ONE)
-      bi.intValueExact()
-    })
+                   val bi = intMinBi.subtract(BigInteger.ONE)
+                   bi.intValueExact()
+                 })
   }
 
 // longValueExact
@@ -76,9 +76,9 @@ class BigIntegerTest {
   @Test def longValueExactWithBigIntegerGreaterThanLongMaxValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = longMaxBi.add(BigInteger.ONE)
-      bi.longValueExact()
-    })
+                   val bi = longMaxBi.add(BigInteger.ONE)
+                   bi.longValueExact()
+                 })
   }
 
   @Test def longValueExactWithBigIntegerEqualEqualLongMaxValueShouldNotThrow()
@@ -94,9 +94,9 @@ class BigIntegerTest {
   @Test def longValueExactWithBigIntegerLessThanLongMinValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = longMinBi.subtract(BigInteger.ONE)
-      bi.longValueExact()
-    })
+                   val bi = longMinBi.subtract(BigInteger.ONE)
+                   bi.longValueExact()
+                 })
   }
 
 // shortValueExact
@@ -107,9 +107,9 @@ class BigIntegerTest {
   @Test def shortValueExactWithBigIntegerGreaterThanShortMaxValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = shortMaxBi.add(BigInteger.ONE)
-      bi.shortValueExact()
-    })
+                   val bi = shortMaxBi.add(BigInteger.ONE)
+                   bi.shortValueExact()
+                 })
   }
 
   @Test def shortValueExactWithBigIntegerEqualEqualShortMaxValueShouldNotThrow()
@@ -125,9 +125,9 @@ class BigIntegerTest {
   @Test def shortValueExactWithBigIntegerLessThanShortMinValueShouldThrow()
       : Unit = {
     assertThrows(classOf[ArithmeticException], {
-      val bi = shortMinBi.subtract(BigInteger.ONE)
-      bi.shortValueExact()
-    })
+                   val bi = shortMinBi.subtract(BigInteger.ONE)
+                   bi.shortValueExact()
+                 })
   }
 
 //   __scala_==

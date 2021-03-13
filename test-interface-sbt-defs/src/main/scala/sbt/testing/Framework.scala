@@ -6,16 +6,19 @@ import scala.scalanative.reflect.annotation.EnableReflectiveInstantiation
 @EnableReflectiveInstantiation
 trait Framework {
 
-  /** A human-friendly name of the test framework that this object represents.
+  /**
+   * A human-friendly name of the test framework that this object represents.
    */
   def name(): String
 
-  /** An array of <a href="Fingerprint.html"><code>Fingerprint</code></a>s
+  /**
+   * An array of <a href="Fingerprint.html"><code>Fingerprint</code></a>s
    *  that specify how to identify test classes during discovery.
    */
   def fingerprints(): Array[Fingerprint]
 
-  /** Initiates a run.
+  /**
+   * Initiates a run.
    *
    *  If a client invokes this method before a previously initiated run has
    *  completed, the test framework may throw
@@ -35,7 +38,8 @@ trait Framework {
              remoteArgs: Array[String],
              testClassLoader: ClassLoader): Runner
 
-  /** Scala Native specific: Creates a worker for a given run.
+  /**
+   * Scala Native specific: Creates a worker for a given run.
    *  Ported from Scala.js
    *  The worker may send a message to the controller runner by calling `send`.
    *

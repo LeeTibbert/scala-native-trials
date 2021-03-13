@@ -75,15 +75,13 @@ class TraitDispatchTable(meta: Metadata) {
       table(meth * classesLength + cls)
 
     // Visit every class and enter all the trait sigs they support
-    classes.foreach {
-      case (cls, clsId) =>
-        sigs.foreach {
-          case (sig, sigId) =>
-            cls.resolve(sig).foreach { impl =>
-              val info = meta.linked.infos(impl).asInstanceOf[Method]
-              put(clsId, sigId, info.value)
-            }
+    classes.foreach { case (cls, clsId) =>
+      sigs.foreach { case (sig, sigId) =>
+        cls.resolve(sig).foreach { impl =>
+          val info = meta.linked.infos(impl).asInstanceOf[Method]
+          put(clsId, sigId, info.value)
         }
+      }
     }
 
     val (compressed, offsets) = compressTable(table, mins, sizes)
@@ -175,9 +173,8 @@ class TraitDispatchTable(meta: Metadata) {
       offset
     }
 
-    sizes.zipWithIndex.sortBy(-_._1).foreach {
-      case (_, sig) =>
-        offsets(sig) = allocate(sig) - mins(sig)
+    sizes.zipWithIndex.sortBy(-_._1).foreach { case (_, sig) =>
+      offsets(sig) = allocate(sig) - mins(sig)
     }
 
     val result = new Array[Val](current)

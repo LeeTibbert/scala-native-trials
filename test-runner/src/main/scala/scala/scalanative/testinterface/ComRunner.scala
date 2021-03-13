@@ -104,7 +104,8 @@ private[testinterface] class ComRunner(processRunner: ProcessRunner,
 
   def close(): Unit = synchronized {
     val oldState = state
-    state = Closing // Signal receiver thread that it is OK if socket read fails.
+    state =
+      Closing // Signal receiver thread that it is OK if socket read fails.
     oldState match {
       case c: Connected =>
         // Interrupts the receiver thread and signals the VM to terminate.

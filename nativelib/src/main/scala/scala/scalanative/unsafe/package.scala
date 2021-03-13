@@ -97,19 +97,22 @@ package object unsafe {
   /** C-style alignment operator. */
   @alwaysinline def alignmentof[T](implicit tag: Tag[T]): CSize = tag.alignment
 
-  /** Heap allocate and zero-initialize a value
+  /**
+   * Heap allocate and zero-initialize a value
    *  using current implicit allocator.
    */
   def alloc[T](implicit tag: Tag[T], z: Zone): Ptr[T] =
     macro MacroImpl.alloc1[T]
 
-  /** Heap allocate and zero-initialize n values
+  /**
+   * Heap allocate and zero-initialize n values
    *  using current implicit allocator.
    */
   def alloc[T](n: CSize)(implicit tag: Tag[T], z: Zone): Ptr[T] =
     macro MacroImpl.allocN[T]
 
-  /** Heap allocate and zero-initialize n values
+  /**
+   * Heap allocate and zero-initialize n values
    *  using current implicit allocator.
    *  This method takes argument of type `CSSize` for easier interop,
    *  but it' always converted into `CSize`
@@ -120,21 +123,24 @@ package object unsafe {
   def alloc[T](n: CSSize)(implicit tag: Tag[T], z: Zone): Ptr[T] =
     macro MacroImpl.allocN[T]
 
-  /** Stack allocate a value of given type.
+  /**
+   * Stack allocate a value of given type.
    *
    *  Note: unlike alloc, the memory is not zero-initialized.
    */
   def stackalloc[T](implicit tag: Tag[T]): Ptr[T] =
     macro MacroImpl.stackalloc1[T]
 
-  /** Stack allocate n values of given type.
+  /**
+   * Stack allocate n values of given type.
    *
    *  Note: unlike alloc, the memory is not zero-initialized.
    */
   def stackalloc[T](n: CSize)(implicit tag: Tag[T]): Ptr[T] =
     macro MacroImpl.stackallocN[T]
 
-  /** Stack allocate n values of given type.
+  /**
+   * Stack allocate n values of given type.
    *
    *  Note: unlike alloc, the memory is not zero-initialized.
    *  This method takes argument of type `CSSize` for easier interop,
@@ -183,13 +189,15 @@ package object unsafe {
     }
   }
 
-  /** Convert a java.lang.String to a CString using default charset and
+  /**
+   * Convert a java.lang.String to a CString using default charset and
    *  given allocator.
    */
   def toCString(str: String)(implicit z: Zone): CString =
     toCString(str, Charset.defaultCharset())(z)
 
-  /** Convert a java.lang.String to a CString using given charset and allocator.
+  /**
+   * Convert a java.lang.String to a CString using given charset and allocator.
    */
   def toCString(str: String, charset: Charset)(implicit z: Zone): CString = {
     if (str == null) {
@@ -215,8 +223,8 @@ package object unsafe {
     toCVarArgList(Seq.empty)
 
   /** Convert given CVarArgs into a c CVarArgList. */
-  def toCVarArgList(vararg: CVarArg, varargs: CVarArg*)(
-      implicit z: Zone): CVarArgList =
+  def toCVarArgList(vararg: CVarArg, varargs: CVarArg*)(implicit
+      z: Zone): CVarArgList =
     toCVarArgList(vararg +: varargs)
 
   /** Convert a sequence of CVarArg into a c CVarArgList. */
@@ -243,8 +251,8 @@ package object unsafe {
       }"""
     }
 
-    def allocN[T: c.WeakTypeTag](c: Context)(n: c.Tree)(tag: c.Tree,
-                                                        z: c.Tree): c.Tree = {
+    def allocN[T: c.WeakTypeTag](c: Context)(
+        n: c.Tree)(tag: c.Tree, z: c.Tree): c.Tree = {
       import c.universe._
 
       val T = weakTypeOf[T]

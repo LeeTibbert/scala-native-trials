@@ -35,8 +35,8 @@ object CVarArgList {
     countGPRegisters + countFPRegisters * fpRegisterWords
 
   /** Construct C-style vararg list from Scala sequence. */
-  private[scalanative] def fromSeq(varargs: Seq[CVarArg])(
-      implicit z: Zone): CVarArgList = {
+  private[scalanative] def fromSeq(varargs: Seq[CVarArg])(implicit
+      z: Zone): CVarArgList = {
     var storage         = new Array[Long](registerSaveWords)
     var wordsUsed       = storage.size
     var gpRegistersUsed = 0
@@ -90,7 +90,9 @@ object CVarArgList {
           startIndex += 1
         }
         fpRegistersUsed += 1
-      } else if (encoded.size == 1 && !isDouble && gpRegistersUsed < countGPRegisters) {
+      } else if (
+        encoded.size == 1 && !isDouble && gpRegistersUsed < countGPRegisters
+      ) {
         val startIndex = gpRegistersUsed
         storage(startIndex) = encoded(0)
         gpRegistersUsed += 1

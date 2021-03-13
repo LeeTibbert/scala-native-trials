@@ -28,8 +28,8 @@ private[java] object IEEE754Helpers {
 
   private def exceptionMsg(s: String) = "For input string \"" + s + "\""
 
-  private def bytesToCString(bytes: Array[scala.Byte], n: Int)(
-      implicit z: Zone): CString = {
+  private def bytesToCString(bytes: Array[scala.Byte], n: Int)(implicit
+      z: Zone): CString = {
     val cStr = z.alloc((n + 1).toUInt) // z.alloc() does not clear bytes.
 
     var c = 0

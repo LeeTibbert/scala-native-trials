@@ -12,7 +12,8 @@ package object runtime {
   /** Get monitor for given object. */
   @alwaysinline def getMonitor(obj: Object): Monitor = Monitor.dummy
 
-  /** Initialize runtime with given arguments and return the
+  /**
+   * Initialize runtime with given arguments and return the
    *  rest as Java-style array.
    */
   def init(argc: Int, rawargv: RawPtr): scala.Array[String] = {
@@ -36,7 +37,8 @@ package object runtime {
   @alwaysinline def toRawPtr[T](ptr: Ptr[T]): RawPtr =
     Boxes.unboxToPtr(ptr)
 
-  /** Run the runtime's event loop. The method is called from the
+  /**
+   * Run the runtime's event loop. The method is called from the
    *  generated C-style after the application's main method terminates.
    */
   @noinline def loop(): Unit =

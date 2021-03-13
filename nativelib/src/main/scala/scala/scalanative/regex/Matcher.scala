@@ -409,8 +409,11 @@ final class Matcher private (private var _pattern: Pattern) {
           }
           i += 1 // '{'
           var j = i + 1
-          while (j < replacement.length && replacement.charAt(j) != '}' && replacement
-                   .charAt(j) != ' ') {
+          while (
+            j < replacement.length && replacement.charAt(
+              j) != '}' && replacement
+              .charAt(j) != ' '
+          ) {
             j += 1
           }
           if (j == replacement.length || replacement.charAt(j) == ' ') {

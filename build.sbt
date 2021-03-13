@@ -459,9 +459,8 @@ lazy val javalibCommonSettings = Def.settings(
   // Don't include classfiles for javalib in the packaged jar.
   Compile / packageBin / mappings := {
     val previous = (Compile / packageBin / mappings).value
-    previous.filter {
-      case (_, path) =>
-        !path.endsWith(".class")
+    previous.filter { case (_, path) =>
+      !path.endsWith(".class")
     }
   },
   exportJars := true
@@ -647,9 +646,8 @@ lazy val scalalib =
       // Don't include classfiles for scalalib in the packaged jar.
       Compile / packageBin / mappings := {
         val previous = (Compile / packageBin / mappings).value
-        previous.filter {
-          case (file, path) =>
-            !path.endsWith(".class")
+        previous.filter { case (file, path) =>
+          !path.endsWith(".class")
         }
       },
       // Sources in scalalib are only internal overrides, we don't include them in the resulting sources jar

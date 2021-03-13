@@ -43,8 +43,8 @@ class DeflaterTest {
     val compressed = bos.toByteArray()
 
     assertTrue(compressed.length == expected.length)
-    compressed.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    compressed.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 
@@ -67,8 +67,8 @@ class DeflaterTest {
     val compressed = bos.toByteArray()
 
     assertTrue(compressed.length == expected.length)
-    compressed.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    compressed.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 
@@ -92,8 +92,8 @@ class DeflaterTest {
     val compressed = bos.toByteArray()
 
     assertTrue(compressed.length == expected.length)
-    compressed.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    compressed.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 }

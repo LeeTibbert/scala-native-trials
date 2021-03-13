@@ -77,8 +77,10 @@ class ServerSocket(private var port: Int,
     }
 
     val addr =
-      if (endpoint == null ||
-          endpoint.asInstanceOf[InetSocketAddress].getAddress == null)
+      if (
+        endpoint == null ||
+        endpoint.asInstanceOf[InetSocketAddress].getAddress == null
+      )
         new InetSocketAddress(InetAddress.getLoopbackAddress(), 0)
       else {
         endpoint.asInstanceOf[InetSocketAddress]

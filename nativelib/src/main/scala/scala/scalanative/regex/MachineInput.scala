@@ -77,22 +77,22 @@ object MachineInput {
       i += 1
       if ((x & 0x80) == 0) {
         return x << 3 | 1
-      } else if ((x & 0xE0) == 0xC0) { // 110xxxxx
-        x = x & 0x1F
+      } else if ((x & 0xe0) == 0xc0) { // 110xxxxx
+        x = x & 0x1f
         if (i >= end) {
           return EOF
         }
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
         return x << 3 | 2
-      } else if ((x & 0xF0) == 0xE0) { // 1110xxxx
-        x = x & 0x0F
+      } else if ((x & 0xf0) == 0xe0) { // 1110xxxx
+        x = x & 0x0f
         if (i + 1 >= end) {
           return EOF
         }
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
         return x << 3 | 3
       } else { // 11110xxx
@@ -100,11 +100,11 @@ object MachineInput {
         if (i + 2 >= end) {
           return EOF
         }
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
-        x = x << 6 | b(i) & 0x3F
+        x = x << 6 | b(i) & 0x3f
         i += 1
         return x << 3 | 4
       }
@@ -133,7 +133,7 @@ object MachineInput {
           if (lim < this.start) {
             lim = this.start
           }
-          while (start >= lim && (b(start) & 0xC0) == 0x80) { // 10xxxxxx
+          while (start >= lim && (b(start) & 0xc0) == 0x80) { // 10xxxxxx
             start -= 1
           }
           if (start < this.start) {

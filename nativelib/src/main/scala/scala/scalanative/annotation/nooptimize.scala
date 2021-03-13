@@ -1,7 +1,8 @@
 package scala.scalanative
 package annotation
 
-/** Don't optimize annotated method at all.
+/**
+ * Don't optimize annotated method at all.
  *
  *  This annotation implies noinline and nospecialize.
  *  In case any inline annotations are provided,

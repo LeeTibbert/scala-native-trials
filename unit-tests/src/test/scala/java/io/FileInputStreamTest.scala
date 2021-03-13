@@ -49,11 +49,11 @@ class FileInputStreamTest {
   @Test def canRead0xffCorrectly(): Unit = {
     val file = File.createTempFile("file", ".tmp")
     val fos  = new FileOutputStream(file)
-    fos.write(0xFF)
+    fos.write(0xff)
     fos.close()
 
     val fis = new FileInputStream(file)
-    assertTrue(fis.read() == 0xFF)
+    assertTrue(fis.read() == 0xff)
     assertTrue(fis.read() == -1)
     fis.close()
   }

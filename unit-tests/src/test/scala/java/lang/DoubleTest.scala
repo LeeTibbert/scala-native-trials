@@ -307,15 +307,15 @@ class DoubleTest {
 
     // Test correctness least significant digits  & number of digits after the
     // decimal point of values with 'infinite' number of fraction digits.
-    assertD2sEquals("3.141592653589793", (math.Pi * 1.0E+0))
-    assertD2sEquals("31.41592653589793", (math.Pi * 1.0E+1))
-    assertD2sEquals("0.3141592653589793", (math.Pi * 1.0E-1))
+    assertD2sEquals("3.141592653589793", (math.Pi * 1.0e+0))
+    assertD2sEquals("31.41592653589793", (math.Pi * 1.0e+1))
+    assertD2sEquals("0.3141592653589793", (math.Pi * 1.0e-1))
 
     // Test transitions to scientific notation.
-    assertD2sEquals("3141592.653589793", (math.Pi * 1.0E+6))
-    assertD2sEquals("3.1415926535897933E7", (math.Pi * 1.0E+7))
-    assertD2sEquals("0.0031415926535897933", (math.Pi * 1.0E-3))
-    assertD2sEquals("3.141592653589793E-4", (math.Pi * 1.0E-4))
+    assertD2sEquals("3141592.653589793", (math.Pi * 1.0e+6))
+    assertD2sEquals("3.1415926535897933E7", (math.Pi * 1.0e+7))
+    assertD2sEquals("0.0031415926535897933", (math.Pi * 1.0e-3))
+    assertD2sEquals("3.141592653589793E-4", (math.Pi * 1.0e-4))
   }
 
   @Test def toHexStringMinValueIssue1341(): Unit = {

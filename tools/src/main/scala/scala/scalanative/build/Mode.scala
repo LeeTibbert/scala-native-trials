@@ -1,6 +1,7 @@
 package scala.scalanative.build
 
-/** Compilation mode. Either of the two:
+/**
+ * Compilation mode. Either of the two:
  *
  *  * Debug mode. Most optimizations are turned off
  *    to get the best linking speed. This mode is the

@@ -4,7 +4,8 @@ package org.scalanative.testsuite.javalib.util
 
 import java.{util => ju}
 
-/** A trivial, "obviously correct" implementation of an immutable
+/**
+ * A trivial, "obviously correct" implementation of an immutable
  *  `java.util.Collection[A]`.
  *
  *  It can be used as an argument to test other collections, notably for their
@@ -85,7 +86,8 @@ final class TrivialImmutableCollection[A] private (contents: Array[AnyRef])
     throw new UnsupportedOperationException(
       "TrivialImmutableCollection.clear()")
 
-  /** Returns the `i`th element of this collection.
+  /**
+   * Returns the `i`th element of this collection.
    *
    *  This method is not part of the API of `java.util.Collection`. It is made
    *  publicly available to users of `TrivialImmutableCollection` as a

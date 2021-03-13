@@ -19,8 +19,8 @@ class DeflaterOutputStreamTest {
     val result = bos.toByteArray()
 
     assertTrue(result.length == expected.length)
-    result.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    result.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 
@@ -36,8 +36,8 @@ class DeflaterOutputStreamTest {
     val result = bos.toByteArray()
 
     assertTrue(result.length == expected.length)
-    result.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    result.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 
@@ -55,8 +55,8 @@ class DeflaterOutputStreamTest {
     val result = bos.toByteArray()
 
     assertTrue(result.length == expected.length)
-    result.zip(expected).foreach {
-      case (a, b) => assertTrue(a == b)
+    result.zip(expected).foreach { case (a, b) =>
+      assertTrue(a == b)
     }
   }
 

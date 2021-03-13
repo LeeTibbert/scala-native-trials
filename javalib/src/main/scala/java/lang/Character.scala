@@ -334,8 +334,10 @@ object Character {
                          index: scala.Int,
                          codePointOffset: scala.Int): scala.Int = {
     val end = start + count
-    if (start < 0 || count < 0 || end > seq.length || index < start
-        || index > end) {
+    if (
+      start < 0 || count < 0 || end > seq.length || index < start
+      || index > end
+    ) {
       throw new StringIndexOutOfBoundsException()
     }
 
@@ -433,7 +435,8 @@ object Character {
       digitWithValidRadix(codePoint, radix)
   }
 
-  /** All the non-ASCII code points that map to the digit 0.
+  /**
+   * All the non-ASCII code points that map to the digit 0.
    *
    *  Each of them is directly followed by 9 other code points mapping to the
    *  digits 1 to 9, in order. Conversely, there are no other non-ASCII code
@@ -503,7 +506,7 @@ object Character {
   def isISOControl(c: scala.Char): scala.Boolean = isISOControl(c.toInt)
 
   def isISOControl(codePoint: Int): scala.Boolean = {
-    (0x00 <= codePoint && codePoint <= 0x1F) || (0x7F <= codePoint && codePoint <= 0x9F)
+    (0x00 <= codePoint && codePoint <= 0x1f) || (0x7f <= codePoint && codePoint <= 0x9f)
   }
 
   @deprecated("Replaced by isWhitespace(char)", "")
@@ -801,8 +804,8 @@ object Character {
                                         dst: Array[Char],
                                         dstIndex: Int): Unit = {
     val cpPrime = codePoint - 0x10000
-    val high    = 0xD800 | ((cpPrime >> 10) & 0x3FF)
-    val low     = 0xDC00 | (cpPrime & 0x3FF)
+    val high    = 0xd800 | ((cpPrime >> 10) & 0x3ff)
+    val low     = 0xdc00 | (cpPrime & 0x3ff)
     dst(dstIndex) = high.toChar
     dst(dstIndex + 1) = low.toChar
   }

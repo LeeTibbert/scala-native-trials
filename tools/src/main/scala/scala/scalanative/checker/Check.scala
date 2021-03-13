@@ -58,18 +58,16 @@ final class Check(implicit linked: linker.Result) {
 
     val insts = meth.insts
 
-    insts.zipWithIndex.foreach {
-      case (inst, idx) =>
-        in(s"inst #${idx + 1}") {
-          enterInst(inst)
-        }
+    insts.zipWithIndex.foreach { case (inst, idx) =>
+      in(s"inst #${idx + 1}") {
+        enterInst(inst)
+      }
     }
 
-    insts.zipWithIndex.foreach {
-      case (inst, idx) =>
-        in(s"inst #${idx + 1}") {
-          checkInst(inst)
-        }
+    insts.zipWithIndex.foreach { case (inst, idx) =>
+      in(s"inst #${idx + 1}") {
+        checkInst(inst)
+      }
     }
 
     env.clear()
@@ -121,9 +119,8 @@ final class Check(implicit linked: linker.Result) {
       in("else")(checkNext(elsep))
     case Inst.Switch(value, default, cases) =>
       in("default")(checkNext(default))
-      cases.zipWithIndex.foreach {
-        case (caseNext, idx) =>
-          in("case #" + (idx + 1))(checkNext(caseNext))
+      cases.zipWithIndex.foreach { case (caseNext, idx) =>
+        in("case #" + (idx + 1))(checkNext(caseNext))
       }
     case Inst.Throw(value, unwind) =>
       in("thrown value")(expect(Rt.Object, value))
@@ -319,16 +316,15 @@ final class Check(implicit linked: linker.Result) {
       error("index path must contain at least one index")
     }
 
-    indexes.zipWithIndex.foreach {
-      case (v, idx) =>
-        v.ty match {
-          case _: Type.I =>
-            ok
-          case _ =>
-            in("index #" + (idx + 1)) {
-              error("elem indexes must be integer values")
-            }
-        }
+    indexes.zipWithIndex.foreach { case (v, idx) =>
+      v.ty match {
+        case _: Type.I =>
+          ok
+        case _ =>
+          in("index #" + (idx + 1)) {
+            error("elem indexes must be integer values")
+          }
+      }
     }
 
     def loop(ty: Type, indexes: Seq[Val]): Unit =
@@ -375,9 +371,8 @@ final class Check(implicit linked: linker.Result) {
     }
 
     def checkArgTypes(argtys: Seq[Type], args: Seq[Val]): Unit = {
-      argtys.zip(args).zipWithIndex.foreach {
-        case ((ty, value), idx) =>
-          in("arg #" + (idx + 1))(expect(ty, value))
+      argtys.zip(args).zipWithIndex.foreach { case ((ty, value), idx) =>
+        in("arg #" + (idx + 1))(expect(ty, value))
       }
     }
 
@@ -636,11 +631,10 @@ final class Check(implicit linked: linker.Result) {
             error(
               s"expected ${tys.length} label arguments but got ${args.length}")
           } else {
-            tys.zip(args).zipWithIndex.foreach {
-              case ((expected, v), idx) =>
-                in("arg #" + (idx + 1)) {
-                  expect(expected, v)
-                }
+            tys.zip(args).zipWithIndex.foreach { case ((expected, v), idx) =>
+              in("arg #" + (idx + 1)) {
+                expect(expected, v)
+              }
             }
           }
         }
@@ -652,11 +646,10 @@ object Check {
 
   def apply(linked: linker.Result): Seq[Error] =
     partitionBy(linked.infos.values.toSeq)(_.name).par
-      .map {
-        case (_, infos) =>
-          val check = new Check()(linked)
-          check.run(infos)
-          check.errors
+      .map { case (_, infos) =>
+        val check = new Check()(linked)
+        check.run(infos)
+        check.errors
       }
       .seq
       .flatten

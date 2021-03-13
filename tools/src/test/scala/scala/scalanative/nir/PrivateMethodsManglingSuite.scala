@@ -65,50 +65,47 @@ class PrivateMethodsManglingSuite extends LinkerSpec with Matchers {
 
     val tops = Seq("xyz.B$", "xyz.A", "foo.B$").map(Global.Top)
 
-    link("Main$", sources) {
-      case (_, result) =>
-        val testedDefns = result.defns
-          .collect {
-            case Defn.Define(_, Global.Member(owner, sig), _, _)
-                if tops.contains(owner) =>
-              sig.unmangled
-          }
-          .collect {
-            case sig: Sig.Method => sig
-          }
-          .toSet
-
-        val loopType = Seq(Type.Int, Rt.String, Type.Bool, Rt.String)
-        val fooType  = Seq(Type.Int, Type.Int)
-
-        def privateMethodSig(method: String, tpe: Seq[Type], in: String) = {
-          Sig.Method(method, tpe, Sig.Scope.Private(Global.Top(in)))
+    link("Main$", sources) { case (_, result) =>
+      val testedDefns = result.defns
+        .collect {
+          case Defn.Define(_, Global.Member(owner, sig), _, _)
+              if tops.contains(owner) =>
+            sig.unmangled
         }
-
-        val expected = Seq(
-          Sig.Method("encode", Seq(Type.Int, Rt.String, Type.Bool, Rt.String)),
-          Sig.Method("encodeLoop", Seq(Type.Int, Rt.String, Rt.String)),
-          privateMethodSig("loop$1", loopType, "xyz.B$"),
-          privateMethodSig("loop$1", loopType, "xyz.A"),
-          privateMethodSig("loop$1", loopType, "foo.B$"),
-          privateMethodSig("foo", fooType, "xyz.A"),
-          privateMethodSig("foo", fooType, "xyz.B$"),
-          privateMethodSig("foo", fooType, "foo.B$")
-        )
-
-        expected.foreach {
-          case sig @ Sig.Method(id, tpe, scope) =>
-            def containsExactlySig = testedDefns.contains(sig)
-            // In 2.12, the order of method arguments in closures has changed,
-            // that's why this "hack" is needed.
-            def containsSig = testedDefns.exists {
-              case Sig.Method(`id`, sigTpe, `scope`)
-                  if sigTpe.toSet == tpe.toSet =>
-                true
-              case _ => false
-            }
-            assert(containsExactlySig || containsSig)
+        .collect { case sig: Sig.Method =>
+          sig
         }
+        .toSet
+
+      val loopType = Seq(Type.Int, Rt.String, Type.Bool, Rt.String)
+      val fooType  = Seq(Type.Int, Type.Int)
+
+      def privateMethodSig(method: String, tpe: Seq[Type], in: String) = {
+        Sig.Method(method, tpe, Sig.Scope.Private(Global.Top(in)))
+      }
+
+      val expected = Seq(
+        Sig.Method("encode", Seq(Type.Int, Rt.String, Type.Bool, Rt.String)),
+        Sig.Method("encodeLoop", Seq(Type.Int, Rt.String, Rt.String)),
+        privateMethodSig("loop$1", loopType, "xyz.B$"),
+        privateMethodSig("loop$1", loopType, "xyz.A"),
+        privateMethodSig("loop$1", loopType, "foo.B$"),
+        privateMethodSig("foo", fooType, "xyz.A"),
+        privateMethodSig("foo", fooType, "xyz.B$"),
+        privateMethodSig("foo", fooType, "foo.B$")
+      )
+
+      expected.foreach { case sig @ Sig.Method(id, tpe, scope) =>
+        def containsExactlySig = testedDefns.contains(sig)
+        // In 2.12, the order of method arguments in closures has changed,
+        // that's why this "hack" is needed.
+        def containsSig = testedDefns.exists {
+          case Sig.Method(`id`, sigTpe, `scope`) if sigTpe.toSet == tpe.toSet =>
+            true
+          case _ => false
+        }
+        assert(containsExactlySig || containsSig)
+      }
     }
 
   }

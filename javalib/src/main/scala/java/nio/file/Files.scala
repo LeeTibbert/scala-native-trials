@@ -58,9 +58,11 @@ object Files {
     val out =
       if (!targetFile.exists() || (targetFile.isFile() && replaceExisting)) {
         new FileOutputStream(targetFile, append = false)
-      } else if (targetFile.isDirectory() &&
-                 targetFile.list().isEmpty &&
-                 replaceExisting) {
+      } else if (
+        targetFile.isDirectory() &&
+        targetFile.list().isEmpty &&
+        replaceExisting
+      ) {
         if (!targetFile.delete()) throw new IOException()
         new FileOutputStream(targetFile, append = false)
       } else {
@@ -158,8 +160,9 @@ object Files {
     Zone { implicit z =>
       if (exists(link, Array.empty)) {
         throw new FileAlreadyExistsException(link.toString)
-      } else if (unistd.link(toCString(existing.toString),
-                             toCString(link.toString)) == 0) {
+      } else if (
+        unistd.link(toCString(existing.toString), toCString(link.toString)) == 0
+      ) {
         link
       } else {
         throw new IOException()
@@ -172,8 +175,10 @@ object Files {
     Zone { implicit z =>
       if (exists(link, Array.empty)) {
         throw new FileAlreadyExistsException(target.toString)
-      } else if (unistd.symlink(toCString(target.toString),
-                                toCString(link.toString)) == 0) {
+      } else if (
+        unistd.symlink(toCString(target.toString),
+                       toCString(link.toString)) == 0
+      ) {
         setAttributes(link, attrs)
         link
       } else {
@@ -362,11 +367,15 @@ object Files {
   def move(source: Path, target: Path, options: Array[CopyOption]): Path = {
     if (!exists(source.toAbsolutePath(), Array.empty)) {
       throw new NoSuchFileException(source.toString)
-    } else if (!exists(target.toAbsolutePath(), Array.empty) ||
-               options.contains(REPLACE_EXISTING)) {
+    } else if (
+      !exists(target.toAbsolutePath(), Array.empty) ||
+      options.contains(REPLACE_EXISTING)
+    ) {
       Zone { implicit z =>
-        if (stdio.rename(toCString(source.toAbsolutePath().toString),
-                         toCString(target.toAbsolutePath().toString)) != 0) {
+        if (
+          stdio.rename(toCString(source.toAbsolutePath().toString),
+                       toCString(target.toAbsolutePath().toString)) != 0
+        ) {
           throw UnixException(target.toString, errno.errno)
         }
       }
@@ -515,9 +524,11 @@ object Files {
     } else
       Zone { implicit z =>
         val buf: CString = alloc[Byte](limits.PATH_MAX.toUInt)
-        if (unistd.readlink(toCString(link.toString),
-                            buf,
-                            limits.PATH_MAX.toUInt) == -1) {
+        if (
+          unistd.readlink(toCString(link.toString),
+                          buf,
+                          limits.PATH_MAX.toUInt) == -1
+        ) {
           throw UnixException(link.toString, errno.errno)
         } else {
           Paths.get(fromCString(buf), Array.empty)
@@ -736,9 +747,8 @@ object Files {
     write(path, lines, StandardCharsets.UTF_8, options)
 
   private def setAttributes(path: Path, attrs: Array[FileAttribute[_]]): Unit =
-    attrs.map(a => (a.name(), a.value())).toMap.foreach {
-      case (name, value) =>
-        setAttribute(path, name, value.asInstanceOf[AnyRef], Array.empty)
+    attrs.map(a => (a.name(), a.value())).toMap.foreach { case (name, value) =>
+      setAttribute(path, name, value.asInstanceOf[AnyRef], Array.empty)
     }
 
   private val attributesClassesToViews

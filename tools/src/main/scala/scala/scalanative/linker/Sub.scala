@@ -5,7 +5,8 @@ import scala.collection.mutable
 import scalanative.nir._
 import scalanative.util.unreachable
 
-/** Our subtyping can be described by a following diagram:
+/**
+ * Our subtyping can be described by a following diagram:
  *
  *    value kind        ref kind         special kind
  *    |     \           |    \
@@ -51,8 +52,8 @@ object Sub {
     }
   }
 
-  def is(info: ScopeInfo, ty: Type.RefKind)(
-      implicit linked: linker.Result): Boolean = {
+  def is(info: ScopeInfo, ty: Type.RefKind)(implicit
+      linked: linker.Result): Boolean = {
     ty match {
       case ScopeRef(other) =>
         info.is(other)
@@ -61,8 +62,8 @@ object Sub {
     }
   }
 
-  def lub(tys: Seq[Type], bound: Option[Type])(
-      implicit linked: linker.Result): Type = {
+  def lub(tys: Seq[Type], bound: Option[Type])(implicit
+      linked: linker.Result): Type = {
     tys match {
       case Seq() =>
         unreachable
@@ -71,8 +72,8 @@ object Sub {
     }
   }
 
-  def lub(lty: Type, rty: Type, bound: Option[Type])(
-      implicit linked: linker.Result): Type = {
+  def lub(lty: Type, rty: Type, bound: Option[Type])(implicit
+      linked: linker.Result): Type = {
     (lty, rty) match {
       case _ if lty == rty =>
         lty

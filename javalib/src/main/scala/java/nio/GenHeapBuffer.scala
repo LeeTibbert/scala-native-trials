@@ -16,19 +16,21 @@ private[nio] object GenHeapBuffer {
   }
 
   @inline
-  def generic_wrap[BufferType <: Buffer, ElementType](array: Array[ElementType],
-                                                      arrayOffset: Int,
-                                                      capacity: Int,
-                                                      initialPosition: Int,
-                                                      initialLength: Int,
-                                                      isReadOnly: Boolean)(
-      implicit newHeapBuffer: NewHeapBuffer[BufferType, ElementType])
-      : BufferType = {
+  def generic_wrap[BufferType <: Buffer, ElementType](
+      array: Array[ElementType],
+      arrayOffset: Int,
+      capacity: Int,
+      initialPosition: Int,
+      initialLength: Int,
+      isReadOnly: Boolean)(implicit
+      newHeapBuffer: NewHeapBuffer[BufferType, ElementType]): BufferType = {
     if (capacity < 0) {
       throw new IllegalArgumentException()
     }
-    if (arrayOffset < 0 ||
-        arrayOffset + capacity > array.length)
+    if (
+      arrayOffset < 0 ||
+      arrayOffset + capacity > array.length
+    )
       throw new IndexOutOfBoundsException
     val initialLimit = initialPosition + initialLength
     if (initialPosition < 0 || initialLength < 0 || initialLimit > capacity)
@@ -60,8 +62,8 @@ private[nio] final class GenHeapBuffer[B <: Buffer](val self: B)
   }
 
   @inline
-  def generic_duplicate()(
-      implicit newHeapBuffer: NewThisHeapBuffer): BufferType = {
+  def generic_duplicate()(implicit
+      newHeapBuffer: NewThisHeapBuffer): BufferType = {
     val result =
       newHeapBuffer(capacity(),
                     _array,
@@ -74,8 +76,8 @@ private[nio] final class GenHeapBuffer[B <: Buffer](val self: B)
   }
 
   @inline
-  def generic_asReadOnlyBuffer()(
-      implicit newHeapBuffer: NewThisHeapBuffer): BufferType = {
+  def generic_asReadOnlyBuffer()(implicit
+      newHeapBuffer: NewThisHeapBuffer): BufferType = {
     val result =
       newHeapBuffer(capacity(), _array, _arrayOffset, position(), limit(), true)
     result._mark = _mark

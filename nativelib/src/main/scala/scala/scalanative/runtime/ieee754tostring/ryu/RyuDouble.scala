@@ -841,9 +841,11 @@ object RyuDouble {
         lastRemovedDigit = 4
       }
       output = dv +
-        (if ((dv == dm &&
+        (if (
+           (dv == dm &&
              !(dmIsTrailingZeros && roundingMode.acceptLowerBound(even))) ||
-             (lastRemovedDigit >= 5)) 1
+           (lastRemovedDigit >= 5)
+         ) 1
          else 0)
     } else {
       var done = false // workaround break in .java source
@@ -1016,13 +1018,13 @@ object RyuDouble {
   private def mulPow5divPow2(m: Long, i: Int, j: Int) = {
     // m has at most 55 bits.
     val mHigh       = m >>> 31
-    val mLow        = m & 0x7fffffff // 124
+    val mLow        = m & 0x7fffffff                                // 124
     val bits13      = mHigh * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 0) // 93
-    val bits03      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 0) // 93
+    val bits03      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 0)  // 93
     val bits12      = mHigh * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 1) // 62
-    val bits02      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 1) // 62
+    val bits02      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 1)  // 62
     val bits11      = mHigh * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 2) // 31
-    val bits01      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 2) // 31
+    val bits01      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 2)  // 31
     val bits10      = mHigh * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 3) // 0
     val bits00      = mLow * POW5_SPLIT((i * POW5_ARRAY_NCOL) + 3)
     val actualShift = j - 3 * 31 - 21

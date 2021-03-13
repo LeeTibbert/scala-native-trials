@@ -79,7 +79,7 @@ class RyuDoubleTest {
 
   @Test def boundaryConditions(): Unit = {
     // x = 1.0E7
-    assertD2sEquals("1.0E7", 1.0E7d)
+    assertD2sEquals("1.0E7", 1.0e7d)
 
     // x < 1.0E7
     assertD2sEquals("9999999.999999998", 9999999.999999998d)
@@ -98,34 +98,34 @@ class RyuDoubleTest {
   }
 
   @Test def roundingModeConservative(): Unit = {
-    assertD2sEquals("-2.1098088986959632E16", -2.109808898695963E16)
+    assertD2sEquals("-2.1098088986959632E16", -2.109808898695963e16)
   }
 
   @Test def regressionTest(): Unit = {
-    assertD2sEquals("4.940656E-318", 4.940656E-318d)
-    assertD2sEquals("1.18575755E-316", 1.18575755E-316d)
-    assertD2sEquals("2.989102097996E-312", 2.989102097996E-312d)
-    assertD2sEquals("9.0608011534336E15", 9.0608011534336E15d)
-    assertD2sEquals("4.708356024711512E18", 4.708356024711512E18)
-    assertD2sEquals("9.409340012568248E18", 9.409340012568248E18)
+    assertD2sEquals("4.940656E-318", 4.940656e-318d)
+    assertD2sEquals("1.18575755E-316", 1.18575755e-316d)
+    assertD2sEquals("2.989102097996E-312", 2.989102097996e-312d)
+    assertD2sEquals("9.0608011534336E15", 9.0608011534336e15d)
+    assertD2sEquals("4.708356024711512E18", 4.708356024711512e18)
+    assertD2sEquals("9.409340012568248E18", 9.409340012568248e18)
 
     /// Comment from original RYU source.
     // This number naively requires 65 bit for the intermediate results if we
     // reduce the lookup table by half. This checks that we don't loose any
     // information in that case.
-    assertD2sEquals("1.8531501765868567E21", 1.8531501765868567E21)
+    assertD2sEquals("1.8531501765868567E21", 1.8531501765868567e21)
 
-    assertD2sEquals("-3.347727380279489E33", -3.347727380279489E33)
+    assertD2sEquals("-3.347727380279489E33", -3.347727380279489e33)
 
     /// Comment from original RYU source.
     // Discovered by Andriy Plokhotnyuk, see #29.
     // Porting-to-Scala note:
     //   issue  #29 is at ryu master source: https://github.com/ulfjack/ryu.
     //   It is not a scalanative issue number.
-    assertD2sEquals("1.9430376160308388E16", 1.9430376160308388E16)
+    assertD2sEquals("1.9430376160308388E16", 1.9430376160308388e16)
 
-    assertD2sEquals("-6.9741824662760956E19", -6.9741824662760956E19)
-    assertD2sEquals("4.3816050601147837E18", 4.3816050601147837E18)
+    assertD2sEquals("-6.9741824662760956E19", -6.9741824662760956e19)
+    assertD2sEquals("4.3816050601147837E18", 4.3816050601147837e18)
   }
 
 }

@@ -66,7 +66,7 @@ class RandomAccessFileTest {
   }
 
   @Test def canWriteAndReadUnsignedByte(): Unit = {
-    val value: Int = 0xFE
+    val value: Int = 0xfe
     raf.writeByte(value.toByte)
     raf.seek(0)
     assertTrue(raf.readUnsignedByte() == value)

@@ -54,7 +54,11 @@ private[net] class PlainSocketImpl extends SocketImpl {
       val sin = stackalloc[in.sockaddr_in]
       !len = sizeof[in.sockaddr_in].toUInt
 
-      if (socket.getsockname(fd.fd, sin.asInstanceOf[Ptr[socket.sockaddr]], len) == -1) {
+      if (
+        socket.getsockname(fd.fd,
+                           sin.asInstanceOf[Ptr[socket.sockaddr]],
+                           len) == -1
+      ) {
         None
       } else {
         Some(sin.sin_port)
@@ -63,7 +67,11 @@ private[net] class PlainSocketImpl extends SocketImpl {
       val sin = stackalloc[in.sockaddr_in6]
       !len = sizeof[in.sockaddr_in6].toUInt
 
-      if (socket.getsockname(fd.fd, sin.asInstanceOf[Ptr[socket.sockaddr]], len) == -1) {
+      if (
+        socket.getsockname(fd.fd,
+                           sin.asInstanceOf[Ptr[socket.sockaddr]],
+                           len) == -1
+      ) {
         None
       } else {
         Some(sin.sin6_port)

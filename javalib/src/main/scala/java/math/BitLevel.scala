@@ -41,7 +41,8 @@
 
 package java.math
 
-/** Object that provides all the <b>bit level</b> operations for {@link BigInteger}.
+/**
+ * Object that provides all the <b>bit level</b> operations for {@link BigInteger}.
  *
  *  The operations are: <ul type="circle"> <li>Left Shifting</li>
  *  <li>Right Shifting</li> <li>Bit clearing</li> <li>Bit setting</li> <li>Bit
@@ -51,7 +52,8 @@ package java.math
  */
 private[math] object BitLevel {
 
-  /** @see BigInteger#bitCount()
+  /**
+   * @see BigInteger#bitCount()
    *
    *  @param bi
    *  @return
@@ -82,7 +84,8 @@ private[math] object BitLevel {
     }
   }
 
-  /** @see BigInteger#bitLength()
+  /**
+   * @see BigInteger#bitLength()
    *
    *  @param bi
    *  @return
@@ -105,7 +108,8 @@ private[math] object BitLevel {
     }
   }
 
-  /** Performs a flipBit on the BigInteger.
+  /**
+   * Performs a flipBit on the BigInteger.
    *
    *  Returns a BigInteger with the specified bit flipped.
    *
@@ -196,7 +200,8 @@ private[math] object BitLevel {
     }
   }
 
-  /** Check if there are 1s in the lowest bits of this BigInteger.
+  /**
+   * Check if there are 1s in the lowest bits of this BigInteger.
    *
    *  @param numberOfBits the number of the lowest bits to check
    *  @return false if all bits are 0s, true otherwise
@@ -211,7 +216,8 @@ private[math] object BitLevel {
     (i != intCount) || (digits(i) << (32 - bitCount) != 0)
   }
 
-  /** @see BigInteger#shiftLeft(int).
+  /**
+   * @see BigInteger#shiftLeft(int).
    *
    *  @param source
    *  @param count
@@ -229,7 +235,8 @@ private[math] object BitLevel {
     result
   }
 
-  /** Abstractly shifts left an array of integers in little endian.
+  /**
+   * Abstractly shifts left an array of integers in little endian.
    *
    *  (i.e. shift it right). Total shift distance in bits is intCount * 32 + count
    *
@@ -269,7 +276,8 @@ private[math] object BitLevel {
     result
   }
 
-  /** Shifts the source digits left one bit.
+  /**
+   * Shifts the source digits left one bit.
    *
    *  Creates a value whose magnitude is doubled.
    *
@@ -293,7 +301,8 @@ private[math] object BitLevel {
       result(srcLen) = carry
   }
 
-  /** @see BigInteger#shiftRight(int).
+  /**
+   * @see BigInteger#shiftRight(int).
    *
    *  @param source
    *  @param count
@@ -336,7 +345,8 @@ private[math] object BitLevel {
     }
   }
 
-  /** Shifts right an array of integers.
+  /**
+   * Shifts right an array of integers.
    *
    *  Total shift distance in bits is intCount * 32 + count.
    *
@@ -365,8 +375,8 @@ private[math] object BitLevel {
       allZero &= ((source(i) << leftShiftCount) == 0)
       i = 0
       while (i < resultLen - 1) {
-        result(i) =
-          (source(i + intCount) >>> count) | (source(i + intCount + 1) << leftShiftCount)
+        result(i) = (source(i + intCount) >>> count) | (source(
+          i + intCount + 1) << leftShiftCount)
         i += 1
       }
       result(i) = source(i + intCount) >>> count
@@ -375,7 +385,8 @@ private[math] object BitLevel {
     allZero
   }
 
-  /** Performs a fast bit testing for positive numbers.
+  /**
+   * Performs a fast bit testing for positive numbers.
    *
    *  The bit to to be tested must be in the range {@code [0, val.bitLength()-1]}
    */

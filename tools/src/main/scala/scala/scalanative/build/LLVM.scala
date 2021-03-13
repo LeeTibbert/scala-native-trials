@@ -179,7 +179,10 @@ private[scalanative] object LLVM {
       val apppath = ll.abs
       val outpath = apppath + oExt
       val compile =
-        Seq(config.clang.abs) ++ fltoOpt ++ Seq("-c", apppath, "-o", outpath) ++ opts
+        Seq(config.clang.abs) ++ fltoOpt ++ Seq("-c",
+                                                apppath,
+                                                "-o",
+                                                outpath) ++ opts
       config.logger.running(compile)
       Process(compile, config.workdir.toFile) ! Logger.toProcessLogger(
         config.logger)

@@ -8,7 +8,8 @@ import scala.collection.mutable
 import scala.concurrent.Future
 import scala.util.Try
 
-/** Helper above an [[RPCCore]] that allows to multiplex between runs.
+/**
+ * Helper above an [[RPCCore]] that allows to multiplex between runs.
  *
  *  Instead of registering/calling a single endpoint, it supports
  *  registering/calling the same endpoint once per run.
@@ -20,7 +21,8 @@ private[testinterface] final class RunMuxRPC(rpc: RPCCore) {
   import RunMux.RunID
   import RunMuxRPC._
 
-  /** Multiplexer map.
+  /**
+   * Multiplexer map.
    *
    *  Access to the outer map needs to synchronized.
    *  Access to the inner map only needs to be synchronize for writing.
@@ -48,10 +50,10 @@ private[testinterface] final class RunMuxRPC(rpc: RPCCore) {
     attachMux(ep.opCode, runId, ex)(rpc.attachAsync(ep))
   }
 
-  private def attachMux[Req, Resp](
-      opCode: RPCCore.OpCode,
-      runId: RunID,
-      ex: Req => Resp)(attach: (RunMux[Req] => Resp) => Unit): Unit =
+  private def attachMux[Req, Resp](opCode: RPCCore.OpCode,
+                                   runId: RunID,
+                                   ex: Req => Resp)(
+      attach: (RunMux[Req] => Resp) => Unit): Unit =
     synchronized {
       type DispatchMap = java.util.HashMap[RunID, Req => Resp]
 

@@ -29,8 +29,8 @@ private[testinterface] object Serializer {
 
   // Methods to actually perform serialization and deserialization.
 
-  def serialize[T](t: T, out: DataOutputStream)(
-      implicit s: Serializer[T]): Unit = {
+  def serialize[T](t: T, out: DataOutputStream)(implicit
+      s: Serializer[T]): Unit = {
     s.serialize(t, new SerializeState(out))
   }
 
@@ -60,7 +60,7 @@ private[testinterface] object Serializer {
     try body(dataOut)
     finally dataOut.close()
 
-    new String(byteOut.toByteArray.map(b => (b & 0xFF).toChar))
+    new String(byteOut.toByteArray.map(b => (b & 0xff).toChar))
   }
 
   implicit object BooleanSerializer extends Serializer[Boolean] {

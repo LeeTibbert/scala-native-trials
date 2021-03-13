@@ -6,8 +6,8 @@ import scalanative.nir._
 import scalanative.linker._
 
 trait PolyInline { self: Interflow =>
-  private def polyTargets(op: Op.Method)(
-      implicit state: State): Seq[(Class, Global)] = {
+  private def polyTargets(op: Op.Method)(implicit
+      state: State): Seq[(Class, Global)] = {
     val Op.Method(obj, sig) = op
 
     val objty = obj match {
@@ -39,8 +39,8 @@ trait PolyInline { self: Interflow =>
     res
   }
 
-  def shallPolyInline(op: Op.Method, args: Seq[Val])(
-      implicit state: State,
+  def shallPolyInline(op: Op.Method, args: Seq[Val])(implicit
+      state: State,
       linked: linker.Result): Boolean = mode match {
     case build.Mode.Debug =>
       false
@@ -57,9 +57,10 @@ trait PolyInline { self: Interflow =>
       }
   }
 
-  def polyInline(op: Op.Method, args: Seq[Val])(implicit state: State,
-                                                linked: linker.Result,
-                                                origPos: Position): Val = {
+  def polyInline(op: Op.Method, args: Seq[Val])(implicit
+      state: State,
+      linked: linker.Result,
+      origPos: Position): Val = {
     import state.{emit, fresh, materialize}
 
     val obj     = materialize(op.obj)
@@ -81,47 +82,44 @@ trait PolyInline { self: Interflow =>
     val objcls =
       emit.call(methty, meth, Seq(obj), Next.None)
 
-    checkLabels.zipWithIndex.foreach {
-      case (checkLabel, idx) =>
-        if (idx > 0) {
-          emit.label(checkLabel)
-        }
-        val cls = classes(idx)
-        val isCls = emit.comp(Comp.Ieq,
-                              Rt.Class,
-                              objcls,
-                              Val.Global(cls.name, Rt.Class),
-                              Next.None)
-        if (idx < targets.size - 2) {
-          emit.branch(isCls,
-                      Next(callLabels(callLabelIndex(idx))),
-                      Next(checkLabels(idx + 1)))
-        } else {
-          emit.branch(isCls,
-                      Next(callLabels(callLabelIndex(idx))),
-                      Next(callLabels(callLabelIndex(idx + 1))))
-        }
+    checkLabels.zipWithIndex.foreach { case (checkLabel, idx) =>
+      if (idx > 0) {
+        emit.label(checkLabel)
+      }
+      val cls = classes(idx)
+      val isCls = emit.comp(Comp.Ieq,
+                            Rt.Class,
+                            objcls,
+                            Val.Global(cls.name, Rt.Class),
+                            Next.None)
+      if (idx < targets.size - 2) {
+        emit.branch(isCls,
+                    Next(callLabels(callLabelIndex(idx))),
+                    Next(checkLabels(idx + 1)))
+      } else {
+        emit.branch(isCls,
+                    Next(callLabels(callLabelIndex(idx))),
+                    Next(callLabels(callLabelIndex(idx + 1))))
+      }
     }
 
     val rettys = mutable.UnrolledBuffer.empty[Type]
 
-    callLabels.zip(impls).foreach {
-      case (callLabel, m) =>
-        emit.label(callLabel, Seq.empty)
-        val ty                           = originalFunctionType(m)
-        val Type.Function(argtys, retty) = ty
-        rettys += retty
+    callLabels.zip(impls).foreach { case (callLabel, m) =>
+      emit.label(callLabel, Seq.empty)
+      val ty                           = originalFunctionType(m)
+      val Type.Function(argtys, retty) = ty
+      rettys += retty
 
-        val cargs = margs.zip(argtys).map {
-          case (value, argty) =>
-            if (!Sub.is(value.ty, argty)) {
-              emit.conv(Conv.Bitcast, argty, value, Next.None)
-            } else {
-              value
-            }
+      val cargs = margs.zip(argtys).map { case (value, argty) =>
+        if (!Sub.is(value.ty, argty)) {
+          emit.conv(Conv.Bitcast, argty, value, Next.None)
+        } else {
+          value
         }
-        val res = emit.call(ty, Val.Global(m, Type.Ptr), cargs, Next.None)
-        emit.jump(Next.Label(mergeLabel, Seq(res)))
+      }
+      val res = emit.call(ty, Val.Global(m, Type.Ptr), cargs, Next.None)
+      emit.jump(Next.Label(mergeLabel, Seq(res)))
     }
 
     val result = Val.Local(fresh(), Sub.lub(rettys.toSeq, Some(op.resty)))

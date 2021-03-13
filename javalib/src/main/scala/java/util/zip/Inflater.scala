@@ -81,7 +81,9 @@ class Inflater(noHeader: Boolean) {
 
   def inflate(buf: Array[Byte], off: Int, nbytes: Int): Int = {
     // avoid int overflow, check null buf
-    if (off > buf.length || nbytes < 0 || off < 0 || buf.length - off < nbytes) {
+    if (
+      off > buf.length || nbytes < 0 || off < 0 || buf.length - off < nbytes
+    ) {
       throw new ArrayIndexOutOfBoundsException()
     } else if (stream == null) {
       throw new IllegalStateException()
@@ -139,7 +141,9 @@ class Inflater(noHeader: Boolean) {
   def setInput(buf: Array[Byte], off: Int, nbytes: Int): Unit =
     if (stream == null) {
       throw new IllegalStateException()
-    } else if (off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes) {
+    } else if (
+      off <= buf.length && nbytes >= 0 && off >= 0 && buf.length - off >= nbytes
+    ) {
       inRead = 0
       inLength = nbytes
       if (buf.length == 0) {

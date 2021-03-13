@@ -8,8 +8,8 @@ import scalanative.codegen.MemoryLayout
 import scalanative.util.{unreachable, And}
 
 trait Eval { self: Interflow =>
-  def run(insts: Array[Inst], offsets: Map[Local, Int], from: Local)(
-      implicit state: State): Inst.Cf = {
+  def run(insts: Array[Inst], offsets: Map[Local, Int], from: Local)(implicit
+      state: State): Inst.Cf = {
     import state.{materialize, delay}
 
     var pc = offsets(from) + 1
@@ -99,9 +99,10 @@ trait Eval { self: Interflow =>
     unreachable
   }
 
-  def eval(op: Op)(implicit state: State,
-                   linked: linker.Result,
-                   origPos: Position): Val = {
+  def eval(op: Op)(implicit
+      state: State,
+      linked: linker.Result,
+      origPos: Position): Val = {
     import state.{emit, materialize, delay}
     def bailOut =
       throw BailOut("can't eval op: " + op.show)
@@ -378,9 +379,8 @@ trait Eval { self: Interflow =>
           case Val.ArrayValue(_, values) if values.size <= 128 =>
             val addr     = state.allocArray(ty, values.size)
             val instance = state.derefVirtual(addr)
-            values.zipWithIndex.foreach {
-              case (v, idx) =>
-                instance.values(idx) = v
+            values.zipWithIndex.foreach { case (v, idx) =>
+              instance.values(idx) = v
             }
             Val.Virtual(addr)
           case init =>
@@ -427,8 +427,9 @@ trait Eval { self: Interflow =>
     }
   }
 
-  def eval(bin: Bin, ty: Type, l: Val, r: Val)(implicit state: State,
-                                               origPos: Position): Val = {
+  def eval(bin: Bin, ty: Type, l: Val, r: Val)(implicit
+      state: State,
+      origPos: Position): Val = {
     import state.{emit, materialize}
     def fallback =
       emit(Op.Bin(bin, ty, materialize(l), materialize(r)))

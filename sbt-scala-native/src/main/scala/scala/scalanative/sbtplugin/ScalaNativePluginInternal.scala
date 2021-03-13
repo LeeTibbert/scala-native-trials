@@ -182,8 +182,8 @@ object ScalaNativePluginInternal {
 
           frameworks
             .zip(frameworkAdapters)
-            .collect {
-              case (tf, Some(adapter)) => (tf, adapter)
+            .collect { case (tf, Some(adapter)) =>
+              (tf, adapter)
             }
             .toMap
         }

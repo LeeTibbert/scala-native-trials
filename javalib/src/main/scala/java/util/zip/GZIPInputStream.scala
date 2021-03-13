@@ -64,15 +64,15 @@ class GZIPInputStream(in: InputStream, size: Int)
 
   private def getLong(buffer: Array[Byte], off: Int): Long = {
     var l: Long = 0L
-    l = l | (buffer(off) & 0xFF)
-    l = l | ((buffer(off + 1) & 0xFF) << 8)
-    l = l | ((buffer(off + 2) & 0xFF) << 16)
-    l = l | ((buffer(off + 3) & 0xFF).toLong << 24)
+    l = l | (buffer(off) & 0xff)
+    l = l | ((buffer(off + 1) & 0xff) << 8)
+    l = l | ((buffer(off + 2) & 0xff) << 16)
+    l = l | ((buffer(off + 3) & 0xff).toLong << 24)
     l
   }
 
   private def getShort(buffer: Array[Byte], off: Int): Int = {
-    (buffer(off) & 0xFF) | ((buffer(off + 1) & 0xFF) << 8)
+    (buffer(off) & 0xff) | ((buffer(off + 1) & 0xff) << 8)
   }
 
   override def read(buffer: Array[Byte], off: Int, nbytes: Int): Int = {
@@ -80,7 +80,9 @@ class GZIPInputStream(in: InputStream, size: Int)
       throw new IOException("Stream closed")
     } else if (eos) {
       -1
-    } else if (off > buffer.length || nbytes < 0 || off < 0 || buffer.length - off < nbytes) {
+    } else if (
+      off > buffer.length || nbytes < 0 || off < 0 || buffer.length - off < nbytes
+    ) {
       throw new ArrayIndexOutOfBoundsException()
     } else {
       val bytesRead =

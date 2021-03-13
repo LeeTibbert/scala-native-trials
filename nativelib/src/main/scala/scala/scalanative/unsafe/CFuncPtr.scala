@@ -20,8 +20,8 @@ sealed abstract class CFuncPtr private[unsafe] (
     private[scalanative] val rawptr: RawPtr)
 
 object CFuncPtr {
-  @alwaysinline def fromPtr[F <: CFuncPtr](ptr: Ptr[Byte])(
-      implicit tag: Tag.CFuncPtrTag[F]): F =
+  @alwaysinline def fromPtr[F <: CFuncPtr](ptr: Ptr[Byte])(implicit
+      tag: Tag.CFuncPtrTag[F]): F =
     tag.fromRawPtr(ptr.rawptr)
 
   @alwaysinline def toPtr(ptr: CFuncPtr): Ptr[Byte] = {
@@ -36,8 +36,8 @@ final class CFuncPtr0[R] private (rawptr: RawPtr) extends CFuncPtr(rawptr) {
 }
 
 object CFuncPtr0 {
-  implicit def fromScalaFunction[R](fn: Function0[R])(
-      implicit evRet: Tag[R]): CFuncPtr0[R] = intrinsic
+  implicit def fromScalaFunction[R](fn: Function0[R])(implicit
+      evRet: Tag[R]): CFuncPtr0[R] = intrinsic
 
   private[scalanative] def fromRawPtr[R](ptr: RawPtr): CFuncPtr0[R] = {
     new CFuncPtr0[R](ptr)
@@ -50,8 +50,8 @@ final class CFuncPtr1[T1, R] private (rawptr: RawPtr) extends CFuncPtr(rawptr) {
 }
 
 object CFuncPtr1 {
-  implicit def fromScalaFunction[T1, R](fn: Function1[T1, R])(
-      implicit ev1: Tag[T1],
+  implicit def fromScalaFunction[T1, R](fn: Function1[T1, R])(implicit
+      ev1: Tag[T1],
       evRet: Tag[R]): CFuncPtr1[T1, R] = intrinsic
 
   private[scalanative] def fromRawPtr[T1, R](ptr: RawPtr): CFuncPtr1[T1, R] = {
@@ -62,14 +62,16 @@ object CFuncPtr1 {
 
 final class CFuncPtr2[T1, T2, R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
-  def apply(arg1: T1,
-            arg2: T2)(implicit ev1: Tag[T1], ev2: Tag[T2], evRet: Tag[R]): R =
+  def apply(arg1: T1, arg2: T2)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      evRet: Tag[R]): R =
     intrinsic
 }
 
 object CFuncPtr2 {
-  implicit def fromScalaFunction[T1, T2, R](fn: Function2[T1, T2, R])(
-      implicit ev1: Tag[T1],
+  implicit def fromScalaFunction[T1, T2, R](fn: Function2[T1, T2, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       evRet: Tag[R]): CFuncPtr2[T1, T2, R] = intrinsic
 
@@ -82,15 +84,17 @@ object CFuncPtr2 {
 
 final class CFuncPtr3[T1, T2, T3, R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
-  def apply(arg1: T1, arg2: T2, arg3: T3)(implicit ev1: Tag[T1],
-                                          ev2: Tag[T2],
-                                          ev3: Tag[T3],
-                                          evRet: Tag[R]): R = intrinsic
+  def apply(arg1: T1, arg2: T2, arg3: T3)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr3 {
-  implicit def fromScalaFunction[T1, T2, T3, R](fn: Function3[T1, T2, T3, R])(
-      implicit ev1: Tag[T1],
+  implicit def fromScalaFunction[T1, T2, T3, R](
+      fn: Function3[T1, T2, T3, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       evRet: Tag[R]): CFuncPtr3[T1, T2, T3, R] = intrinsic
@@ -104,18 +108,19 @@ object CFuncPtr3 {
 
 final class CFuncPtr4[T1, T2, T3, T4, R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
-  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4)(implicit ev1: Tag[T1],
-                                                    ev2: Tag[T2],
-                                                    ev3: Tag[T3],
-                                                    ev4: Tag[T4],
-                                                    evRet: Tag[R]): R =
+  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      evRet: Tag[R]): R =
     intrinsic
 }
 
 object CFuncPtr4 {
   implicit def fromScalaFunction[T1, T2, T3, T4, R](
-      fn: Function4[T1, T2, T3, T4, R])(
-      implicit ev1: Tag[T1],
+      fn: Function4[T1, T2, T3, T4, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -130,8 +135,8 @@ object CFuncPtr4 {
 
 final class CFuncPtr5[T1, T2, T3, T4, T5, R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
-  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5)(
-      implicit ev1: Tag[T1],
+  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5)(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -141,8 +146,8 @@ final class CFuncPtr5[T1, T2, T3, T4, T5, R] private (rawptr: RawPtr)
 
 object CFuncPtr5 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, R](
-      fn: Function5[T1, T2, T3, T4, T5, R])(
-      implicit ev1: Tag[T1],
+      fn: Function5[T1, T2, T3, T4, T5, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -158,8 +163,8 @@ object CFuncPtr5 {
 
 final class CFuncPtr6[T1, T2, T3, T4, T5, T6, R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
-  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6)(
-      implicit ev1: Tag[T1],
+  def apply(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6)(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -170,8 +175,8 @@ final class CFuncPtr6[T1, T2, T3, T4, T5, T6, R] private (rawptr: RawPtr)
 
 object CFuncPtr6 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, T6, R](
-      fn: Function6[T1, T2, T3, T4, T5, T6, R])(
-      implicit ev1: Tag[T1],
+      fn: Function6[T1, T2, T3, T4, T5, T6, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -194,20 +199,21 @@ final class CFuncPtr7[T1, T2, T3, T4, T5, T6, T7, R] private (rawptr: RawPtr)
             arg4: T4,
             arg5: T5,
             arg6: T6,
-            arg7: T7)(implicit ev1: Tag[T1],
-                      ev2: Tag[T2],
-                      ev3: Tag[T3],
-                      ev4: Tag[T4],
-                      ev5: Tag[T5],
-                      ev6: Tag[T6],
-                      ev7: Tag[T7],
-                      evRet: Tag[R]): R = intrinsic
+            arg7: T7)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr7 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, T6, T7, R](
-      fn: Function7[T1, T2, T3, T4, T5, T6, T7, R])(
-      implicit ev1: Tag[T1],
+      fn: Function7[T1, T2, T3, T4, T5, T6, T7, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -233,21 +239,22 @@ final class CFuncPtr8[T1, T2, T3, T4, T5, T6, T7, T8, R] private (
             arg5: T5,
             arg6: T6,
             arg7: T7,
-            arg8: T8)(implicit ev1: Tag[T1],
-                      ev2: Tag[T2],
-                      ev3: Tag[T3],
-                      ev4: Tag[T4],
-                      ev5: Tag[T5],
-                      ev6: Tag[T6],
-                      ev7: Tag[T7],
-                      ev8: Tag[T8],
-                      evRet: Tag[R]): R = intrinsic
+            arg8: T8)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr8 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, T6, T7, T8, R](
-      fn: Function8[T1, T2, T3, T4, T5, T6, T7, T8, R])(
-      implicit ev1: Tag[T1],
+      fn: Function8[T1, T2, T3, T4, T5, T6, T7, T8, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -275,22 +282,23 @@ final class CFuncPtr9[T1, T2, T3, T4, T5, T6, T7, T8, T9, R] private (
             arg6: T6,
             arg7: T7,
             arg8: T8,
-            arg9: T9)(implicit ev1: Tag[T1],
-                      ev2: Tag[T2],
-                      ev3: Tag[T3],
-                      ev4: Tag[T4],
-                      ev5: Tag[T5],
-                      ev6: Tag[T6],
-                      ev7: Tag[T7],
-                      ev8: Tag[T8],
-                      ev9: Tag[T9],
-                      evRet: Tag[R]): R = intrinsic
+            arg9: T9)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr9 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, T6, T7, T8, T9, R](
-      fn: Function9[T1, T2, T3, T4, T5, T6, T7, T8, T9, R])(
-      implicit ev1: Tag[T1],
+      fn: Function9[T1, T2, T3, T4, T5, T6, T7, T8, T9, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -321,23 +329,24 @@ final class CFuncPtr10[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R] private (
             arg7: T7,
             arg8: T8,
             arg9: T9,
-            arg10: T10)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        evRet: Tag[R]): R = intrinsic
+            arg10: T10)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr10 {
   implicit def fromScalaFunction[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R](
-      fn: Function10[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R])(
-      implicit ev1: Tag[T1],
+      fn: Function10[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -367,8 +376,18 @@ object CFuncPtr10 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr11[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R] private (
-    rawptr: RawPtr)
+final class CFuncPtr11[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -380,18 +399,19 @@ final class CFuncPtr11[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R] private 
             arg8: T8,
             arg9: T9,
             arg10: T10,
-            arg11: T11)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        evRet: Tag[R]): R = intrinsic
+            arg11: T11)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr11 {
@@ -407,8 +427,8 @@ object CFuncPtr11 {
                                  T10,
                                  T11,
                                  R](
-      fn: Function11[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R])(
-      implicit ev1: Tag[T1],
+      fn: Function11[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -440,8 +460,19 @@ object CFuncPtr11 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R] private (
-    rawptr: RawPtr)
+final class CFuncPtr12[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -454,19 +485,20 @@ final class CFuncPtr12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R] pri
             arg9: T9,
             arg10: T10,
             arg11: T11,
-            arg12: T12)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        evRet: Tag[R]): R = intrinsic
+            arg12: T12)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr12 {
@@ -484,7 +516,8 @@ object CFuncPtr12 {
                                  T12,
                                  R](
       fn: Function12[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R])(
-      implicit ev1: Tag[T1],
+      implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -519,8 +552,20 @@ object CFuncPtr12 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr13[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-R] private (rawptr: RawPtr)
+final class CFuncPtr13[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -534,20 +579,21 @@ R] private (rawptr: RawPtr)
             arg10: T10,
             arg11: T11,
             arg12: T12,
-            arg13: T13)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        evRet: Tag[R]): R = intrinsic
+            arg13: T13)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr13 {
@@ -564,33 +610,35 @@ object CFuncPtr13 {
                                  T11,
                                  T12,
                                  T13,
-                                 R](fn: Function13[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   R])(implicit ev1: Tag[T1],
-                                                       ev2: Tag[T2],
-                                                       ev3: Tag[T3],
-                                                       ev4: Tag[T4],
-                                                       ev5: Tag[T5],
-                                                       ev6: Tag[T6],
-                                                       ev7: Tag[T7],
-                                                       ev8: Tag[T8],
-                                                       ev9: Tag[T9],
-                                                       ev10: Tag[T10],
-                                                       ev11: Tag[T11],
-                                                       ev12: Tag[T12],
-                                                       ev13: Tag[T13],
-                                                       evRet: Tag[R])
+                                 R](
+      fn: Function13[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     R])(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      evRet: Tag[R])
       : CFuncPtr13[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R] =
     intrinsic
 
@@ -627,8 +675,21 @@ object CFuncPtr13 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr14[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, R] private (rawptr: RawPtr)
+final class CFuncPtr14[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -643,21 +704,22 @@ T14, R] private (rawptr: RawPtr)
             arg11: T11,
             arg12: T12,
             arg13: T13,
-            arg14: T14)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        evRet: Tag[R]): R = intrinsic
+            arg14: T14)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr14 {
@@ -675,22 +737,23 @@ object CFuncPtr14 {
                                  T12,
                                  T13,
                                  T14,
-                                 R](fn: Function14[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function14[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -768,8 +831,22 @@ object CFuncPtr14 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr15[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, R] private (rawptr: RawPtr)
+final class CFuncPtr15[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -785,22 +862,23 @@ T14, T15, R] private (rawptr: RawPtr)
             arg12: T12,
             arg13: T13,
             arg14: T14,
-            arg15: T15)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        evRet: Tag[R]): R = intrinsic
+            arg15: T15)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr15 {
@@ -819,23 +897,24 @@ object CFuncPtr15 {
                                  T13,
                                  T14,
                                  T15,
-                                 R](fn: Function15[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function15[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -918,8 +997,23 @@ object CFuncPtr15 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr16[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, R] private (rawptr: RawPtr)
+final class CFuncPtr16[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -936,23 +1030,24 @@ T14, T15, T16, R] private (rawptr: RawPtr)
             arg13: T13,
             arg14: T14,
             arg15: T15,
-            arg16: T16)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        evRet: Tag[R]): R = intrinsic
+            arg16: T16)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr16 {
@@ -972,24 +1067,25 @@ object CFuncPtr16 {
                                  T14,
                                  T15,
                                  T16,
-                                 R](fn: Function16[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function16[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -1077,8 +1173,24 @@ object CFuncPtr16 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr17[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, R] private (rawptr: RawPtr)
+final class CFuncPtr17[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -1096,24 +1208,25 @@ T14, T15, T16, T17, R] private (rawptr: RawPtr)
             arg14: T14,
             arg15: T15,
             arg16: T16,
-            arg17: T17)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        evRet: Tag[R]): R = intrinsic
+            arg17: T17)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr17 {
@@ -1134,25 +1247,26 @@ object CFuncPtr17 {
                                  T15,
                                  T16,
                                  T17,
-                                 R](fn: Function17[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function17[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -1245,8 +1359,25 @@ object CFuncPtr17 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr18[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, T18, R] private (rawptr: RawPtr)
+final class CFuncPtr18[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       T18,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -1265,25 +1396,26 @@ T14, T15, T16, T17, T18, R] private (rawptr: RawPtr)
             arg15: T15,
             arg16: T16,
             arg17: T17,
-            arg18: T18)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        ev18: Tag[T18],
-                        evRet: Tag[R]): R = intrinsic
+            arg18: T18)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      ev18: Tag[T18],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr18 {
@@ -1305,26 +1437,27 @@ object CFuncPtr18 {
                                  T16,
                                  T17,
                                  T18,
-                                 R](fn: Function18[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   T18,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function18[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     T18,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -1422,8 +1555,26 @@ object CFuncPtr18 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr19[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, T18, T19, R] private (rawptr: RawPtr)
+final class CFuncPtr19[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       T18,
+                       T19,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -1443,26 +1594,27 @@ T14, T15, T16, T17, T18, T19, R] private (rawptr: RawPtr)
             arg16: T16,
             arg17: T17,
             arg18: T18,
-            arg19: T19)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        ev18: Tag[T18],
-                        ev19: Tag[T19],
-                        evRet: Tag[R]): R = intrinsic
+            arg19: T19)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      ev18: Tag[T18],
+      ev19: Tag[T19],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr19 {
@@ -1485,27 +1637,28 @@ object CFuncPtr19 {
                                  T17,
                                  T18,
                                  T19,
-                                 R](fn: Function19[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   T18,
-                                                   T19,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function19[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     T18,
+                     T19,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -1608,8 +1761,27 @@ object CFuncPtr19 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr20[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, T18, T19, T20, R] private (rawptr: RawPtr)
+final class CFuncPtr20[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       T18,
+                       T19,
+                       T20,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -1630,27 +1802,28 @@ T14, T15, T16, T17, T18, T19, T20, R] private (rawptr: RawPtr)
             arg17: T17,
             arg18: T18,
             arg19: T19,
-            arg20: T20)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        ev18: Tag[T18],
-                        ev19: Tag[T19],
-                        ev20: Tag[T20],
-                        evRet: Tag[R]): R = intrinsic
+            arg20: T20)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      ev18: Tag[T18],
+      ev19: Tag[T19],
+      ev20: Tag[T20],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr20 {
@@ -1674,28 +1847,29 @@ object CFuncPtr20 {
                                  T18,
                                  T19,
                                  T20,
-                                 R](fn: Function20[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   T18,
-                                                   T19,
-                                                   T20,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function20[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     T18,
+                     T19,
+                     T20,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -1803,8 +1977,28 @@ object CFuncPtr20 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr21[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, T18, T19, T20, T21, R] private (rawptr: RawPtr)
+final class CFuncPtr21[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       T18,
+                       T19,
+                       T20,
+                       T21,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -1826,28 +2020,29 @@ T14, T15, T16, T17, T18, T19, T20, T21, R] private (rawptr: RawPtr)
             arg18: T18,
             arg19: T19,
             arg20: T20,
-            arg21: T21)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        ev18: Tag[T18],
-                        ev19: Tag[T19],
-                        ev20: Tag[T20],
-                        ev21: Tag[T21],
-                        evRet: Tag[R]): R = intrinsic
+            arg21: T21)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      ev18: Tag[T18],
+      ev19: Tag[T19],
+      ev20: Tag[T20],
+      ev21: Tag[T21],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr21 {
@@ -1872,29 +2067,30 @@ object CFuncPtr21 {
                                  T19,
                                  T20,
                                  T21,
-                                 R](fn: Function21[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   T18,
-                                                   T19,
-                                                   T20,
-                                                   T21,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function21[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     T18,
+                     T19,
+                     T20,
+                     T21,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],
@@ -2007,8 +2203,29 @@ object CFuncPtr21 {
 }
 // ###sourceLocation(file: "nativelib/src/main/scala/scala/scalanative/unsafe/CFuncPtr.scala.gyb", line: 36)
 
-final class CFuncPtr22[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
-T14, T15, T16, T17, T18, T19, T20, T21, T22, R] private (rawptr: RawPtr)
+final class CFuncPtr22[T1,
+                       T2,
+                       T3,
+                       T4,
+                       T5,
+                       T6,
+                       T7,
+                       T8,
+                       T9,
+                       T10,
+                       T11,
+                       T12,
+                       T13,
+                       T14,
+                       T15,
+                       T16,
+                       T17,
+                       T18,
+                       T19,
+                       T20,
+                       T21,
+                       T22,
+                       R] private (rawptr: RawPtr)
     extends CFuncPtr(rawptr) {
   def apply(arg1: T1,
             arg2: T2,
@@ -2031,29 +2248,30 @@ T14, T15, T16, T17, T18, T19, T20, T21, T22, R] private (rawptr: RawPtr)
             arg19: T19,
             arg20: T20,
             arg21: T21,
-            arg22: T22)(implicit ev1: Tag[T1],
-                        ev2: Tag[T2],
-                        ev3: Tag[T3],
-                        ev4: Tag[T4],
-                        ev5: Tag[T5],
-                        ev6: Tag[T6],
-                        ev7: Tag[T7],
-                        ev8: Tag[T8],
-                        ev9: Tag[T9],
-                        ev10: Tag[T10],
-                        ev11: Tag[T11],
-                        ev12: Tag[T12],
-                        ev13: Tag[T13],
-                        ev14: Tag[T14],
-                        ev15: Tag[T15],
-                        ev16: Tag[T16],
-                        ev17: Tag[T17],
-                        ev18: Tag[T18],
-                        ev19: Tag[T19],
-                        ev20: Tag[T20],
-                        ev21: Tag[T21],
-                        ev22: Tag[T22],
-                        evRet: Tag[R]): R = intrinsic
+            arg22: T22)(implicit
+      ev1: Tag[T1],
+      ev2: Tag[T2],
+      ev3: Tag[T3],
+      ev4: Tag[T4],
+      ev5: Tag[T5],
+      ev6: Tag[T6],
+      ev7: Tag[T7],
+      ev8: Tag[T8],
+      ev9: Tag[T9],
+      ev10: Tag[T10],
+      ev11: Tag[T11],
+      ev12: Tag[T12],
+      ev13: Tag[T13],
+      ev14: Tag[T14],
+      ev15: Tag[T15],
+      ev16: Tag[T16],
+      ev17: Tag[T17],
+      ev18: Tag[T18],
+      ev19: Tag[T19],
+      ev20: Tag[T20],
+      ev21: Tag[T21],
+      ev22: Tag[T22],
+      evRet: Tag[R]): R = intrinsic
 }
 
 object CFuncPtr22 {
@@ -2079,30 +2297,31 @@ object CFuncPtr22 {
                                  T20,
                                  T21,
                                  T22,
-                                 R](fn: Function22[T1,
-                                                   T2,
-                                                   T3,
-                                                   T4,
-                                                   T5,
-                                                   T6,
-                                                   T7,
-                                                   T8,
-                                                   T9,
-                                                   T10,
-                                                   T11,
-                                                   T12,
-                                                   T13,
-                                                   T14,
-                                                   T15,
-                                                   T16,
-                                                   T17,
-                                                   T18,
-                                                   T19,
-                                                   T20,
-                                                   T21,
-                                                   T22,
-                                                   R])(
-      implicit ev1: Tag[T1],
+                                 R](
+      fn: Function22[T1,
+                     T2,
+                     T3,
+                     T4,
+                     T5,
+                     T6,
+                     T7,
+                     T8,
+                     T9,
+                     T10,
+                     T11,
+                     T12,
+                     T13,
+                     T14,
+                     T15,
+                     T16,
+                     T17,
+                     T18,
+                     T19,
+                     T20,
+                     T21,
+                     T22,
+                     R])(implicit
+      ev1: Tag[T1],
       ev2: Tag[T2],
       ev3: Tag[T3],
       ev4: Tag[T4],

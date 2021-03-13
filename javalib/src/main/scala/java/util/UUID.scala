@@ -96,7 +96,7 @@ final class UUID private (private val i1: Int,
 
     paddedHex8(i1) + "-" + paddedHex4(i2 >>> 16) + "-" +
       paddedHex4(i2 & 0xffff) + "-" + paddedHex4(i3 >>> 16) + "-" + paddedHex4(
-      i3 & 0xffff) + paddedHex8(i4)
+        i3 & 0xffff) + paddedHex8(i4)
   }
 
   override def hashCode(): Int =
@@ -152,8 +152,10 @@ object UUID {
     @inline def parseHex8(his: String, los: String): Int =
       (parseInt(his, 16) << 16) | parseInt(los, 16)
 
-    if (name.length != 36 || name.charAt(8) != '-' || name.charAt(13) != '-' ||
-        name.charAt(18) != '-' || name.charAt(23) != '-')
+    if (
+      name.length != 36 || name.charAt(8) != '-' || name.charAt(13) != '-' ||
+      name.charAt(18) != '-' || name.charAt(23) != '-'
+    )
       fail()
 
     try {

@@ -150,23 +150,27 @@ class ReflectiveInstantiationTest {
   }
 
   @Test def testClassNoArgCtorErrorCase(): Unit = {
-    for (name <- Seq(NameClassEnableDirectNoZeroArgCtor,
-                     NameClassEnableIndirectNoZeroArgCtor)) {
+    for (
+      name <- Seq(NameClassEnableDirectNoZeroArgCtor,
+                  NameClassEnableIndirectNoZeroArgCtor)
+    ) {
       val optClassData = Reflect.lookupInstantiatableClass(name)
       assertTrue(optClassData.isDefined)
       val classData = optClassData.get
 
       expectThrows(classOf[InstantiationException], {
-        classData.newInstance()
-      })
+                     classData.newInstance()
+                   })
     }
   }
 
   @Test def testClassCtorWithArgs(): Unit = {
-    for (name <- Seq(NameClassEnableDirect,
-                     NameClassEnableDirectNoZeroArgCtor,
-                     NameClassEnableIndirect,
-                     NameClassEnableIndirectNoZeroArgCtor)) {
+    for (
+      name <- Seq(NameClassEnableDirect,
+                  NameClassEnableDirectNoZeroArgCtor,
+                  NameClassEnableIndirect,
+                  NameClassEnableIndirectNoZeroArgCtor)
+    ) {
       val optClassData = Reflect.lookupInstantiatableClass(name)
       assertTrue(optClassData.isDefined)
       val classData = optClassData.get

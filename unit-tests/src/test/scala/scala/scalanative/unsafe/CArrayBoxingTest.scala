@@ -159,9 +159,9 @@ class CArrayBoxingTest {
 
   @Test def testToString(): Unit = {
     assertThrows(classOf[NullPointerException], {
-      val nullBoxed: Any = nullArr
-      nullBoxed.toString
-    })
+                   val nullBoxed: Any = nullArr
+                   nullBoxed.toString
+                 })
     val boxed1: Any = arr
     assertTrue(boxed1.toString == ("CArray@" + toHexString(arr.at(0).toLong)))
     val boxed2: Any = arr2

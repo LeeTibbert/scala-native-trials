@@ -7,7 +7,8 @@ import scala.concurrent.Future
 import scala.scalanative.reflect.annotation._
 import scala.util.Try
 
-/** Scala Native internal JUnit bootstrapper.
+/**
+ * Scala Native internal JUnit bootstrapper.
  *
  *  This class is public due to implementation details. Only the junit compiler
  *  plugin may generate classes inheriting from it.
@@ -28,7 +29,8 @@ trait Bootstrapper {
   def newInstance(): AnyRef
 }
 
-/** Scala Native internal JUnit test metadata
+/**
+ * Scala Native internal JUnit test metadata
  *
  *  This class is public due to implementation details. Only the junit compiler
  *  plugin may create instances of it.
@@ -41,7 +43,8 @@ final class TestMetadata(
     val annotation: org.junit.Test
 )
 
-/** Scala Native interal JUnit test class metadata
+/**
+ * Scala Native interal JUnit test class metadata
  *
  *  This class is public due to implementation details. Only the junit compiler
  *  plugin may create instances of it.

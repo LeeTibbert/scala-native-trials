@@ -84,7 +84,7 @@ class Inet6AddressTest {
                  Inet6Address.getByAddress("123", addr1, 0))
 
     val addr2 = Array[Byte](
-      0xFE.toByte,
+      0xfe.toByte,
       0x80.toByte,
       0.toByte,
       0.toByte,
@@ -95,11 +95,11 @@ class Inet6AddressTest {
       0x02.toByte,
       0x11.toByte,
       0x25.toByte,
-      0xFF.toByte,
-      0xFE.toByte,
-      0xF8.toByte,
-      0x7C.toByte,
-      0xB2.toByte
+      0xff.toByte,
+      0xfe.toByte,
+      0xf8.toByte,
+      0x7c.toByte,
+      0xb2.toByte
     )
 
     Inet6Address.getByAddress("123", addr2, 3)

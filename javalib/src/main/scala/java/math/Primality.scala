@@ -64,7 +64,8 @@ private[math] object Primality {
     877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977,
     983, 991, 997, 1009, 1013, 1019, 1021)
 
-  /** Encodes how many i-bit primes there are in the table for {@code i=2,...,10}.
+  /**
+   * Encodes how many i-bit primes there are in the table for {@code i=2,...,10}.
    *
    *  For example {@code offsetPrimes[6]} says that from index
    *  {@code 11} exists {@code 7} consecutive {@code 6}-bit prime numbers in the
@@ -86,7 +87,8 @@ private[math] object Primality {
   private val BiPrimes = Array.tabulate[BigInteger](Primes.length)(i =>
     BigInteger.valueOf(Primes(i)))
 
-  /** A random number is generated until a probable prime number is found.
+  /**
+   * A random number is generated until a probable prime number is found.
    *
    *  @see BigInteger#BigInteger(int,int,Random)
    *  @see BigInteger#probablePrime(int,Random)
@@ -120,7 +122,8 @@ private[math] object Primality {
     }
   }
 
-  /** Returns true if this is a prime, within the provided certainty.
+  /**
+   * Returns true if this is a prime, within the provided certainty.
    *
    *  @see BigInteger#isProbablePrime(int)
    *  @see #millerRabin(BigInteger, int)
@@ -135,13 +138,15 @@ private[math] object Primality {
     } else if (!n.testBit(0)) {
       // To discard all even numbers
       false
-    } else if (n.numberLength == 1 && (n.digits(0) & 0XFFFFFC00) == 0) {
+    } else if (n.numberLength == 1 && (n.digits(0) & 0xfffffc00) == 0) {
       // To check if 'n' exists in the table (it fit in 10 bits)
       Arrays.binarySearch(Primes, n.digits(0)) >= 0
     } else {
       // To check if 'n' is divisible by some prime of the table
       for (i <- 1 until Primes.length) {
-        if (Division.remainderArrayByInt(n.digits, n.numberLength, Primes(i)) == 0)
+        if (
+          Division.remainderArrayByInt(n.digits, n.numberLength, Primes(i)) == 0
+        )
           return false
       }
 
@@ -158,7 +163,8 @@ private[math] object Primality {
     // scalastyle:on return
   }
 
-  /** Returns the next, probable prime number.
+  /**
+   * Returns the next, probable prime number.
    *
    *  It uses the sieve of Eratosthenes to discard several composite numbers in
    *  some appropriate range (at the moment {@code [this, this + 1024]}). After
@@ -238,7 +244,8 @@ private[math] object Primality {
     // scalastyle:on return
   }
 
-  /** The Miller-Rabin primality test.
+  /**
+   * The Miller-Rabin primality test.
    *
    *  @param n the input number to be tested.
    *  @param t the number of trials.

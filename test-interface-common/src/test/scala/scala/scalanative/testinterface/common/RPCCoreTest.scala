@@ -126,12 +126,11 @@ class RPCCoreTest {
 
     y.call(eps.simple)(())
       .map(_ => fail("Expected exception"))
-      .recover {
-        case e: RPCCore.RPCException =>
-          assertNotNull(e.getCause())
-          assertEquals(msg0, e.getCause().getMessage())
-          assertNotNull(e.getCause().getCause())
-          assertEquals(msg1, e.getCause().getCause().getMessage())
+      .recover { case e: RPCCore.RPCException =>
+        assertNotNull(e.getCause())
+        assertEquals(msg0, e.getCause().getMessage())
+        assertNotNull(e.getCause().getCause())
+        assertEquals(msg1, e.getCause().getCause().getMessage())
       }
   }
 
@@ -144,9 +143,8 @@ class RPCCoreTest {
     y.close(cause)
     future
       .map(_ => fail("Expected exception"))
-      .recover {
-        case e: RPCCore.ClosedException =>
-          assertSame(cause, e.getCause())
+      .recover { case e: RPCCore.ClosedException =>
+        assertSame(cause, e.getCause())
       }
   }
 }

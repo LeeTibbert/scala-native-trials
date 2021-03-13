@@ -158,9 +158,9 @@ class CStructBoxingTest {
 
   @Test def testToString(): Unit = {
     assertThrows(classOf[NullPointerException], {
-      val nullBoxed: Any = nullStruct
-      nullBoxed.toString
-    })
+                   val nullBoxed: Any = nullStruct
+                   nullBoxed.toString
+                 })
     val boxed1: Any = struct
     assertTrue(
       boxed1.toString == ("CStruct2@" + toHexString(struct.at1.toLong)))

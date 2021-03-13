@@ -7,7 +7,8 @@ import scala.scalanative.util.Scope
 /** Utility methods for building code using Scala Native. */
 object Build {
 
-  /** Run the complete Scala Native pipeline,
+  /**
+   * Run the complete Scala Native pipeline,
    *  LLVM optimizer and system linker, producing
    *  a native binary in the end.
    *

@@ -49,7 +49,8 @@ sealed abstract class Op {
 
   final def show: String = nir.Show(this)
 
-  /** Op is pure if it doesn't have any side-effects, including:
+  /**
+   * Op is pure if it doesn't have any side-effects, including:
    *
    *  * doesn't throw exceptions
    *  * doesn't perform any unsafe reads or writes from the memory
@@ -75,7 +76,8 @@ sealed abstract class Op {
       false
   }
 
-  /** Op is idempotent if re-evaluation of the operation with the same
+  /**
+   * Op is idempotent if re-evaluation of the operation with the same
    *  arguments is going to produce the same results, without any extra
    *  side effects as long as previous evaluation did not throw.
    */

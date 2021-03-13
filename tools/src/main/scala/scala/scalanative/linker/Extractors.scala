@@ -20,36 +20,36 @@ object Ref extends Extractor[Info] {
 
 object ScopeRef extends Extractor[ScopeInfo] {
   def unapply(name: Global)(implicit linked: Result): Option[ScopeInfo] =
-    linked.infos.get(name).collect {
-      case node: ScopeInfo => node
+    linked.infos.get(name).collect { case node: ScopeInfo =>
+      node
     }
 }
 
 object ClassRef extends Extractor[Class] {
   def unapply(name: Global)(implicit linked: Result): Option[Class] =
-    linked.infos.get(name).collect {
-      case node: Class => node
+    linked.infos.get(name).collect { case node: Class =>
+      node
     }
 }
 
 object TraitRef extends Extractor[Trait] {
   def unapply(name: Global)(implicit linked: Result): Option[Trait] =
-    linked.infos.get(name).collect {
-      case node: Trait => node
+    linked.infos.get(name).collect { case node: Trait =>
+      node
     }
 }
 
 object MethodRef extends Extractor[(Info, Method)] {
   def unapply(name: Global)(implicit linked: Result): Option[(Info, Method)] =
-    linked.infos.get(name).collect {
-      case node: Method => (node.owner, node)
+    linked.infos.get(name).collect { case node: Method =>
+      (node.owner, node)
     }
 }
 
 object FieldRef extends Extractor[(Info, Field)] {
   def unapply(name: Global)(implicit linked: Result): Option[(Info, Field)] =
-    linked.infos.get(name).collect {
-      case node: Field => (node.owner, node)
+    linked.infos.get(name).collect { case node: Field =>
+      (node.owner, node)
     }
 }
 

@@ -3,7 +3,8 @@ package libc
 
 import scalanative.unsafe._
 
-/** All functions take complex but Scala Native does not
+/**
+ * All functions take complex but Scala Native does not
  * support pass by value so we pass a pointer to an
  * Array of length 2 and have a small wrapper in C
  * doing the conversion to call the native function.
@@ -18,13 +19,11 @@ import scalanative.unsafe._
  *
  * Implicit classes are provided for convenience.
  *
- *
  * References:
  * https://en.wikipedia.org/wiki/C_data_types
  * C99 also added complex types: float _Complex, double _Complex, long double _Complex
  * https://en.wikipedia.org/wiki/Long_double
  * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/complex.h.html
- *
  */
 @extern
 object complex {

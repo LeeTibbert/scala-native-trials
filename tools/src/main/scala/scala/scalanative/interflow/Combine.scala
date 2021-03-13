@@ -11,8 +11,9 @@ import nir.Conv._
 
 trait Combine { self: Interflow =>
 
-  def combine(bin: Bin, ty: Type, l: Val, r: Val)(implicit state: State,
-                                                  origPos: Position): Val = {
+  def combine(bin: Bin, ty: Type, l: Val, r: Val)(implicit
+      state: State,
+      origPos: Position): Val = {
     import state.{materialize, delay, emit}
 
     def fallback = {
@@ -385,8 +386,8 @@ trait Combine { self: Interflow =>
     }
   }
 
-  def combine(comp: Comp, ty: Type, l: Val, r: Val)(
-      implicit state: State): Val = {
+  def combine(comp: Comp, ty: Type, l: Val, r: Val)(implicit
+      state: State): Val = {
     import state.{materialize, delay, emit}
 
     (comp, l, r) match {

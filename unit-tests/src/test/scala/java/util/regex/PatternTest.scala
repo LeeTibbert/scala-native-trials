@@ -19,7 +19,7 @@ class PatternTest {
 
   @Test def compileRegexFlagsInvalidFlag(): Unit = {
     assertThrows(classOf[IllegalArgumentException],
-                 Pattern.compile(":", 0xA0000000))
+                 Pattern.compile(":", 0xa0000000))
   }
 
   @Test def compileRegexFlagsUnsupportedFlags(): Unit = {
@@ -576,7 +576,7 @@ class PatternTest {
           e.getIndex == 4 &&
           e.getPattern == "foo\\L" &&
           e.getMessage ==
-            """|Illegal/unsupported escape sequence near index 4
+          """|Illegal/unsupported escape sequence near index 4
              |foo\L
              |    ^""".stripMargin
       })

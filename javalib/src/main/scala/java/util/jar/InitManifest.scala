@@ -101,7 +101,9 @@ class InitManifest private[jar] (buf: Array[Byte],
         return
       }
 
-      if (!((b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || b == '_' || b == '-' || (b >= '0' && b <= '9'))) {
+      if (
+        !((b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || b == '_' || b == '-' || (b >= '0' && b <= '9'))
+      ) {
         throw new IOException(s"Invalid attribute $b")
       }
 

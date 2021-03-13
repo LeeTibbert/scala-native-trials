@@ -13,7 +13,7 @@ final class Timestamp private (private val signerCertPath: CertPath,
     throw new NullPointerException("signerCertPath cannot be null")
   }
 
-  /** Constructor overload with null checking and timestamp cloning **/
+  /** Constructor overload with null checking and timestamp cloning * */
   @throws[NullPointerException]
   def this(timestamp: Date, signerCertPath: CertPath) =
     this(

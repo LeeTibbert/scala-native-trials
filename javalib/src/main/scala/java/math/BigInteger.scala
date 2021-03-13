@@ -84,7 +84,8 @@ object BigInteger {
   private final val TWO_POWS =
     Array.tabulate[BigInteger](32)(i => BigInteger.valueOf(1L << i))
 
-  /** The first non zero digit is either -1 if sign is zero, otherwise it is >= 0.
+  /**
+   * The first non zero digit is either -1 if sign is zero, otherwise it is >= 0.
    *
    *  Furthermore, it is a value that is often used and so the value computed from
    *  {@code getFirstNonzeroDigit} is cached  to {@code firstNonzeroDigit} and can be
@@ -144,7 +145,8 @@ object BigInteger {
 class BigInteger extends Number with Comparable[BigInteger] {
   import BigInteger._
 
-  /** The magnitude of this big integer.
+  /**
+   * The magnitude of this big integer.
    *
    *  This array is in little endian order and each "digit" is a 32-bit unsigned
    *  integer. For example:
@@ -237,8 +239,10 @@ class BigInteger extends Number with Comparable[BigInteger] {
   def this(s: String, radix: Int) = {
     this()
     checkNotNull(s)
-    if ((radix < java.lang.Character.MIN_RADIX) ||
-        (radix > java.lang.Character.MAX_RADIX))
+    if (
+      (radix < java.lang.Character.MIN_RADIX) ||
+      (radix > java.lang.Character.MAX_RADIX)
+    )
       throw new NumberFormatException("Radix out of range")
     if (s.isEmpty())
       throw new NumberFormatException("Zero length BigInteger")
@@ -250,7 +254,8 @@ class BigInteger extends Number with Comparable[BigInteger] {
     this(s, 10)
   }
 
-  /** Constructs a number which array is of size 1.
+  /**
+   * Constructs a number which array is of size 1.
    *
    *  @param sign the sign of the number
    *  @param value the only one digit of array
@@ -262,7 +267,8 @@ class BigInteger extends Number with Comparable[BigInteger] {
     digits = Array(value)
   }
 
-  /** Creates a new {@code BigInteger} with the given sign and magnitude.
+  /**
+   * Creates a new {@code BigInteger} with the given sign and magnitude.
    *
    *  This constructor does not create a copy, so any changes to the reference will
    *  affect the new number.
@@ -284,7 +290,8 @@ class BigInteger extends Number with Comparable[BigInteger] {
     }
   }
 
-  /** Constructs a number without to create new space.
+  /**
+   * Constructs a number without to create new space.
    *
    *  This construct should be used only if the three fields of representation
    *  are known.
@@ -300,7 +307,8 @@ class BigInteger extends Number with Comparable[BigInteger] {
     this.digits = digits
   }
 
-  /** Creates a new {@code BigInteger} with value equal to the specified {@code long}.
+  /**
+   * Creates a new {@code BigInteger} with value equal to the specified {@code long}.
    *
    *  @param sign the sign of the number
    *  @param lVal the value of the new {@code BigInteger}.
@@ -367,7 +375,7 @@ class BigInteger extends Number with Comparable[BigInteger] {
       val thisLen    = numberLength
       val divisorLen = divisor.numberLength
       if (thisLen + divisorLen == 2) {
-        var bi = (digits(0) & 0xFFFFFFFFL) / (divisor.digits(0) & 0xFFFFFFFFL)
+        var bi = (digits(0) & 0xffffffffL) / (divisor.digits(0) & 0xffffffffL)
         if (thisSign != divisorSign)
           bi = -bi
         valueOf(bi)
@@ -487,8 +495,10 @@ class BigInteger extends Number with Comparable[BigInteger] {
       val2
     } else if (val2.signum() == 0) {
       val1
-    } else if (((val1.numberLength == 1) && (val1.digits(0) > 0)) &&
-               ((val2.numberLength == 1) && (val2.digits(0) > 0))) {
+    } else if (
+      ((val1.numberLength == 1) && (val1.digits(0) > 0)) &&
+      ((val2.numberLength == 1) && (val2.digits(0) > 0))
+    ) {
       // Optimization for small operands
       // (op2.bitLength() < 32) and (op1.bitLength() < 32)
       BigInteger.valueOf(Division.gcdBinary(val1.intValue(), val2.intValue()))
@@ -534,8 +544,8 @@ class BigInteger extends Number with Comparable[BigInteger] {
   override def longValue(): Long = {
     val value =
       if (numberLength > 1)
-        (digits(1).toLong << 32) | (digits(0) & 0xFFFFFFFFL)
-      else digits(0) & 0xFFFFFFFFL
+        (digits(1).toLong << 32) | (digits(0) & 0xffffffffL)
+      else digits(0) & 0xffffffffL
     sign * value
   }
 
@@ -872,22 +882,20 @@ class BigInteger extends Number with Comparable[BigInteger] {
     @inline
     @tailrec
     def loop(): Unit = if (bytesLen > highBytes) {
-      digits(i) =
-        (byteValues(bytesLen - 1) & 0xFF) |
-          (byteValues(bytesLen - 2) & 0xFF) << 8 |
-          (byteValues(bytesLen - 3) & 0xFF) << 16 |
-          (byteValues(bytesLen - 4) & 0xFF) << 24
+      digits(i) = (byteValues(bytesLen - 1) & 0xff) |
+        (byteValues(bytesLen - 2) & 0xff) << 8 |
+        (byteValues(bytesLen - 3) & 0xff) << 16 |
+        (byteValues(bytesLen - 4) & 0xff) << 24
       bytesLen -= 4
       if (digits(i) != 0) {
         digits(i) = -digits(i)
         firstNonzeroDigit = i
         i += 1
         while (bytesLen > highBytes) {
-          digits(i) =
-            (byteValues(bytesLen - 1) & 0xFF) |
-              (byteValues(bytesLen - 2) & 0xFF) << 8 |
-              (byteValues(bytesLen - 3) & 0xFF) << 16 |
-              (byteValues(bytesLen - 4) & 0xFF) << 24
+          digits(i) = (byteValues(bytesLen - 1) & 0xff) |
+            (byteValues(bytesLen - 2) & 0xff) << 8 |
+            (byteValues(bytesLen - 3) & 0xff) << 16 |
+            (byteValues(bytesLen - 4) & 0xff) << 24
           bytesLen -= 4
           digits(i) = ~digits(i)
           i += 1
@@ -903,12 +911,12 @@ class BigInteger extends Number with Comparable[BigInteger] {
       // Put the first bytes in the highest element of the int array
       if (firstNonzeroDigit != firstNonzeroDigitNotSet) {
         for (j <- 0 until bytesLen) {
-          digits(i) = (digits(i) << 8) | (byteValues(j) & 0xFF)
+          digits(i) = (digits(i) << 8) | (byteValues(j) & 0xff)
         }
         digits(i) = ~digits(i)
       } else {
         for (j <- 0 until bytesLen) {
-          digits(i) = (digits(i) << 8) | (byteValues(j) & 0xFF)
+          digits(i) = (digits(i) << 8) | (byteValues(j) & 0xff)
         }
         digits(i) = -digits(i)
       }
@@ -925,17 +933,16 @@ class BigInteger extends Number with Comparable[BigInteger] {
     // Put bytes to the int array starting from the end of the byte array
     var i = 0
     while (bytesLen > highBytes) {
-      digits(i) =
-        (byteValues(bytesLen - 1) & 0xFF) |
-          (byteValues(bytesLen - 2) & 0xFF) << 8 |
-          (byteValues(bytesLen - 3) & 0xFF) << 16 |
-          (byteValues(bytesLen - 4) & 0xFF) << 24
+      digits(i) = (byteValues(bytesLen - 1) & 0xff) |
+        (byteValues(bytesLen - 2) & 0xff) << 8 |
+        (byteValues(bytesLen - 3) & 0xff) << 16 |
+        (byteValues(bytesLen - 4) & 0xff) << 24
       bytesLen = bytesLen - 4
       i += 1
     }
     // Put the first bytes in the highest element of the int array
     for (j <- 0 until bytesLen) {
-      digits(i) = (digits(i) << 8) | (byteValues(j) & 0xFF)
+      digits(i) = (digits(i) << 8) | (byteValues(j) & 0xff)
     }
   }
 

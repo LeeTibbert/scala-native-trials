@@ -121,7 +121,7 @@ object Attributes {
         var i          = name.length - 1
         while (i >= 0) {
           // 'A' & 0xDF == 'a' & 0xDF, ..., 'Z' & 0xDF == 'z' & 0xDF
-          hash += (name(i) & 0xDF) * multiplier
+          hash += (name(i) & 0xdf) * multiplier
           val shifted = multiplier << 5
           multiplier = shifted - multiplier
           i -= 1
@@ -161,7 +161,9 @@ object Attributes {
       i -= 1
       while (i >= 0) {
         val ch = s.charAt(i)
-        if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_' || ch == '-' || (ch >= '0' && ch <= '9'))) {
+        if (
+          !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_' || ch == '-' || (ch >= '0' && ch <= '9'))
+        ) {
           throw new IllegalArgumentException()
         }
         name(i) = ch.toByte

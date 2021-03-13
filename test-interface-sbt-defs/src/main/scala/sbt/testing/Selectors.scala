@@ -1,6 +1,7 @@
 package sbt.testing
 
-/** Information in addition to a test class name that identifies the suite or
+/**
+ * Information in addition to a test class name that identifies the suite or
  *  test about which an event was fired.
  *
  *  This class has five subtypes:
@@ -23,7 +24,8 @@ package sbt.testing
  */
 abstract sealed class Selector
 
-/** Indicates an event was about the entire suite whose class had the fully
+/**
+ * Indicates an event was about the entire suite whose class had the fully
  *  qualified name specified as the <code>fullyQualifiedName</code> attribute
  *  the event.
  */
@@ -33,7 +35,8 @@ final class SuiteSelector extends Selector with Serializable {
   override def toString(): String      = "SuiteSelector"
 }
 
-/** Information in addition to a test class name that identifies a test
+/**
+ * Information in addition to a test class name that identifies a test
  *  directly contained in the suite whose class had the fully qualified name
  *  specified as the <code>fullyQualifiedName</code> attribute passed to the
  *  event.
@@ -43,7 +46,8 @@ final class TestSelector(_testName: String) extends Selector with Serializable {
   if (_testName == null)
     throw new NullPointerException("testName was null");
 
-  /** The name of a test about which an event was fired.
+  /**
+   * The name of a test about which an event was fired.
    *
    *  @return the name of the test
    */
@@ -58,7 +62,8 @@ final class TestSelector(_testName: String) extends Selector with Serializable {
   override def toString(): String = s"TestSelector(${testName()})"
 }
 
-/** Information in addition to a test class name that identifies a nested suite
+/**
+ * Information in addition to a test class name that identifies a nested suite
  *  about which an event was fired.
  */
 final class NestedSuiteSelector(_suiteId: String)
@@ -68,7 +73,8 @@ final class NestedSuiteSelector(_suiteId: String)
   if (_suiteId == null)
     throw new NullPointerException("suiteId was null");
 
-  /** An id that, in addition to a test class name, identifies a nested suite
+  /**
+   * An id that, in addition to a test class name, identifies a nested suite
    *  about which an event was fired.
    *
    *  @return the id of the nested suite
@@ -84,7 +90,8 @@ final class NestedSuiteSelector(_suiteId: String)
   override def toString(): String = s"NestedSuiteSelector(${suiteId()})"
 }
 
-/** Information in addition to a test class name that identifies a test in a
+/**
+ * Information in addition to a test class name that identifies a test in a
  *  nested suite about which an event was fired.
  */
 final class NestedTestSelector(_suiteId: String, _testName: String)
@@ -96,14 +103,16 @@ final class NestedTestSelector(_suiteId: String, _testName: String)
   if (_testName == null)
     throw new NullPointerException("testName was null");
 
-  /** An id that, in addition to a test class name, identifies a nested suite
+  /**
+   * An id that, in addition to a test class name, identifies a nested suite
    *  that contains a test about which an event was fired.
    *
    *  @return the id of the nested suite containing the test
    */
   def suiteId(): String = _suiteId
 
-  /** The name of the test in a nested suite about which an event was fired.
+  /**
+   * The name of the test in a nested suite about which an event was fired.
    *
    *  @return the name of the test in the nested suite identified by the id
    *          returned by <code>suiteId</code>.
@@ -127,7 +136,8 @@ final class NestedTestSelector(_suiteId: String, _testName: String)
     s"NestedTestSelector(${suiteId()}, ${testName()})"
 }
 
-/** Information that identifies zero to many tests directly contained in a test
+/**
+ * Information that identifies zero to many tests directly contained in a test
  *  class.
  *
  *  The <code>testWildcard</code> is a simple string, <em>i.e.</em>, not a glob
@@ -141,7 +151,8 @@ final class TestWildcardSelector(_testWildcard: String)
   if (_testWildcard == null)
     throw new NullPointerException("testWildcard was null");
 
-  /** A test wildcard string used to select tests.
+  /**
+   * A test wildcard string used to select tests.
    *
    *  The <code>testWildcard</code> is a simple string, <em>i.e.</em>, not a
    *  glob or regular expression. Any test whose name includes the

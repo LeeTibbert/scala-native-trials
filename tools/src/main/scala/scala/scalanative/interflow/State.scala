@@ -26,15 +26,15 @@ final class State(block: Local) {
     val fields = cls.fields.map(fld => Val.Zero(fld.ty).canonicalize)
     alloc(ClassKind, cls, fields.toArray[Val])
   }
-  def allocArray(elemty: Type, count: Int)(
-      implicit linked: linker.Result): Addr = {
+  def allocArray(elemty: Type, count: Int)(implicit
+      linked: linker.Result): Addr = {
     val zero   = Val.Zero(elemty).canonicalize
     val values = Array.fill[Val](count)(zero)
     val cls    = linked.infos(Type.toArrayClass(elemty)).asInstanceOf[Class]
     alloc(ArrayKind, cls, values)
   }
-  def allocBox(boxname: Global, value: Val)(
-      implicit linked: linker.Result): Addr = {
+  def allocBox(boxname: Global, value: Val)(implicit
+      linked: linker.Result): Addr = {
     val boxcls = linked.infos(boxname).asInstanceOf[Class]
     alloc(BoxKind, boxcls, Array(value))
   }
@@ -42,9 +42,8 @@ final class State(block: Local) {
     val charsArray = value.toArray
     val charsAddr  = allocArray(Type.Char, charsArray.length)
     val chars      = derefVirtual(charsAddr)
-    charsArray.zipWithIndex.foreach {
-      case (value, idx) =>
-        chars.values(idx) = Val.Char(value)
+    charsArray.zipWithIndex.foreach { case (value, idx) =>
+      chars.values(idx) = Val.Char(value)
     }
     val values = new Array[Val](4)
     values(linked.StringValueField.index) = Val.Virtual(charsAddr)
@@ -65,8 +64,8 @@ final class State(block: Local) {
       value
     }
   }
-  def emit(op: Op, idempotent: Boolean = false)(
-      implicit position: Position): Val = {
+  def emit(op: Op, idempotent: Boolean = false)(implicit
+      position: Position): Val = {
     if (op.isIdempotent || idempotent) {
       if (emitted.contains(op)) {
         emitted(op)
@@ -223,8 +222,9 @@ final class State(block: Local) {
     case _ =>
       false
   }
-  def materialize(rootValue: Val)(implicit linked: linker.Result,
-                                  origPos: Position): Val = {
+  def materialize(rootValue: Val)(implicit
+      linked: linker.Result,
+      origPos: Position): Val = {
     val locals = mutable.Map.empty[Addr, Val]
 
     def reachAddr(addr: Addr): Unit = {
@@ -283,16 +283,15 @@ final class State(block: Local) {
             && values.forall(_.isCanonical)
             && values.exists(v => !v.isZero))
         if (!canConstantInit) {
-          values.zipWithIndex.foreach {
-            case (value, idx) =>
-              if (!value.isZero) {
-                reachVal(value)
-                emit.arraystore(elemty,
-                                local,
-                                Val.Int(idx),
-                                escapedVal(value),
-                                Next.None)
-              }
+          values.zipWithIndex.foreach { case (value, idx) =>
+            if (!value.isZero) {
+              reachVal(value)
+              emit.arraystore(elemty,
+                              local,
+                              Val.Int(idx),
+                              escapedVal(value),
+                              Next.None)
+            }
           }
         }
       case VirtualInstance(BoxKind, cls, Array(value)) =>
@@ -301,16 +300,12 @@ final class State(block: Local) {
           if !hasEscaped(values(linked.StringValueField.index)) =>
         ()
       case VirtualInstance(_, cls, vals) =>
-        cls.fields.zip(vals).foreach {
-          case (fld, value) =>
-            if (!value.isZero) {
-              reachVal(value)
-              emit.fieldstore(fld.ty,
-                              local,
-                              fld.name,
-                              escapedVal(value),
-                              Next.None)
-            }
+        cls.fields.zip(vals).foreach { case (fld, value) =>
+          if (!value.isZero) {
+            reachVal(value)
+            emit
+              .fieldstore(fld.ty, local, fld.name, escapedVal(value), Next.None)
+          }
         }
       case DelayedInstance(op) =>
         ()

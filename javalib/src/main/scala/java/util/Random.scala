@@ -16,7 +16,7 @@ class Random(seed_in: Long) extends AnyRef with java.io.Serializable {
   private var haveNextNextGaussian: Boolean = false
 
   private def calcSeed(seed_in: Long): Long =
-    (seed_in ^ 0x5DEECE66DL) & ((1L << 48) - 1)
+    (seed_in ^ 0x5deece66dL) & ((1L << 48) - 1)
 
   def this() = {
     this(0) // ensure hashCode is set for this object
@@ -29,7 +29,7 @@ class Random(seed_in: Long) extends AnyRef with java.io.Serializable {
   }
 
   protected def next(bits: Int): Int = {
-    seed = (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1)
+    seed = (seed * 0x5deece66dL + 0xbL) & ((1L << 48) - 1)
     (seed >>> (48 - bits)).toInt
   }
 
