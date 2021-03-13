@@ -1,4 +1,4 @@
-name: BL3.5 Run Scala Native tests on macOS
+name: BL 1.0 Debug TimeTest strptime null  on macOS
 on:
   workflow_dispatch:
 
@@ -74,37 +74,15 @@ jobs:
           "++$SCALA_VER" \
           "$ACTION" 
 
-## On each of the steps below, should check that previous step was
-## successful and abort if that is false.
-
-      - name: Scala Native test-tools
-        if: success
-        env:
-          ACTION: test-tools
-
-        run: |
-          sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
-          "$ACTION" 
-
-      - name: Scala Native test-runtime
+      - name: Scala Native debug TimeTest
         if: success
         env:
           ACTION: test-runtime
+          ACTION: "tests/testOnly *.TimeTest"
 
         run: |
           sbt -no-colors -J-Xmx5G \
           "++$SCALA_VER" \
-          "$ACTION" 
-
-      - name: Scala Native test-scripted
-        if: success
-        env:
-          ACTION: test-scripted
-
-        run: |
-          sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
-          "$ACTION" 
+          "${ACTION}" 
 
 # -30- #
