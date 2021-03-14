@@ -6,9 +6,8 @@ import org.junit.Assert._
 import java.io.IOException
 
 import scalanative.libc.{errno => libcErrno, string}
-import scalanative.runtime.Platform
-import scalanative.unsafe._
-import scalanative.unsigned._
+import scala.scalanative.unsafe._
+import scala.scalanative.unsigned._
 
 import time._
 import timeOps.tmOps
