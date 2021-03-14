@@ -1,0 +1,104 @@
+name: BL 1.9 Debug test-all on macOS
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+    - '.github/workflows/macOS_debug_TimeTest.yml'
+    - 'unit-tests/src/test/scala/scala/scalanative/posix/TimeTest.scala'
+
+#  schedule:
+#    - cron: '0 * * * *'
+
+jobs:
+  macOS-bl2:
+    name: macOs test-non-scripted
+    runs-on: macos-10.15
+## Read https://github.com/actions/virtual-environments/blob/main/images\
+##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
+    strategy:
+      fail-fast: false
+      matrix:
+        // sort is alphabetical, so start loop index with zero.
+        loop_i:
+          [0]
+#          [0, 1]
+        loop_j:
+          [0]
+#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    env:
+      SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
+      SCALANATIVE_MODE: debug
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: macOS - bl2 prologue
+
+        run: |
+          echo "Hello World from maybe macOS"
+          echo "$(uname -a)"
+          date
+
+## 2021-03-12 17:24 -0500 llvm 11 already installed, 
+## Looks like java 8 compiler is also installed.
+
+## Someday may want to actively check these versions
+#          which javac
+
+      - name: macOS - Log active software versions
+        run: |
+          clang --version
+          javac -version
+
+## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
+## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
+
+      - name: Install sbt
+        run: |
+          brew install sbt
+          sbt --version
+
+## TODO:
+##   - rework Java handling to be explicitly J8. (unless I do
+##     a fail fast check above.
+##
+##   - May want to coalese test-tools & test-runtime someday, to
+##     save the time cost of a full sbt activation.  Keep separate
+##     for now, in case I come up with a better way of
+##     sequencing/selecting tests.
+##
+##   - Should probably put the SCALA_VER and SCALANATIVE)M
+
+
+## Notes:
+##   - Use the GitHub Actions log file until the need for something
+##     more permanent shows up.  May need more pernament historical
+##     for log files of Release versions.
+
+## Probably have to have a "build-tools" using Scala version 2.12
+## when SCALA_VER is not that. (rough wording, right concept).
+
+      - name: Scala Native build core
+#        if: success
+        env:
+          ACTION: "scalalib/compile"
+
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "$ACTION" 
+
+      - name: Scala Native debug TimeTest
+#        if: success
+        env:
+          ACTION: "test-tools; test-runtime"
+
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "${ACTION}" 
+
+# -30- #
