@@ -20,7 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ones: [1, 2]
+        ones: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        hundreds: [1, 2]
 
     env:
       SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
