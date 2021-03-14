@@ -90,7 +90,7 @@ jobs:
       - name: Scala Native run sandbox
 #        if: success
         env:
-          ACTION: "sandbox/run 100000"
+          ACTION: "sandbox/run 100000000"
 
         run: |
           sbt -no-colors -J-Xmx5G \

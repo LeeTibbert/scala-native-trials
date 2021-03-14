@@ -1,6 +1,10 @@
 object Test {
   def main(args: Array[String]) = {
     val iters = args(0).toInt
+
+// TODO: probably add the start time
+    System.err.printf(s"\nString.toDouble() Begin iterations: ${iters}.\n")
+
     scala.util.Random.setSeed(500L)
     def lat = scala.util.Random.between(-90.0, 90.0)
 
@@ -15,5 +19,8 @@ object Test {
           throw e
       }
     }
+
+// TODO: probably add the start time
+    System.err.printf(s"\nString.toDouble() End\n")
   }
 }
