@@ -1,11 +1,11 @@
-name: BL 1.9 Debug test-all on macOS
+name: BL 1.9 Debug test-tools & test-runtime on macOS
 on:
   workflow_dispatch:
   push:
     branches:
       - master
     paths:
-    - '.github/workflows/macOS_debug_TimeTest.yml'
+    - '.github/workflows/macOS_debug_test-non-scripted.yml'
     - 'unit-tests/src/test/scala/scala/scalanative/posix/TimeTest.scala'
 
 #  schedule:
