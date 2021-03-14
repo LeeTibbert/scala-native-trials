@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        // sort is alphabetical, so start loop index with zero.
+        # sort is alphabetical, so start loop index with zero.
         loop_i:
           [0]
 #          [0, 1]
