@@ -1,5 +1,6 @@
-object Test {
-  def main(args: Array[String]) = {
+object Main {
+
+  def main(args: Array[String]): Unit = {
     val iters = args(0).toInt
 
 // TODO: probably add the start time
