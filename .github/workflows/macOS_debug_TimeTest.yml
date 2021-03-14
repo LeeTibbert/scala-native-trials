@@ -19,8 +19,8 @@ jobs:
 ##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
     strategy:
       fail-fast: false
-    matrix:
-      ones: [1, 2]
+      matrix:
+        ones: [1, 2]
 
     env:
       SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
