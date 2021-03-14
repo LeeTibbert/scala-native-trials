@@ -1,4 +1,4 @@
-name: BL 1.9 Debug test-tools & test-runtime on macOS
+name: BL 2.0 Debug test-tools & test-runtime on macOS
 on:
   workflow_dispatch:
   push:
@@ -20,13 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # sort is alphabetical, so start loop index with zero.
+        # starting order sort is alphabetical, so start loop indices with zero.
         loop_i:
-          [0]
-#          [0, 1]
+          [0, 1]
+#          [0]
         loop_j:
-          [0]
-#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#          [0]
 
     env:
       SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
@@ -110,6 +110,6 @@ jobs:
           sbt -no-colors -J-Xmx5G \
           "++$SCALA_VER" \
           "${ACTION}" 
- 
+
 
 # -30- #
