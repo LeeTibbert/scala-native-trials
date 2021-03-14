@@ -23,11 +23,9 @@ jobs:
         # listing order (left of screen/page) is not necessarily start order.
 #          [0] # singleton
         loop_i:
-          [0] # singleton
-#          [0, 1]
+          [0, 1]
         loop_j:
-          [0] # singleton
-#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
       SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
@@ -92,7 +90,7 @@ jobs:
           "++$SCALA_VER" \
           "$ACTION" 
 
-      - name: Scala Native debug test-all
+      - name: Scala Native test-all
 #        if: success
         env:
           ACTION: "test-all"
