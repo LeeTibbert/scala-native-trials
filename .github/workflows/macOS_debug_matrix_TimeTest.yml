@@ -1,12 +1,12 @@
 name: BL 1.4 Debug TimeTest strptime null  on macOS
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-    - '.github/workflows/macOS_debug_TimeTest.yml'
-    - 'unit-tests/src/test/scala/scala/scalanative/posix/TimeTest.scala'
+#  push:
+#    branches:
+#      - master
+#    paths:
+#    - '.github/workflows/macOS_debug_matrix_TimeTest.yml'
+#    - 'unit-tests/src/test/scala/scala/scalanative/posix/TimeTest.scala'
 
 #  schedule:
 #    - cron: '0 * * * *'
