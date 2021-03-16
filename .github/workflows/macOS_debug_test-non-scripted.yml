@@ -5,8 +5,7 @@ on:
     branches:
       - master
     paths:
-    - '.github/workflows/macOS_debug_test-non-scripted.yml'
-    - 'unit-tests/src/test/scala/scala/scalanative/posix/TimeTest.scala'
+      - '.github/workflows/macOS_debug_test-non-scripted.yml'
 
 #  schedule:
 #    - cron: '0 * * * *'
@@ -20,13 +19,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # starting order sort is alphabetical, so start loop indices with zero.
+        # listing order sort is alphabetical, so start loop indices with zero.
+        # listing order (left of screen/page) is not necessarily start order.
+#          [0] # singleton
         loop_i:
-          [0, 1]
-#          [0]
+          [0] # singleton
+#          [0, 1]
         loop_j:
-          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-#          [0]
+          [0] # singleton
+#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
       SCALA_VER: 2.12.13 # scripted-tests only runs on 2.12
