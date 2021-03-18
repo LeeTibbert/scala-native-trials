@@ -109,7 +109,7 @@ jobs:
 
       - name: Scala Native scripted
 # TODO: Test for success of prior steps
-        if: contains(env.TEST_SCRIPTED_ON, SCALA_VER)
+        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
         env:
           ACTION: "test-scripted"
         run: |
