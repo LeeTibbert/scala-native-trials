@@ -1,4 +1,4 @@
-name: macOS: one run, cross SN versions, of the relevant parts of test-all
+name: macOS - one run, cross SN versions, of the relevant parts of test-all
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ on:
 #    - cron: '0 * * * *'
 
 jobs:
-  macOS-bl2:
+  macOS-bl3:
     name: macOs solo cross test-all
     runs-on: macos-10.15
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
