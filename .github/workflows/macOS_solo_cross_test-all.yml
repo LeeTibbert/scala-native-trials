@@ -21,6 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         scala: [2.13.4, 2.12.13, 2.11.12]
+#        build-mode: [ debug , release-fast ]
+#        gc: [ boehm, immix, commix ]
+        build-mode: [ debug ]
 
         # Looping construct.
         # listing order sort is alphabetical, so start loop indices with zero.
@@ -38,7 +41,8 @@ jobs:
       SCALANATIVE_MODE: debug
 
 #        - "2.12.13" # scripted-tests only runs on 2.12
-      TEST_SCRIPTED_ON: 2.12.13, 2.11.12
+#      TEST_SCRIPTED_ON: 2.12.13, 2.11.12
+      TEST_SCRIPTED_ON: [2.12.13, 2.11.12]
 
     steps:
       - uses: actions/checkout@v2
@@ -108,7 +112,7 @@ jobs:
 #          "++$SCALA_VER" \
 #          "${ACTION}" 
 
-      - name: Scala Native scripted
+      - name: Scala Native selectively test-scripted
 # TODO: Test for success of prior steps
         if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
         env:
