@@ -35,7 +35,9 @@ jobs:
     env:
       SCALA_VER: ${{ matrix.scala }}
       SCALANATIVE_MODE: debug
-      TEST_SCRIPTED_ON: [ 2.12.13 ] # scripted-tests only runs on 2.12
+
+      TEST_SCRIPTED_ON:
+        - 2.12.13 # scripted-tests only runs on 2.12
 
     steps:
       - uses: actions/checkout@v2
