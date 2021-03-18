@@ -33,7 +33,7 @@ jobs:
 
 
     env:
-      SCALA_VER: {{ matrix.scala }}
+      SCALA_VER: ${{ matrix.scala }}
       SCALANATIVE_MODE: debug
       TEST_SCRIPTED_ON: [ 2.12.13 ] # scripted-tests only runs on 2.12
 
@@ -108,7 +108,7 @@ jobs:
 
       - name: Scala Native scripted
 # TODO: Test for success of prior steps
-        if: {{ contains(TEST_SCRIPTED_ON, SCALA_VER) }}
+        if: ${{ contains(TEST_SCRIPTED_ON, SCALA_VER) }}
         env:
           ACTION: "test-scripted"
         run: |
