@@ -20,6 +20,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        scala: [2.13.4, 2.12.13, 2.11.12]
+
+        # Looping construct.
         # listing order sort is alphabetical, so start loop indices with zero.
         # listing order (left of screen/page) is not necessarily start order.
 #          [0] # singleton
@@ -29,7 +32,6 @@ jobs:
         loop_j:
           [0] # singleton
 #          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        scala: [2.13.4, 2.12.13, 2.11.12]
 
     env:
       SCALA_VER: ${{ matrix.scala }}
@@ -40,7 +42,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - name: macOS - bl2 prologue
 
         run: |
