@@ -36,8 +36,7 @@ jobs:
       SCALANATIVE_MODE: debug
 
 #        - "2.12.13" # scripted-tests only runs on 2.12
-      TEST_SCRIPTED_ON:
-        - 2.12.13
+      TEST_SCRIPTED_ON: 2.12.13, 2.11.12
 
     steps:
       - uses: actions/checkout@v2
