@@ -53,6 +53,7 @@ jobs:
           echo "Hello World from maybe macOS"
           echo "$(uname -a)"
           date
+          printenv # What does TEST_SCRIPTED resolve to?  
 
 ## 2021-03-12 17:24 -0500 llvm 11 already installed, 
 ## Looks like java 8 compiler is also installed.
@@ -126,7 +127,7 @@ jobs:
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: env.TEST_SCRIPTED
+        if: env.TEST_SCRIPTED == true
         env:
           ACTION: "test-scripted"
 #        run: |
