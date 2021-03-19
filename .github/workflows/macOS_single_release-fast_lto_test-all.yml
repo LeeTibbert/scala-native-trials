@@ -13,7 +13,7 @@ on:
 
 jobs:
   matrixOS-lto:
-    name: matrix.os solo release-fast lto test-all
+    name: ${{ matrix.os }} solo release-fast lto test-all
     runs-on: ${{ matrix.os }}
 
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
@@ -63,6 +63,9 @@ jobs:
 ## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
 ## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
 
+## 2021-03-19 12:10 -0400 LeeT FIXME
+## Probably need different installs depending on matrix.os
+
       - name: Install sbt
         run: |
           brew install sbt
@@ -103,7 +106,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VERSION" \
+          "++ 2.12.13" \
           "${ACTION}" 
 
       - name: Scala Native test-runtime
