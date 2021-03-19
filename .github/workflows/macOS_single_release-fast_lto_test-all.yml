@@ -6,7 +6,7 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/macOS_solo_cross_test-all.yml'
+      - '.github/workflows/macOS_single_release-fast_lto_test-all.yml'
 
 #  schedule:
 #    - cron: '0 * * * *'
