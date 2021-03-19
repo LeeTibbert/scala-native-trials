@@ -1,4 +1,4 @@
-name: macOS - one run, cross SN versions, relevant parts of test-all
+name: macOS - one run, release-fast, lto, test-all
 
 on:
   workflow_dispatch:
@@ -12,41 +12,28 @@ on:
 #    - cron: '0 * * * *'
 
 jobs:
-  macOS-bl3:
-    name: macOs solo cross test-all
+  macOS-lto-bl4:
+    name: macOs solo release-fast lto test-all
     runs-on: macos-10.15
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
 ##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
     strategy:
       fail-fast: false
       matrix:
-        scala: [2.13.4, 2.12.13, 2.11.12]
-        build-mode: [ debug, release-fast]
+#        scala: [2.13.4, 2.12.13, 2.11.12]
+        scala: [2.13.4]
+#        build-mode: [ debug, release-fast]
+        build-mode: [ release-fast]
 #        gc: [ boehm, immix, commix ]
-        gc: [ commix, immix ]
-        lto: [ none ]
-
-        # Looping construct.
-        # listing order sort is alphabetical, so start loop indices with zero.
-        # listing order (left of screen/page) is not necessarily start order.
-#          [0] # singleton
-        loop_i:
-          [0] # singleton
-#          [0, 1]
-        loop_j:
-          [0] # singleton
-#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        gc: [ commix]
+        lto: [ thin ]
 
     env:
-      SCALA_VER: ${{ matrix.scala }}
+      SCALA_VERSION: ${{ matrix.scala }}
       SCALANATIVE_MODE: ${{ matrix.build-mode }}
       SCALANATIVE_GC: ${{ matrix.gc }}
       SCALANATIVE_LTO: ${{ matrix.lto }}
 
-#        - "2.12.13" # scripted-tests only runs on 2.12
-# FIXME:  This declares a string and works. I would like to use a list [9, 3]
-#         For now, do not argue with success.
-#      TEST_SCRIPTED_ON: "2.12.13, 2.11.12"
       TEST_SCRIPTED_ON: "2.12.13"
 
     steps:
@@ -86,7 +73,7 @@ jobs:
 ##     for now, in case I come up with a better way of
 ##     sequencing/selecting tests.
 ##
-##   - Should probably put the SCALA_VER and SCALANATIVE)M
+##   - Should probably put the SCALA_VERSION and SCALANATIVE)M
 
 
 ## Notes:
@@ -101,7 +88,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "$ACTION" 
 
       - name: Scala Native test-tools
@@ -112,7 +99,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
       - name: Scala Native test-runtime
@@ -120,25 +107,21 @@ jobs:
 #        if: success
         env:
           ACTION: "test-runtime"
-#        run: |
-#          echo "Scala Native $ACTION"
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
+        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VERSION)
         env:
           ACTION: "test-scripted"
-#        run: |
-#          echo "Scala Native $ACTION"
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
 # -30- #
