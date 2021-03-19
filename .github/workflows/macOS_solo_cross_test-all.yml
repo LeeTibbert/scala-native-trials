@@ -43,7 +43,7 @@ jobs:
       SCALANATIVE_GC: ${{ matrix.gc }}
       SCALANATIVE_LTO: ${{ matrix.lto }}
 
-      TEST_SCRIPTED: "matrix.scala_version == 2.12.13"
+      TEST_SCRIPTED_ON: "2.12.13"
 
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
           echo "Hello World from maybe macOS"
           echo "$(uname -a)"
           date
-          printenv # What does TEST_SCRIPTED resolve to?  
+          printenv # What does TEST_SCRIPTED_ON resolve to?  
 
 ## 2021-03-12 17:24 -0500 llvm 11 already installed, 
 ## Looks like java 8 compiler is also installed.
@@ -127,7 +127,7 @@ jobs:
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: ${{ env.TEST_SCRIPTED }}
+        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VERSION)
         env:
           ACTION: "test-scripted"
 #        run: |
