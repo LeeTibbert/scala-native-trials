@@ -38,16 +38,16 @@ jobs:
 #          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
-      SCALA_VER: ${{ matrix.scala }}
+      SCALA_VERSION: ${{ matrix.scala }}
       SCALANATIVE_MODE: ${{ matrix.build-mode }}
       SCALANATIVE_GC: ${{ matrix.gc }}
       SCALANATIVE_LTO: ${{ matrix.lto }}
 
-      TEST_SCRIPTED: ${{ matrix.build-mode }} == "2.12.13"
+      TEST_SCRIPTED: '${{ matrix.scala_version }} == 2.12.13'
 
     steps:
       - uses: actions/checkout@v2
-      - name: macOS - bl2 prologue
+      - name: macOS - bl3 prologue
 
         run: |
           echo "Hello World from maybe macOS"
@@ -83,7 +83,7 @@ jobs:
 ##     for now, in case I come up with a better way of
 ##     sequencing/selecting tests.
 ##
-##   - Should probably put the SCALA_VER and SCALANATIVE)M
+##   - Should probably put the SCALA_VERSION and SCALANATIVE)M
 
 
 ## Notes:
@@ -98,7 +98,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "$ACTION" 
 
       - name: Scala Native test-tools
@@ -109,7 +109,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
       - name: Scala Native test-runtime
@@ -122,12 +122,12 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: ${{ env.TEST_SCRIPTED == true }}
+        if: ${{ env.TEST_SCRIPTED }}
         env:
           ACTION: "test-scripted"
 #        run: |
@@ -135,7 +135,7 @@ jobs:
 
         run: |
           sbt -no-colors -J-Xmx5G \
-          "++$SCALA_VER" \
+          "++$SCALA_VERSION" \
           "${ACTION}" 
 
 # -30- #
