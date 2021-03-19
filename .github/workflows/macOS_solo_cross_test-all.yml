@@ -43,7 +43,7 @@ jobs:
       SCALANATIVE_GC: ${{ matrix.gc }}
       SCALANATIVE_LTO: ${{ matrix.lto }}
 
-      TEST_SCRIPTED: '${{ matrix.scala_version }} == 2.12.13'
+      TEST_SCRIPTED: "matrix.scala_version == 2.12.13"
 
     steps:
       - uses: actions/checkout@v2
