@@ -100,25 +100,41 @@ jobs:
           "++$SCALA_VER" \
           "$ACTION" 
 
+      - name: Scala Native test-tools
+# TODO: Test for success of prior steps
+#        if: success
+        env:
+          ACTION: "test-tools"
+
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "${ACTION}" 
+
       - name: Scala Native test-runtime
 # TODO: Test for success of prior steps
 #        if: success
         env:
           ACTION: "test-runtime"
-        run: |
-          echo "Scala Native $ACTION"
-
 #        run: |
-#          sbt -no-colors -J-Xmx5G \
-#          "++$SCALA_VER" \
-#          "${ACTION}" 
+#          echo "Scala Native $ACTION"
 
-      - name: Scala Native test-scripted only on ${{ env.TEST_SCRIPTED_ON }}
+        run: |
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "${ACTION}" 
+
+      - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
         if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
         env:
           ACTION: "test-scripted"
+#        run: |
+#          echo "Scala Native $ACTION"
+
         run: |
-          echo "Scala Native $ACTION"
+          sbt -no-colors -J-Xmx5G \
+          "++$SCALA_VER" \
+          "${ACTION}" 
 
 # -30- #
