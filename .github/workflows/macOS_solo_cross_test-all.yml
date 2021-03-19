@@ -30,11 +30,11 @@ jobs:
         # listing order sort is alphabetical, so start loop indices with zero.
         # listing order (left of screen/page) is not necessarily start order.
 #          [0] # singleton
-        loop_i:
-          [0] # singleton
+#        loop_i:
+#          [0] # singleton
 #          [0, 1]
-        loop_j:
-          [0] # singleton
+#        loop_j:
+#          [0] # singleton
 #          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
@@ -43,11 +43,7 @@ jobs:
       SCALANATIVE_GC: ${{ matrix.gc }}
       SCALANATIVE_LTO: ${{ matrix.lto }}
 
-#        - "2.12.13" # scripted-tests only runs on 2.12
-# FIXME:  This declares a string and works. I would like to use a list [9, 3]
-#         For now, do not argue with success.
-#      TEST_SCRIPTED_ON: "2.12.13, 2.11.12"
-      TEST_SCRIPTED_ON: "2.12.13"
+      TEST_SCRIPTED: ${{ matrix.build-mode }} == "2.12.13"
 
     steps:
       - uses: actions/checkout@v2
@@ -130,7 +126,7 @@ jobs:
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
+        if: env.TEST_SCRIPTED
         env:
           ACTION: "test-scripted"
 #        run: |
