@@ -23,7 +23,7 @@ jobs:
         scala: [2.13.4, 2.12.13, 2.11.12]
         build-mode: [ debug, release-fast]
 #        gc: [ boehm, immix, commix ]
-        gc: [ commix ]
+        gc: [ commix, immix ]
 
         # Looping construct.
         # listing order sort is alphabetical, so start loop indices with zero.
