@@ -1,4 +1,4 @@
-name: macOS - one run, cross SN versions, of the relevant parts of test-all
+name: macOS - one run, cross SN versions, relevant parts of test-all
 
 on:
   workflow_dispatch:
@@ -21,9 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         scala: [2.13.4, 2.12.13, 2.11.12]
-#        build-mode: [ debug , release-fast ]
+        build-mode: [ debug, release-fast]
 #        gc: [ boehm, immix, commix ]
-        build-mode: [ debug ]
+        gc: [ commix ]
 
         # Looping construct.
         # listing order sort is alphabetical, so start loop indices with zero.
@@ -38,12 +38,13 @@ jobs:
 
     env:
       SCALA_VER: ${{ matrix.scala }}
-      SCALANATIVE_MODE: debug
+      SCALANATIVE_MODE: ${{ matrix.build-mode }}
 
 #        - "2.12.13" # scripted-tests only runs on 2.12
 # FIXME:  This declares a string and works. I would like to use a list [9, 3]
 #         For now, do not argue with success.
-      TEST_SCRIPTED_ON: "2.12.13, 2.11.12"
+#      TEST_SCRIPTED_ON: "2.12.13, 2.11.12"
+      TEST_SCRIPTED_ON: "2.12.13"
 
     steps:
       - uses: actions/checkout@v2
