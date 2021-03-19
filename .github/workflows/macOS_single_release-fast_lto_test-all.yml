@@ -13,7 +13,7 @@ on:
 
 jobs:
   matrixOS-lto:
-    name: ${{ matrix.os }} solo release-fast lto test-all
+    name: ${{ matrix.os }} solo release-fast ${{ matrix.lto }} test-all
     runs-on: ${{ matrix.os }}
 
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
@@ -22,7 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-10.15, ubuntu-18.04 ]
+#        os: [ macos-10.15, ubuntu-18.04 ]
+        os: [ macos-10.15 ]
 #        scala: [2.13.4, 2.12.13, 2.11.12]
         scala: [2.13.4]
 #        build-mode: [ debug, release-fast]
@@ -106,10 +107,11 @@ jobs:
         env:
           ACTION: "testRunner/compile ; testInterface/compile ; tools/compile"
 
-        run: |
-          sbt -no-colors -J-Xmx5G \
-          "++ 2.12.13" \
-          "${ACTION}" 
+#        run: |
+#          sbt -no-colors -J-Xmx5G \
+#          "++ 2.12.13" \
+#          "${ACTION}" 
+           echo "Dummy: ${ACTION} LTO: |$SCALANATIVE_LTO|" 
 
       - name: Scala Native test-tools
 
