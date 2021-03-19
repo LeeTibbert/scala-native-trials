@@ -95,7 +95,7 @@ jobs:
           ACTION: "scalalib/compile"
 
         run: |
-          sbt -no-colors -J-Xmx5G \
+          sbt -v -no-colors -J-Xmx5G \
           "++$SCALA_VERSION" \
           "$ACTION" 
 
@@ -118,7 +118,7 @@ jobs:
           ACTION: "test-tools"
 
         run: |
-          sbt -no-colors -J-Xmx5G \
+          sbt -v -no-colors -J-Xmx5G \
           "++$SCALA_VERSION" \
           "${ACTION}" 
 
@@ -129,7 +129,7 @@ jobs:
           ACTION: "test-runtime"
 
         run: |
-          sbt -no-colors -J-Xmx5G \
+          sbt -v -no-colors -J-Xmx5G \
           "++$SCALA_VERSION" \
           "${ACTION}" 
 
@@ -140,7 +140,7 @@ jobs:
           ACTION: "test-scripted"
 
         run: |
-          sbt -no-colors -J-Xmx5G \
+          sbt -v -no-colors -J-Xmx5G \
           "++$SCALA_VERSION" \
           "${ACTION}" 
 
