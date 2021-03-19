@@ -30,8 +30,8 @@ jobs:
         build-mode: [ release-fast]
 #        gc: [ boehm, immix, commix ]
         gc: [ commix]
-#        lto: [ thin ]
-        lto: [ none ]
+        lto: [ thin ]
+#        lto: [ none ]
 
     env:
       SCALA_VERSION: ${{ matrix.scala }}
