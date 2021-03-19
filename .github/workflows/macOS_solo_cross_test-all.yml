@@ -127,7 +127,7 @@ jobs:
 
       - name: Scala Native test-scripted (conditional)
 # TODO: Test for success of prior steps
-        if: env.TEST_SCRIPTED == true
+        if: ${{ env.TEST_SCRIPTED == true }}
         env:
           ACTION: "test-scripted"
 #        run: |
