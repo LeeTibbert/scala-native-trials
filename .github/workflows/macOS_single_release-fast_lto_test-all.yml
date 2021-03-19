@@ -14,12 +14,15 @@ on:
 jobs:
   macOS-lto-bl4:
     name: macOs solo release-fast lto test-all
+#    runs-on: macos-10.15
     runs-on: macos-10.15
+    runs-on: ${{ matrix.os }}
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
 ##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
     strategy:
       fail-fast: false
       matrix:
+        os: [ macos-19.15, ubuntu-18.10 ]
 #        scala: [2.13.4, 2.12.13, 2.11.12]
         scala: [2.13.4]
 #        build-mode: [ debug, release-fast]
