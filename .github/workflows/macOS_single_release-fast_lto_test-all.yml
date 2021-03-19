@@ -104,8 +104,7 @@ jobs:
 # TODO: Test for success of prior steps
 #        if: success
         env:
-          ACTION: \
-          "testRunner/compile ; testInterface/compile ; tools/compile"
+          ACTION: "testRunner/compile ; testInterface/compile ; tools/compile"
 
         run: |
           sbt -no-colors -J-Xmx5G \
