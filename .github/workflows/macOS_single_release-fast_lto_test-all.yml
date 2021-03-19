@@ -108,9 +108,6 @@ jobs:
           ACTION: "testRunner/compile ; testInterface/compile ; tools/compile"
 
         run: |
-#          sbt -no-colors -J-Xmx5G \
-#          "++ 2.12.13" \
-#          "${ACTION}"
            echo "Dummy: ${ACTION} LTO: |$SCALANATIVE_LTO|" 
 
       - name: Scala Native test-tools
