@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-19.15, ubuntu-18.10 ]
+        os: [ macos-19.15, ubuntu-18.04 ]
 #        scala: [2.13.4, 2.12.13, 2.11.12]
         scala: [2.13.4]
 #        build-mode: [ debug, release-fast]
