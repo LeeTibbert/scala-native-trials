@@ -113,7 +113,7 @@ jobs:
 #          "++$SCALA_VER" \
 #          "${ACTION}" 
 
-      - name: Scala Native selectively test-scripted
+      - name: Scala Native test-scripted only on ${{ env.TEST_SCRIPTED_ON }}
 # TODO: Test for success of prior steps
         if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VER)
         env:
