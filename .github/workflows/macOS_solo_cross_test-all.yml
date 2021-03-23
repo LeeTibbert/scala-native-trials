@@ -1,6 +1,6 @@
 name: macOS - one run, cross SN versions, relevant parts of test-all
 
-on:
+on: 
   workflow_dispatch:
   push:
     branches:
