@@ -34,6 +34,9 @@ import timeOps._
 
 class ResourceTest {
 
+  // Properties.isLinux is available in Scala 2.12 and 2.13, but not 2.11.
+  private def isLinux = Properties.osName startsWith "Linux"
+
   case class TestInfo(name: String, value: CInt)
 
   @Test def getpriorityInvalidArgWhich {
