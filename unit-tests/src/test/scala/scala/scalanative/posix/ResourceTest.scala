@@ -2,13 +2,12 @@ package scala.scalanative
 package posix
 package sys
 
-import scala.util.Properties
-
 import org.junit.Test
 import org.junit.Assert._
 
 import scalanative.libc.errno
 import scalanative.posix.errno._
+import scalanative.runtime.Platform
 import scalanative.unsafe.{CInt, Ptr, Zone, alloc}
 import scalanative.unsigned._
 
@@ -34,9 +33,6 @@ import timeOps._
 
 class ResourceTest {
 
-  // Properties.isLinux is available in Scala 2.12 and 2.13, but not 2.11.
-  private def isLinux = Properties.osName startsWith "Linux"
-
   case class TestInfo(name: String, value: CInt)
 
   @Test def getpriorityInvalidArgWhich {
@@ -53,15 +49,14 @@ class ResourceTest {
 
     getpriority(PRIO_PROCESS, UInt.MaxValue)
 
-    // Most operating systems will return EINVAL but handle corner cases.
+    // Most operating systems will return EINVAL. Handle corner cases here.
     if (errno.errno != EINVAL) {
-      if (!Properties.isLinux) {
+      if (!Platform.isLinux()) {
         assertEquals("unexpected errno", EINVAL, errno.errno)
-      } else if (errno.errno != 0) {
+      } else if (errno.errno != 0) { // Linux
         // A pid of UInt.MaxValue is highly unlikely but, by one reading,
-        // possible on known Linux. If it exists and is found, it should
-        // not cause this test to fail, just to be specious (have false
-        // look of genuineness).
+        // possible. If it exists and is found, it should not cause this test
+        // to fail, just to be specious (have false look of genuineness).
         assertEquals("unexpected errno", ESRCH, errno.errno)
       }
     }
