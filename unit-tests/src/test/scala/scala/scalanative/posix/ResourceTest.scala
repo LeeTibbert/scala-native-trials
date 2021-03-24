@@ -2,6 +2,8 @@ package scala.scalanative
 package posix
 package sys
 
+import scala.util.Properties
+
 import org.junit.Test
 import org.junit.Assert._
 
@@ -46,9 +48,20 @@ class ResourceTest {
   @Test def getpriorityInvalidArgWho {
     errno.errno = 0
 
-    getpriority(PRIO_PROCESS, -1.toUInt)
+    getpriority(PRIO_PROCESS, UInt.MaxValue)
 
-    assertEquals("unexpected errno", ESRCH, errno.errno)
+    // Most operating systems will return EINVAL but handle corner cases.
+    if (errno.errno != EINVAL) {
+      if (!Properties.isLinux) {
+        assertEquals("unexpected errno", EINVAL, errno.errno)
+      } else if (errno.errno != 0) {
+        // A pid of UInt.MaxValue is highly unlikely but, by one reading,
+        // possible on known Linux. If it exists and is found, it should
+        // not cause this test to fail, just to be specious (have false
+        // look of genuineness).
+        assertEquals("unexpected errno", ESRCH, errno.errno)
+      }
+    }
   }
 
   @Test def testGetpriority {
