@@ -54,11 +54,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: FreeBSD - bl1 prologue
+      - id: WIP
       - uses: vmactions/freebsd-vm@v0.1.2
         with:
           usesh: true
-          mem: 2048
-          prepare: pkg install -y curl
+#         mem: 2048
+#         prepare: pkg install -y curl
           run: |
             echo "Hello World from maybe FreeBSD"
             echo "$(uname -a)"
