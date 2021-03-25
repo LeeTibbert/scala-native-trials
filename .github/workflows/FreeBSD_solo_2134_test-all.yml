@@ -15,7 +15,8 @@ on:
 jobs:
   FreeBSD-bl1:
     name: FreeBSD solo cross test-all
-    runs-on: macos-10.15
+#    runs-on: macos-10.15
+    runs-on: macos-latest
 ## Read https://github.com/actions/virtual-environments/blob/main/images\
 ##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
     strategy:
