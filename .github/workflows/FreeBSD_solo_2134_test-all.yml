@@ -61,8 +61,10 @@ jobs:
 #          mem: 2048
           mem: 6144 # 6GB
 
+# clang & java come pre-installed.
+
           prepare:
-            pkg install -y bash clang curl sbt
+            pkg install -y bash curl sbt
 
           run: |
             echo "Hello World from maybe FreeBSD"
