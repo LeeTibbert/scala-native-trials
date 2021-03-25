@@ -61,8 +61,7 @@ jobs:
           mem: 2048
           prepare:
             pkg install -y curl
-            pkg install bash
-            # Do I need to install jvm 8?
+            pkg install bash # Do I need to install jvm 8?
             pkg install sbt
           run: |
             echo "Hello World from maybe FreeBSD"
@@ -75,8 +74,7 @@ jobs:
             whoami
             env
             freebsd-version
-            # show jvm version
-            sbt --version
+            sbt --version # show jvm version
           
 # 2021-03-25 10:49 -0400 Probably need to install bash first.
 #      - name: Install sbt
