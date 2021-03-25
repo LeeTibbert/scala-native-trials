@@ -1,0 +1,78 @@
+#name: FreeBSD - one run, cross SN versions, relevant parts of test-all
+name: FreeBSD - one run, SN version 2.13.4, relevant parts of test-all
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/FreeBSD_solo_2134_test-all.yml'
+
+#  schedule:
+#    - cron: '0 * * * *'
+
+jobs:
+  FreeBSD-bl1:
+    name: FreeBSD solo cross test-all
+    runs-on: macos-10.15
+## Read https://github.com/actions/virtual-environments/blob/main/images\
+##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
+    strategy:
+      fail-fast: false
+      matrix:
+        scala: [2.13.4, 2.12.13, 2.11.12]
+        build-mode: [ debug, release-fast]
+#        scala: [2.13.4, 2.12.13, 2.11.12]
+#        build-mode: [ debug, release-fast]
+#        gc: [ boehm, immix, commix ]
+#        gc: [ commix, immix ]
+        gc: [ commix ]
+        lto: [ none ]
+
+        # Looping construct.
+        # listing order sort is alphabetical, so start loop indices with zero.
+        # listing order (left of screen/page) is not necessarily start order.
+#          [0] # singleton
+#        loop_i:
+#          [0] # singleton
+#          [0, 1]
+#        loop_j:
+#          [0] # singleton
+#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    env:
+      SCALA_VERSION: ${{ matrix.scala }}
+      SCALANATIVE_MODE: ${{ matrix.build-mode }}
+      SCALANATIVE_GC: ${{ matrix.gc }}
+      SCALANATIVE_LTO: ${{ matrix.lto }}
+
+      TEST_SCRIPTED_ON: "2.12.13"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: vmactions/freebsd-vm@v0.1.2
+      - name: FreeBSD - bl1 prologue
+        with:
+          usesh: true
+          mem: 6144 # 6GB
+          prepare: pkg install -y curl
+          run: |
+            echo "Hello World from maybe FreeBSD"
+            echo "$(uname -a)"
+            date
+# Examples from ReadMe.md at URL:
+#   https://github.com/marketplace/actions/freebsd-vm
+            pwd
+            ls -lah
+            whoami
+            env
+            freebsd-version
+          
+# 2021-03-25 10:49 -0400 Probably need to install bash first.
+#      - name: Install sbt
+#        run: |
+#          brew install sbt
+#          sbt --version
+
+# -30- #
