@@ -76,10 +76,16 @@ jobs:
             ls -lah
             whoami
             env
+            echo "\nfreebsd version"
             freebsd-version
+            echo "\nclang version"
             clang --version
+            echo "\njavac version"
             javac -version
-#            sbt --version
+            mount -t fdescfs fdesc /dev/fd
+	    mount -t procfs proc /proc
+            echo "\nsbt version"
+            sbt --version
           
 # 2021-03-25 10:49 -0400 Probably need to install bash first.
 #      - name: Install sbt
