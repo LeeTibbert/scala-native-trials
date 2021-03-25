@@ -87,7 +87,7 @@ jobs:
             echo "\nsbt version"
             sbt --version
             echo "\nbuild & test Scala Native"
-            sbt "tests/test-runtime"
+            sbt "test-runtime"
           
 # 2021-03-25 10:49 -0400 Probably need to install bash first.
 #      - name: Install sbt
