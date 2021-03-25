@@ -58,9 +58,12 @@ jobs:
         uses: vmactions/freebsd-vm@v0.1.2
         with:
           usesh: true
-          mem: 2048
+#          mem: 2048
+          mem: 6144 # 6GB
+
           prepare:
-            pkg install -y curl bash sbt
+            pkg install -y bash clang curl sbt
+
           run: |
             echo "Hello World from maybe FreeBSD"
             echo "$(uname -a)"
@@ -72,7 +75,9 @@ jobs:
             whoami
             env
             freebsd-version
-            sbt --version # show jvm version
+            clang --version
+            javac -version
+#            sbt --version
           
 # 2021-03-25 10:49 -0400 Probably need to install bash first.
 #      - name: Install sbt
