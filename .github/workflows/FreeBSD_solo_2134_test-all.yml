@@ -61,7 +61,7 @@ jobs:
             echo "Hello World from maybe FreeBSD"
             echo "$(uname -a)"
             date
-            # Examples from ReadMe.md at URL:
+            # Examples from ReadMe.md at URL: 
             #   https://github.com/marketplace/actions/freebsd-vm
             pwd
             ls -lah
