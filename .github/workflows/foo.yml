@@ -1,0 +1,30 @@
+name: foo - chasing why workflow does not show up.
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  Foo-bl1:
+    name: foo solo cross test-all
+    runs-on: macos-10.15
+#    runs-on: macos-latest
+## Read https://github.com/actions/virtual-environments/blob/main/images\
+##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
+
+    steps:
+      - uses: actions/checkout@v2
+#      - uses: vmactions/freebsd-vm@v0.1.2
+      - name: FreeBSD - bl1 prologue
+        run: |
+          echo "Hello World from maybe FreeBSD"
+          echo "$(uname -a)"
+          date
+          # Examples from ReadMe.md at URL: 
+          #   https://github.com/marketplace/actions/freebsd-vm
+          pwd
+          ls -lah
+          whoami
+          env
+#            freebsd-version
+          
+# -30- #
