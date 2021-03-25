@@ -61,7 +61,7 @@ jobs:
           mem: 2048
           prepare:
             pkg install -y curl
-            pkg install bash # Do I need to install jvm 8?
+            pkg install bash
             pkg install sbt
           run: |
             echo "Hello World from maybe FreeBSD"
