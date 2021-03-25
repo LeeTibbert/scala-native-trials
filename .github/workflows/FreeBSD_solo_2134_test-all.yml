@@ -4,11 +4,11 @@ name: FreeBSD - one run, SN version 2.13.4, relevant parts of test-all
 
 on: 
   workflow_dispatch:
-#  push:
+  push:
 #    branches:
 #      - master
-#    paths:
-#      - '.github/workflows/FreeBSD_solo_2134_test-all.yml'
+    paths:
+      - '.github/workflows/FreeBSD_solo_2134_test-all.yml'
 
 #  schedule:
 #    - cron: '0 * * * *'
