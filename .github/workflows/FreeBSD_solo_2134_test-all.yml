@@ -83,7 +83,7 @@ jobs:
             echo "\njavac version"
             javac -version
             mount -t fdescfs fdesc /dev/fd
-	    mount -t procfs proc /proc
+            mount -t procfs proc /proc
             echo "\nsbt version"
             sbt --version
           
