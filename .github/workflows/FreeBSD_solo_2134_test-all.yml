@@ -55,10 +55,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: vmactions/freebsd-vm@v0.1.2
       - name: FreeBSD - bl1 prologue
-#        with:
-#          usesh: true
-#          mem: 6144 # 6GB
-#          prepare: pkg install -y curl
+        with:
+          usesh: true
+           mem: 6144 # 6GB
+           prepare: pkg install -y curl
         run: |
           echo "Hello World from maybe FreeBSD"
           echo "$(uname -a)"
@@ -69,7 +69,7 @@ jobs:
           ls -lah
           whoami
           env
-#            freebsd-version
+             freebsd-version
           
 # 2021-03-25 10:49 -0400 Probably need to install bash first.
 #      - name: Install sbt
