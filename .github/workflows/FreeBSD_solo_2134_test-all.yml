@@ -21,8 +21,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [2.13.4, 2.12.13, 2.11.12]
-        build-mode: [ debug, release-fast]
+        scala: [2.13.4 ]
+        build-mode: [ debug ]
 #        scala: [2.13.4, 2.12.13, 2.11.12]
 #        build-mode: [ debug, release-fast]
 #        gc: [ boehm, immix, commix ]
@@ -61,8 +61,8 @@ jobs:
             echo "Hello World from maybe FreeBSD"
             echo "$(uname -a)"
             date
-# Examples from ReadMe.md at URL:
-#   https://github.com/marketplace/actions/freebsd-vm
+            # Examples from ReadMe.md at URL:
+            #   https://github.com/marketplace/actions/freebsd-vm
             pwd
             ls -lah
             whoami
