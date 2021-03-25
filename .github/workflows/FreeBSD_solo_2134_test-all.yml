@@ -60,9 +60,7 @@ jobs:
           usesh: true
           mem: 2048
           prepare:
-            pkg install -y curl
-            pkg install bash
-            pkg install sbt
+            pkg install -y curl bash sbt
           run: |
             echo "Hello World from maybe FreeBSD"
             echo "$(uname -a)"
