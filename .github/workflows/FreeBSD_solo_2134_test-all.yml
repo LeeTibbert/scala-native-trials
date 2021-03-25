@@ -1,5 +1,5 @@
-#name: FreeBSD - one run, cross SN versions, relevant parts of test-all
 name: FreeBSD - one run, SN version 2.13.4, relevant parts of test-all
+#name: FreeBSD - one run, cross SN versions, relevant parts of test-all
 
 on: 
   workflow_dispatch:
