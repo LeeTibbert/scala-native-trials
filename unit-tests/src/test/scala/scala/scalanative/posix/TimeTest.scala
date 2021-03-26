@@ -2,11 +2,8 @@ package scala.scalanative.posix
 
 import org.junit.Test
 import org.junit.Assert._
-import org.junit.Assume._
 
 import java.io.IOException
-
-import org.scalanative.testsuite.utils.Platform
 
 import scalanative.libc.{errno => libcErrno, string}
 import scala.scalanative.unsafe._
@@ -46,9 +43,6 @@ class TimeTest {
   }
 
   @Test def localtimeShouldTransformTheEpochToLocaltime(): Unit = {
-    assumeFalse(
-      "Skipping localtime test since FreeBSD hasn't the 'timezone' variable",
-      Platform.isFreeBSD)
     val time_ptr = stackalloc[time_t]
     !time_ptr = epoch + timezone
     val time: Ptr[tm] = localtime(time_ptr)
@@ -59,9 +53,6 @@ class TimeTest {
   }
 
   @Test def localtime_rShouldTransformTheEpochToLocaltime(): Unit = {
-    assumeFalse(
-      "Skipping localtime_r test since FreeBSD hasn't the 'timezone' variable",
-      Platform.isFreeBSD)
     Zone { implicit z =>
       val time_ptr = stackalloc[time_t]
       !time_ptr = epoch + timezone
@@ -236,13 +227,13 @@ class TimeTest {
     Zone { implicit z =>
       // The purpose of this test is to check that time.scala method
       // declaration had an "@name" annotation, so that structure
-      // copy-in/copy-out happened? Failure case is if 36 byte
+      // copy-in/copy-out happened. Failure case is if 36 byte
       // Scala Native tm got passed as-is to C strptime on a BSD/glibc
       // or macOS system; see the tm_gmtoff & tm_zone handling below.
 
       // This is not a concern when the size of the C structure
       // is the same as the Scala Native structure and the order of the
-      // fields match. They are necessary on BSD, glibc derived, macOS,
+      // fields match. It is necessary on BSD, glibc derived, macOS,
       // and possibly other systems where the Operating System libc
       // uses 56 bytes, where the "extra" have a time-honored, specified
       // meaning.
@@ -263,7 +254,7 @@ class TimeTest {
 
       val tmPtr = tmBuf.asInstanceOf[Ptr[tm]]
 
-      val gmtIndex = 36.toULong
+      val gmtIndex = 36.toULong + sizeof[Int] // skip over padding to natural.
 
       // To detect the case where SN strptime() is writing tm_gmtoff
       // use a value outside the known range of valid values.
@@ -282,60 +273,25 @@ class TimeTest {
       // macOS will parse and accept "GMT" or the local timezone name
       // and write to the corresponding fields in the C struct.
       // "GMT" is used here to avoid local timezone handling.
-      // FreeBSD fills the structure with values relative to the local
-      // time zone, so the check would fail if we parse a date with a
-      // different time zone.
 
       val cp =
-        if (Platform.isFreeBSD)
-          strptime(c"Fri Mar 31 14:47:44 2017", c"%a %b %d %T %Y", tmPtr)
-        else
-          strptime(c"Fri Mar 31 14:47:44 GMT 2017", c"%a %b %d %T %Z %Y", tmPtr)
+        strptime(c"Fri Mar 31 14:47:44 GMT 2017", c"%a %b %d %T %Z %Y", tmPtr)
 
       assertNotNull(s"strptime() returned unexpected null pointer", cp)
 
-      val ch = cp(0) // last character not processed by strptime().
-      assertEquals("strptime() result is not NUL terminated", ch, '\u0000')
+      // last character not processed by strptime().
+      assertEquals("strptime() did not consume entire first argument",
+                   cp(0), '\u0000')
 
       // tm_gmtoff & tm_zone are outside the posix defined range.
       // Scala Native strftime() should never write to them.
-      //
-      // Assume no leading or interior padding.
 
       val tm_gmtoff = (tmBuf + gmtIndex).asInstanceOf[Ptr[CLong]](0)
       assertEquals("tm_gmtoff", expectedGmtOff, tm_gmtoff)
 
-      val tmZoneIndex = (gmtIndex + sizeof[CLong])
-      val tm_zone     = (tmBuf + tmZoneIndex).asInstanceOf[CString]
-      assertNull("tm_zone", null)
-
-      // Major concerning conditions passed. Sanity check the tm proper.
-
-      val expectedSec = 44
-      assertEquals("tm_sec", expectedSec, tmPtr.tm_sec)
-
-      val expectedMin = 47
-      assertEquals("tm_min", expectedMin, tmPtr.tm_min)
-
-      val expectedHour = 14
-      assertEquals("tm_hour", expectedHour, tmPtr.tm_hour)
-
-      val expectedMday = 31
-      assertEquals("tm_mday", expectedMday, tmPtr.tm_mday)
-
-      val expectedMonth = 2
-      assertEquals("tm_mon", expectedMonth, tmPtr.tm_mon)
-
-      val expectedYear = 117
-      assertEquals("tm_year", expectedYear, tmPtr.tm_year)
-
-      val expectedWday = 5
-      assertEquals("tm_wday", expectedWday, tmPtr.tm_wday)
-
-      val expectedYday = 89
-      assertEquals("tm_yday", expectedYday, tmPtr.tm_yday)
-
-      // Per posix specification, contents of tm_isdst are not reliable.
+      val tmZoneIndex = (gmtIndex + sizeof[CLong]) // skip tm_gmtoff
+      val tm_zone     = (tmBuf + tmZoneIndex).asInstanceOf[Ptr[CString]]
+      assertNull("tm_zone", !tm_zone)
     }
   }
 
