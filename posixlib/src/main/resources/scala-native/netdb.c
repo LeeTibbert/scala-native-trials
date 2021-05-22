@@ -39,11 +39,9 @@ _Static_assert(offsetof(struct scalanative_addrinfo, ai_addrlen) ==
 _Static_assert(sizeof(socklen_t) == 4,
                "sizeof socklen_t != 4");
 
-/*
 _Static_assert(offsetof(struct scalanative_addrinfo, ai_addr) ==
                    offsetof(struct addrinfo, ai_addr),
                "offset mismatch: addrinfo ai_addr");
-*/
 
 _Static_assert(offsetof(struct scalanative_addrinfo, ai_canonname) ==
                    offsetof(struct addrinfo, ai_canonname),

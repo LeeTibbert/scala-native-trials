@@ -10,6 +10,7 @@ object netdb {
                            CInt,                 // ai_socktype
                            CInt,                 // ai_protocol
                            socket.socklen_t,     // ai_addrlen
+                           CInt, // pad
                            Ptr[socket.sockaddr], // ai_addr
                            Ptr[CChar],           // ai_canonname
                            Ptr[Byte]]            // ai_next
