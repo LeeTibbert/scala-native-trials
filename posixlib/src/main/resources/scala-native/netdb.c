@@ -16,9 +16,14 @@ _Static_assert(sizeof(struct scalanative_addrinfo) == sizeof(struct addrinfo),
 // ai_addr just after ai_addrlen are as expected, the rest will vary
 // on only the most perverse system.
 
+_Static_assert(sizeof(socklen_t) == 4,
+               "sizeof socklen_t != 4");
+
+/*
 _Static_assert(offsetof(struct scalanative_addrinfo, ai_addr) ==
                    offsetof(struct addrinfo, ai_addr),
                "offset mismatch: addrinfo ai_addr");
+*/
 
 int scalanative_ai_numerichost() { return AI_NUMERICHOST; }
 
