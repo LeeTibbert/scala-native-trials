@@ -4,15 +4,33 @@ package sys
 
 import scalanative.unsafe._
 
+// Design Note:
+// This file uses direct calls to C. Correct operation across various
+// operating systems and depends critically on _Static_assert statements in
+// socket.c which check, at compile time, that Scala Native & C structure
+// definitions match.
+
 @extern
 object socket {
   type socklen_t   = CUnsignedInt
   type sa_family_t = CUnsignedShort
   type _14         = Nat.Digit2[Nat._1, Nat._4]
+
+  // Devos: If you change the size of scalanative structures,
+  // synchronize corresponding _Static_assert statements in socket.c.
+
   type sockaddr =
     CStruct2[sa_family_t,        // sa_family
              CArray[CChar, _14]] // sa_data, size = 14 in OS X and Linux
+
+  // The declaration here of type 'sockaddr_storage' does not comply
+  // with the Posix standard. Use it with care, or, better yet, NOT AT ALL.
+  // In particular, do not using it as a destination argument for memcpy()
+  // and friends. The size of the C structure varies by operating system.
+  // On linux, it is 128 bytes, much larger than a sockaddr_in6.
+
   type sockaddr_storage = CStruct1[sa_family_t] // ss_family
+
   type msghdr = CStruct7[Ptr[Byte], // msg_name
                          socklen_t,      // msg_namelen
                          Ptr[uio.iovec], // msg_iov
@@ -20,12 +38,17 @@ object socket {
                          Ptr[Byte],      // msg_control
                          socklen_t,      // msg_crontrollen
                          CInt]           // msg_flags
+
   type cmsghdr = CStruct3[socklen_t, // cmsg_len
                           CInt, // cmsg_level
                           CInt] // cmsg_type
+
   type iovec = uio.iovec
+
   type linger = CStruct2[CInt, // l_onoff
                          CInt] // l_linger
+
+  // Compile time constants require a @name annotation & supporting C code.
 
   @name("scalanative_scm_rights")
   def SCM_RIGHTS: CInt = extern
@@ -132,52 +155,44 @@ object socket {
   @name("scalanative_af_unspec")
   def AF_UNSPEC: CInt = extern
 
-  @name("scalanative_getsockname")
+  // Direct function calls to C do not require a @name annotation.
+
   def getsockname(socket: CInt,
                   address: Ptr[sockaddr],
                   address_len: Ptr[socklen_t]): CInt = extern
 
-  @name("scalanative_socket")
   def socket(domain: CInt, tpe: CInt, protocol: CInt): CInt = extern
 
-  @name("scalanative_connect")
   def connect(socket: CInt,
               address: Ptr[sockaddr],
               address_len: socklen_t): CInt = extern
 
-  @name("scalanative_bind")
   def bind(socket: CInt, address: Ptr[sockaddr], address_len: socklen_t): CInt =
     extern
 
-  @name("scalanative_listen")
   def listen(socket: CInt, backlog: CInt): CInt = extern
 
-  @name("scalanative_accept")
   def accept(socket: CInt,
              address: Ptr[sockaddr],
              address_len: Ptr[socklen_t]): CInt = extern
 
-  @name("scalanative_setsockopt")
   def setsockopt(socket: CInt,
                  level: CInt,
                  option_name: CInt,
                  options_value: Ptr[Byte],
                  option_len: socklen_t): CInt = extern
 
-  @name("scalanative_getsockopt")
   def getsockopt(socket: CInt,
                  level: CInt,
                  option_name: CInt,
                  options_value: Ptr[Byte],
                  option_len: Ptr[socklen_t]): CInt = extern
 
-  @name("scalanative_recv")
   def recv(socket: CInt,
            buffer: Ptr[Byte],
            length: CSize,
            flags: CInt): CSSize = extern
 
-  // direct call to C, _Static_assert in socket.c validates structures.
   def recvfrom(socket: CInt,
                buffer: Ptr[Byte],
                length: CSize,
@@ -185,13 +200,11 @@ object socket {
                dest_addr: Ptr[sockaddr],
                address_len: Ptr[socklen_t]): CSSize = extern
 
-  @name("scalanative_send")
   def send(socket: CInt,
            buffer: Ptr[Byte],
            length: CSize,
            flags: CInt): CSSize = extern
 
-  // direct call to C, _Static_assert in socket.c validates structures.
   def sendto(socket: CInt,
              buffer: Ptr[Byte],
              length: CSize,
@@ -199,7 +212,6 @@ object socket {
              dest_addr: Ptr[sockaddr],
              address_len: socklen_t): CSSize = extern
 
-  @name("scalanative_shutdown")
   def shutdown(socket: CInt, how: CInt): CInt = extern
 }
 
