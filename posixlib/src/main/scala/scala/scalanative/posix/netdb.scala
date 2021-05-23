@@ -23,7 +23,7 @@ object netdb {
                            Ptr[CChar],           // ai_canonname
                            Ptr[Byte]]            // ai_next
 
-  // functions
+  // functions  
 
   @name("scalanative_freeaddrinfo")
   def freeaddrinfo(addr: Ptr[addrinfo]): Unit = extern
