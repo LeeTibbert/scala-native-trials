@@ -210,16 +210,17 @@ object SocketHelpers {
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
                       sizeof[sockaddr_in].toUInt,
                       host,
-                      1024.toUInt,
+                      MAXHOSTNAMELEN,
                       service,
                       20.toUInt,
                       0)
         }
 
       if (status == 0) {
-      printf(s"\n\nipToHost() ip: ${ip}  error ret ${status}\n\n")
+        printf(s"\n\nipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
       } else {
-        printf(s"\n\nipToHost() ip: ${ip}  host: ${fromCString(host)}\n\n")
+        val gai = gai_strerror(status)
+        printf(s"\n\nipToHost() ip: ${ip}  error ret |${gai}|\n\n")
       }
 
       if (status == 0) Some(fromCString(host)) else None

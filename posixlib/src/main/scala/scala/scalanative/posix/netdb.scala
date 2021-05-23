@@ -23,7 +23,7 @@ object netdb {
                            Ptr[CChar],           // ai_canonname
                            Ptr[Byte]]            // ai_next
 
-  // functions  
+  // functions
 
   @name("scalanative_freeaddrinfo")
   def freeaddrinfo(addr: Ptr[addrinfo]): Unit = extern
@@ -34,7 +34,6 @@ object netdb {
                   hints: Ptr[addrinfo],
                   res: Ptr[Ptr[addrinfo]]): CInt = extern
 
-  // Direct call, does not use addrinfo
   def getnameinfo(addr: Ptr[socket.sockaddr],
                   addrlen: socket.socklen_t,
                   host: CString,
@@ -42,6 +41,8 @@ object netdb {
                   service: CString,
                   servlen: socket.socklen_t,
                   flags: CInt): CInt = extern
+
+  def gai_strerror(errcode: CInt): CString = extern
 
   // symbolic constants
 
