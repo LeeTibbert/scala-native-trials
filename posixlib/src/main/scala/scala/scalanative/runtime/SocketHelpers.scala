@@ -158,7 +158,7 @@ object SocketHelpers {
       if (status != 0)
         return scala.Array.empty[String]
 
-      var ai = !ret
+      var ai = !ret  
       while (ai != null) {
         val ipstr = stackalloc[CChar]((INET6_ADDRSTRLEN + 1).toUInt)
         val addr =
@@ -224,6 +224,7 @@ object SocketHelpers {
         printf(s"\n\nipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
       } else {
         val gai = fromCString(gai_strerror(status))
+        printf(s"\n\nipToHost() ip: ${ip}  error status |${status}|\n\n")
         printf(s"\n\nipToHost() ip: ${ip}  error ret |${gai}|\n\n")
       }
 
