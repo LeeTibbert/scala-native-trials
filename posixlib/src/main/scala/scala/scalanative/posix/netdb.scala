@@ -23,6 +23,8 @@ object netdb {
                            Ptr[CChar],           // ai_canonname
                            Ptr[Byte]]            // ai_next
 
+  // functions
+
   @name("scalanative_freeaddrinfo")
   def freeaddrinfo(addr: Ptr[addrinfo]): Unit = extern
 
@@ -40,6 +42,8 @@ object netdb {
                   service: CString,
                   servlen: socket.socklen_t,
                   flags: CInt): CInt = extern
+
+  // symbolic constants
 
   @name("scalanative_ai_numerichost")
   def AI_NUMERICHOST: CInt = extern
@@ -82,4 +86,3 @@ object netdbOps {
     def ai_next_=(v: Ptr[Byte]): Unit            = ptr._8 = v
   }
 }
-
