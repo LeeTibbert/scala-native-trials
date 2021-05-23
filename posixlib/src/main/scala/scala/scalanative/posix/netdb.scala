@@ -2,10 +2,10 @@ package scala.scalanative.posix
 
 import scalanative.unsafe._
 import scalanative.posix.sys.socket
-import scalanative.posix.netinet.in
 
 @extern
 object netdb {
+
   /* Offset of fields in 'addrinfo' differs between Linux, macOS,
    * and possibly others. Until a better way is developed, the '@name`
    * routines provide operating system independent handling (copy-in/copy-out)
@@ -14,6 +14,7 @@ object netdb {
    */
 
   // This is the Linux layout. macOS pads between ai_addrlen & ai_addr.
+
   type addrinfo = CStruct8[CInt, // ai_flags
                            CInt,                 // ai_family
                            CInt,                 // ai_socktype
@@ -41,6 +42,7 @@ object netdb {
                   servlen: socket.socklen_t,
                   flags: CInt): CInt = extern
 
+
   @name("scalanative_ai_numerichost")
   def AI_NUMERICHOST: CInt = extern
 
@@ -58,6 +60,24 @@ object netdb {
 
   @name("scalanative_ai_canonname")
   def AI_CANONNAME: CInt = extern
+
+  // Direct function calls to C do not require a @name annotation.
+
+  def freeaddrinfo(addr: Ptr[addrinfo]): Unit = extern
+
+  def getaddrinfo(name: CString,
+                  service: CString,
+                  hints: Ptr[addrinfo],
+                  res: Ptr[Ptr[addrinfo]]): CInt = extern
+
+  def getnameinfo(addr: Ptr[socket.sockaddr],
+                  addrlen: socket.socklen_t,
+                  host: CString,
+                  hostlen: socket.socklen_t,
+                  service: CString,
+                  servlen: socket.socklen_t,
+                  flags: CInt): CInt = extern
+
 }
 
 object netdbOps {

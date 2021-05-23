@@ -9,6 +9,7 @@ struct scalanative_sockaddr {
 };
 
 // Not Posix compliant. BEWARE using with memcpy() & friends.
+
 struct scalanative_sockaddr_storage {
     scalanative_sa_family_t ss_family;
 };

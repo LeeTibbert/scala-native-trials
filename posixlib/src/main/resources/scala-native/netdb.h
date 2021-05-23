@@ -6,8 +6,8 @@
 #endif
 
 #ifndef __SYS_SOCKET_H
+
 #include "sys/socket.h"
-#endif
 
 // Be careful here. The Operating System declaration differs on Linux * macOS.
 // Latter adds padding before ai_addrlen to align pointer on 8 byte
@@ -19,6 +19,7 @@ struct scalanative_addrinfo {
     int ai_socktype;                      /* Socket type.  */
     int ai_protocol;                      /* Protocol for socket.  */
     socklen_t ai_addrlen;                 /* Length of socket address.  */
+  int pad;
     struct scalanative_sockaddr *ai_addr; /* Socket address for socket.  */
     char *ai_canonname; /* Canonical name for service location.  */
     void *ai_next;      /* Pointer to next in list.  */
