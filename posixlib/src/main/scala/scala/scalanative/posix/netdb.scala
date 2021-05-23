@@ -42,7 +42,7 @@ object netdb {
                   servlen: socket.socklen_t,
                   flags: CInt): CInt = extern
 
-  def gai_strerror(errcode: CInt): CString = extern
+  def gai_strerror(errcode: CInt): CString = extern   
 
   // symbolic constants
 
