@@ -207,14 +207,15 @@ object SocketHelpers {
          val r = inet_pton(AF_INET,
                     toCString(ip),
                     addr4.sin_addr.toPtr.asInstanceOf[Ptr[Byte]])
-          printf(s">>> ipToHost() ip: ${ip} inet_pton() returned code |$r|")
-          printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|")
+          printf(
+            s">>> ipToHost() ip: ${ip} inet_pton() Returned code |$r|\n")
+          printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|\n")
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
-                      sizeof[sockaddr_in].toUInt,
+                      sizeof[sockaddr_in].toUInt - 8,
                       host,
                       MAXHOSTNAMELEN,
                       service,
-                      20.toUInt,
+                      0.toUInt,
                       0)
         }
 
