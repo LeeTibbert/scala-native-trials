@@ -185,6 +185,7 @@ object SocketHelpers {
 
   def ipToHost(ip: String, isV6: Boolean): Option[String] =
     Zone { implicit z =>
+      printf(s"\n\nipToHost() ip: ${ip \n\n")
       val host    = stackalloc[CChar](MAXHOSTNAMELEN)
       val service = stackalloc[CChar](20.toUInt)
       val status =
@@ -215,6 +216,14 @@ object SocketHelpers {
                       20.toUInt,
                       0)
         }
+
+      if (status == 0) {
+      printf(s"\n\nipToHost() ip: ${ip}  error ret ${status}\n\n")
+      } else {
+        val host = fromCString(host)
+        printf(s"\n\nipToHost() ip: ${ip}  host: ${host}\n\n")
+      }
+
       if (status == 0) Some(fromCString(host)) else None
     }
 }
