@@ -219,7 +219,7 @@ object SocketHelpers {
       if (status == 0) {
         printf(s"\n\nipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
       } else {
-        val gai = gai_strerror(status)
+        val gai = fromCString(gai_strerror(status))
         printf(s"\n\nipToHost() ip: ${ip}  error ret |${gai}|\n\n")
       }
 
