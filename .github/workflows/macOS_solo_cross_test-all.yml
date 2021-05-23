@@ -1,0 +1,145 @@
+name: macOS - one run, cross SN versions, relevant parts of test-all
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/macOS_solo_cross_test-all.yml'
+
+#  schedule:
+#    - cron: '0 * * * *'
+
+jobs:
+  macOS-bl4:
+    name: macOs solo cross test-all
+    runs-on: macos-10.15
+## Read https://github.com/actions/virtual-environments/blob/main/images\
+##     /macos/macos-10.15-Readme.md to see what software is stock in the soup.
+    strategy:
+      fail-fast: false
+      matrix:
+#        scala: [2.13.6]
+        scala: [2.12.13]
+        build-mode: [ debug]
+        gc: [ commix]
+        lto: [ none ]
+#        scala: [2.13.6, 2.12.13, 2.11.12]
+#        build-mode: [ debug, release-fast ]
+#        gc: [ boehm, immix, commix ]
+#        gc: [ commix, immix ]
+
+        # Looping construct.
+        # listing order sort is alphabetical, so start loop indices with zero.
+        # listing order (left of screen/page) is not necessarily start order.
+#          [0] # singleton
+#        loop_i:
+#          [0] # singleton
+#          [0, 1]
+#        loop_j:
+#          [0] # singleton
+#          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    env:
+      SCALA_VERSION: ${{ matrix.scala }}
+      SCALANATIVE_MODE: ${{ matrix.build-mode }}
+      SCALANATIVE_GC: ${{ matrix.gc }}
+      SCALANATIVE_LTO: ${{ matrix.lto }}
+
+      TEST_SCRIPTED_ON: "2.12.13"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: macOS - bl3 prologue
+
+        run: |
+          echo "Hello World from maybe macOS"
+          echo "$(uname -a)"
+          date
+          printenv # What does TEST_SCRIPTED_ON resolve to?  
+
+## 2021-03-12 17:24 -0500 llvm 11 already installed, 
+## Looks like java 8 compiler is also installed.
+
+## Someday may want to actively check these versions
+#          which javac
+
+      - name: macOS - Log active software versions
+        run: |
+          clang --version
+          javac -version
+
+## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
+## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
+
+      - name: Install sbt
+        run: |
+          brew install sbt
+          sbt --version
+
+## TODO:
+##   - rework Java handling to be explicitly J8. (unless I do
+##     a fail fast check above.
+##
+##   - May want to coalese test-tools & test-runtime someday, to
+##     save the time cost of a full sbt activation.  Keep separate
+##     for now, in case I come up with a better way of
+##     sequencing/selecting tests.
+##
+##   - Should probably put the SCALA_VERSION and SCALANATIVE)M
+
+
+## Notes:
+##   - Use the GitHub Actions log file until the need for something
+##     more permanent shows up.  May need more pernament historical
+##     for log files of Release versions.
+
+      - name: Scala Native build core
+#        if: success
+        env:
+          ACTION: "scalalib/compile"
+
+        run: |
+          sbt -v -no-colors -J-Xmx5G \
+          "++$SCALA_VERSION" \
+          "$ACTION" 
+
+      - name: Scala Native test-tools
+# TODO: Test for success of prior steps
+#        if: success
+        env:
+          ACTION: "test-tools"
+
+        run: |
+          sbt -v -no-colors -J-Xmx5G \
+          "++$SCALA_VERSION" \
+          "${ACTION}" 
+
+      - name: Scala Native test-runtime
+# TODO: Test for success of prior steps
+#        if: success
+        env:
+          ACTION: "test-runtime"
+#        run: |
+#          echo "Scala Native $ACTION"
+
+        run: |
+          sbt -v -no-colors -J-Xmx5G \
+          "++$SCALA_VERSION" \
+          "${ACTION}" 
+
+      - name: Scala Native test-scripted (conditional)
+# TODO: Test for success of prior steps
+        if: contains(env.TEST_SCRIPTED_ON, env.SCALA_VERSION)
+        env:
+          ACTION: "test-scripted"
+#        run: |
+#          echo "Scala Native $ACTION"
+
+        run: |
+          sbt -v -no-colors -J-Xmx5G \
+          "++$SCALA_VERSION" \
+          "${ACTION}" 
+
+# -30- #
