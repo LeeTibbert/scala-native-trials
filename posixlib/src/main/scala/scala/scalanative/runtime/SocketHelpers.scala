@@ -219,8 +219,7 @@ object SocketHelpers {
       if (status == 0) {
       printf(s"\n\nipToHost() ip: ${ip}  error ret ${status}\n\n")
       } else {
-        val host = fromCString(host)
-        printf(s"\n\nipToHost() ip: ${ip}  host: ${host}\n\n")
+        printf(s"\n\nipToHost() ip: ${ip}  host: ${fromCString(host)}\n\n")
       }
 
       if (status == 0) Some(fromCString(host)) else None
