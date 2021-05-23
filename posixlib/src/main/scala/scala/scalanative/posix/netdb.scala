@@ -82,3 +82,4 @@ object netdbOps {
     def ai_next_=(v: Ptr[Byte]): Unit            = ptr._8 = v
   }
 }
+
