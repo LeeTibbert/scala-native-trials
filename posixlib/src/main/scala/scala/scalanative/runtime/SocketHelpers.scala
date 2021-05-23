@@ -211,7 +211,7 @@ object SocketHelpers {
             s">>> ipToHost() ip: ${ip} inet_pton() Returned code |$r|\n")
           printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|\n")
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
-                      sizeof[sockaddr_in].toUInt - 8,
+                      (sizeof[sockaddr_in] - 8).toUInt,
                       host,
                       MAXHOSTNAMELEN,
                       service,
