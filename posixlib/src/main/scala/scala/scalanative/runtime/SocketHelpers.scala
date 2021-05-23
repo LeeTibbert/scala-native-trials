@@ -204,9 +204,11 @@ object SocketHelpers {
         } else {
           val addr4 = stackalloc[sockaddr_in]
           addr4.sin_family = AF_INET.toUShort
-          inet_pton(AF_INET,
+         val r = inet_pton(AF_INET,
                     toCString(ip),
                     addr4.sin_addr.toPtr.asInstanceOf[Ptr[Byte]])
+          printf(s">>> ipToHost() ip: ${ip} inet_pton() returned code |$r|")
+          printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|")
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
                       sizeof[sockaddr_in].toUInt,
                       host,
