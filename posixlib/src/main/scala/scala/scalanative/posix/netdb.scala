@@ -34,6 +34,7 @@ object netdb {
                   hints: Ptr[addrinfo],
                   res: Ptr[Ptr[addrinfo]]): CInt = extern
 
+  @name("scalanative_getnameinfo")
   def getnameinfo(addr: Ptr[socket.sockaddr],
                   addrlen: socket.socklen_t,
                   host: CString,

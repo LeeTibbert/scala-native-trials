@@ -4,6 +4,33 @@
 #include "netdb.h"
 #include "netinet/in.h"
 
+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
+                            socklen_t addrlen, char *host, socklen_t hostlen,
+                            char *serv, socklen_t servlen, int flags) {
+
+  // This OS interop section is not for the pure of heart or young
+  // impressionable children.
+
+#ifdef __linux__
+  struct sockaddr *addrPtr = (struct sockaddr *) &addr;
+#elif defined(__APPLE__) || defined(__FreeBSD__)
+  struct scalanative_sockaddr bsdAddr;
+  memcpy(&bsdAddr, addr, sizeof(struct scalanative_sockaddr));
+  addrlen = (addr->sa_family == AF_INET) ? 4 : 16; // since the dawn of time
+  bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
+
+  struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
+
+#elif defined(_WIN32)
+#error "Not tailered/implemented for WIN32"
+#else 
+#error "Unsupported operating system."
+#endif  
+
+    return getnameinfo(addrPtr, addrlen, host, hostlen, serv,
+                             servlen, flags);
+}
+
 void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
                                               struct addrinfo *out) {
     // ai_addr and ai_next fields are set to NULL because this function is only
