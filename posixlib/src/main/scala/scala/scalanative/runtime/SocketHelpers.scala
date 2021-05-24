@@ -157,6 +157,9 @@ object SocketHelpers {
     }
       inet_ntop(ai.ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)
       freeaddrinfo(ai)
+
+      printf(
+       s">>> DEBUG hostToIp() End: |${host}| addr: |${fromCString(ipstr)}|\n")
       Some(fromCString(ipstr))
     }
 
