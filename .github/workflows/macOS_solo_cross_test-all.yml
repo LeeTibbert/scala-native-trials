@@ -69,7 +69,7 @@ jobs:
         run: |
           clang --version
           javac -version
-          clang -x c /dev/null -dM -E // dump predefined macros __APPLE__
+          clang -x c /dev/null -dM -E
 
 ## 2021-03-12 17:42 -0500 Goal - install java 8 & Sbt 1.4.9
 ## Use stock sbt launcher, not sbt-extras or such. Avoid schism.
