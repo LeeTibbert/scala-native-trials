@@ -1,18 +1,31 @@
-#include "netdb.h"
-#include "sys/socket_conversions.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include "netdb.h"
+#include "netinet/in.h"
 
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
-    struct sockaddr *converted_addr;
-    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);
-    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,
+
+  // This OS interop section is not for the pure of heart or young
+  // impressionable children.
+
+#if defined(__linux__) || defined(_WIN32)
+  struct sockaddr *addrPtr = (struct sockaddr *) &addr;
+#elif defined(__APPLE__) || defined(__FreeBSD__) || true
+  struct scalanative_sockaddr bsdAddr;
+  memcpy(&bsdAddr, addr, sizeof(struct scalanative_sockaddr));
+  addrlen = (addr->sa_family == AF_INET) ? 4 : 16; // since the dawn of time
+  bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
+
+  struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
+#else
+#error "Unsupported operating system."
+#endif  
+
+    return getnameinfo(addrPtr, addrlen, host, hostlen, serv,
                              servlen, flags);
-    free(converted_addr);
-    return status;
 }
 
 void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
@@ -43,24 +56,19 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
     out->ai_protocol = in->ai_protocol;
     if (in->ai_addr == NULL) {
         out->ai_addr = NULL;
-        out->ai_addrlen = in->ai_addrlen;
+        out->ai_addrlen = 0;
     } else {
-        socklen_t size;
-        if (in->ai_addr->sa_family == AF_INET) {
-            struct scalanative_sockaddr_in *addr =
-                malloc(sizeof(struct scalanative_sockaddr_in));
-            scalanative_convert_scalanative_sockaddr_in(
-                (struct sockaddr_in *)in->ai_addr, addr, &size);
-            out->ai_addr = (struct scalanative_sockaddr *)addr;
-        } else {
-            struct scalanative_sockaddr_in6 *addr =
-                malloc(sizeof(struct scalanative_sockaddr_in6));
-            scalanative_convert_scalanative_sockaddr_in6(
-                (struct sockaddr_in6 *)in->ai_addr, addr, &size);
-            out->ai_addr = (struct scalanative_sockaddr *)addr;
-        }
+        socklen_t size = (in->ai_addr->sa_family == AF_INET)
+                             ? sizeof(struct scalanative_sockaddr_in)
+                             : sizeof(struct scalanative_sockaddr_in6);
+
+        void *addr = malloc(size);
+        memcpy(addr, in->ai_addr, size);
+        out->ai_addr = (struct scalanative_sockaddr *)addr;
+
         out->ai_addrlen = size;
     }
+
     if (in->ai_canonname == NULL) {
         out->ai_canonname = NULL;
     } else {

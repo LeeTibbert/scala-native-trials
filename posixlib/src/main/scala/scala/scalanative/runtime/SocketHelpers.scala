@@ -158,7 +158,7 @@ object SocketHelpers {
       if (status != 0)
         return scala.Array.empty[String]
 
-      var ai = !ret
+      var ai = !ret  
       while (ai != null) {
         val ipstr = stackalloc[CChar]((INET6_ADDRSTRLEN + 1).toUInt)
         val addr =
@@ -204,17 +204,30 @@ object SocketHelpers {
         } else {
           val addr4 = stackalloc[sockaddr_in]
           addr4.sin_family = AF_INET.toUShort
-          inet_pton(AF_INET,
+         val r = inet_pton(AF_INET,
                     toCString(ip),
                     addr4.sin_addr.toPtr.asInstanceOf[Ptr[Byte]])
+          printf(
+            s">>> ipToHost() ip: ${ip} inet_pton() Returned code |$r|\n")
+          printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|\n")
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
-                      sizeof[sockaddr_in].toUInt,
+//                      (sizeof[sockaddr_in] - 8).toUInt,
+                      8.toUInt,
                       host,
-                      1024.toUInt,
+                      MAXHOSTNAMELEN,
                       service,
-                      20.toUInt,
+                      0.toUInt,
                       0)
         }
+
+      if (status == 0) {
+        printf(s"\n\nipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
+      } else {
+        val gai = fromCString(gai_strerror(status))
+        printf(s"\n\nipToHost() ip: ${ip}  error status |${status}|\n\n")
+        printf(s"\n\nipToHost() ip: ${ip}  error ret |${gai}|\n\n")
+      }
+
       if (status == 0) Some(fromCString(host)) else None
     }
 }
