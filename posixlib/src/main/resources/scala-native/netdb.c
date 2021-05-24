@@ -11,7 +11,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
   // This OS interop section is not for the pure of heart or young
   // impressionable children.
 
-#ifdef __linux__
+#if defined(__linux__) || defined(_WIN32)
   struct sockaddr *addrPtr = (struct sockaddr *) &addr;
 #elif defined(__APPLE__) || defined(__FreeBSD__)
   struct scalanative_sockaddr bsdAddr;
@@ -20,10 +20,6 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
   bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
 
   struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
-
-#elif defined(_WIN32)
-#error "Not tailered/implemented for WIN32"
-#else 
 #error "Unsupported operating system."
 #endif  
 
