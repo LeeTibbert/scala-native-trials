@@ -13,7 +13,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
 
 #if defined(__linux__) || defined(_WIN32)
   struct sockaddr *addrPtr = (struct sockaddr *) &addr;
-#elif defined(__APPLE__) || defined(__FreeBSD__)
+#elif defined(__APPLE__) || defined(__FreeBSD__) || true
   struct scalanative_sockaddr bsdAddr;
   memcpy(&bsdAddr, addr, sizeof(struct scalanative_sockaddr));
   addrlen = (addr->sa_family == AF_INET) ? 4 : 16; // since the dawn of time
