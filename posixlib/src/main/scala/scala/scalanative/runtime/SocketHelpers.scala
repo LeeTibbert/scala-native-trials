@@ -119,25 +119,42 @@ object SocketHelpers {
       hints.ai_socktype = 0
       hints.ai_next = null
 
+      printf(
+            s">>> DEBUG hostToIp() host: |${host}|\n")
+
       val status = getaddrinfo(toCString(host), null, hints, ret)
-      if (status != 0)
+      if (status != 0) {
+      printf(
+            s">>> DEBUG hostToIp() getaddrinfo failure status |${status}|\n")
         return None
+      }
 
       val ai = !ret
+//      val family = ai.ai_family >> 8
+      val family = ai.ai_family 
       val addr =
-        if (ai.ai_family == AF_INET) {
+        if (family == AF_INET) {
+      printf(
+            s">>> DEBUG hostToIp() ai.ai_family AF_INET\n")
           ai.ai_addr
             .asInstanceOf[Ptr[sockaddr_in]]
             .sin_addr
             .toPtr
             .asInstanceOf[Ptr[Byte]]
-        } else {
+        } else if (family == AF_INET6) {
+
+      printf(
+            s">>> DEBUG hostToIp() ai.ai_family AF_INET6\n")
           ai.ai_addr
             .asInstanceOf[Ptr[sockaddr_in6]]
             .sin6_addr
             .toPtr
             .asInstanceOf[Ptr[Byte]]
-        }
+        } else {
+      printf(
+            s">>> DEBUG hostToIp() ai.ai_family ELSE (WTF?)\n")
+            null.asInstanceOf[Ptr[Byte]]
+    }
       inet_ntop(ai.ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)
       freeaddrinfo(ai)
       Some(fromCString(ipstr))
@@ -208,8 +225,9 @@ object SocketHelpers {
                     toCString(ip),
                     addr4.sin_addr.toPtr.asInstanceOf[Ptr[Byte]])
           printf(
-            s">>> ipToHost() ip: ${ip} inet_pton() Returned code |$r|\n")
-          printf(s">>> ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|\n")
+            s">>> DEBUG ipToHost() ip: ${ip} inet_pton() Returned code |$r|\n")
+          printf(
+            s">>> DEBUG ipToHost() ip: ${ip} addr4.sin_family: |${addr4.sin_family}|\n")
           getnameinfo(addr4.asInstanceOf[Ptr[sockaddr]],
 //                      (sizeof[sockaddr_in] - 8).toUInt,
                       8.toUInt,
@@ -221,11 +239,11 @@ object SocketHelpers {
         }
 
       if (status == 0) {
-        printf(s"\n\nipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
+        printf(s"\n\nDEBUG ipToHost() ip: ${ip}  host: |${fromCString(host)}|\n\n")
       } else {
         val gai = fromCString(gai_strerror(status))
-        printf(s"\n\nipToHost() ip: ${ip}  error status |${status}|\n\n")
-        printf(s"\n\nipToHost() ip: ${ip}  error ret |${gai}|\n\n")
+        printf(s"\n\nDEBUG ipToHost() ip: ${ip}  error status |${status}|\n\n")
+        printf(s"\n\nDEBUG ipToHost() ip: ${ip}  error ret |${gai}|\n\n")
       }
 
       if (status == 0) Some(fromCString(host)) else None
