@@ -20,6 +20,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
   bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
 
   struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
+#else
 #error "Unsupported operating system."
 #endif  
 
