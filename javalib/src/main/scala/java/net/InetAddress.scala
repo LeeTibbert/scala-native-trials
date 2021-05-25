@@ -137,13 +137,23 @@ private[net] trait InetAddressBase {
         throw new UnknownHostException(
           "No IP address could be found for the specified host: " + host)
       }
+
+
       if (isValidIPv4Address(ip))
         address = new Inet4Address(byteArrayFromIPString(ip), host)
       else if (isValidIPv6Address(ip))
         address = new Inet6Address(byteArrayFromIPString(ip), host)
       else
         throw new UnknownHostException("Malformed IP: " + ip)
+
+    val foo =  createIPStringFromByteArray(byteArrayFromIPString(ip))
+     printf(
+       s"<<< DEBUG InetAddress() ip(string): |${ip}|\n")
+     printf(
+         s"<<< DEBUG InetAddress() created: |${foo}|\n")
     }
+
+
     address
   }
 
