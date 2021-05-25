@@ -124,8 +124,11 @@ object SocketHelpers {
 
       printf(
             s">>> DEBUG hostToIp() host: |${host}|\n")
+      printf(
+            s">>> DEBUG hostToIp() NULL HINTS|\n")
 
-      val status = getaddrinfo(toCString(host), null, hints, ret)
+//      val status = getaddrinfo(toCString(host), null, hints, ret)
+      val status = getaddrinfo(toCString(host), null, null, ret)
       if (status != 0) {
       printf(
             s">>> DEBUG hostToIp() getaddrinfo failure status |${status}|\n")
