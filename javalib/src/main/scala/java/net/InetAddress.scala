@@ -151,8 +151,11 @@ private[net] trait InetAddressBase {
        s"<<< DEBUG InetAddress() ip(string): |${ip}|\n")
      printf(
          s"<<< DEBUG InetAddress() created: |${foo}|\n")
-    }
 
+    val isValidIPv6 = isValidIPv6Address(foo)
+     printf(
+         s"<<< DEBUG InetAddress() isValidIPv6 address: |${isValidIPv6}|\n")
+    }
 
     address
   }
