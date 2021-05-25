@@ -118,17 +118,21 @@ object SocketHelpers {
       hints.ai_family = AF_UNSPEC // fails
 //      hints.ai_family = AF_INET // works
 //      hints.ai_family = AF_INET6 // fails
-      hints.ai_socktype = 0
-      hints.ai_next = null
-      hints.ai_flags = AI_ADDRCONFIG
+//      hints.ai_socktype = 0
+//      hints.ai_next = null
 
       printf(
             s">>> DEBUG hostToIp() host: |${host}|\n")
+
+/*
       printf(
             s">>> DEBUG hostToIp() NULL HINTS|\n")
+// With null hints, SN gai() segfaults!!! Game over.
+//      val status = getaddrinfo(toCString(host), null, null, ret)
+ */
 
-//      val status = getaddrinfo(toCString(host), null, hints, ret)
-      val status = getaddrinfo(toCString(host), null, null, ret)
+      val status = getaddrinfo(toCString(host), null, hints, ret)
+
       if (status != 0) {
       printf(
             s">>> DEBUG hostToIp() getaddrinfo failure status |${status}|\n")
@@ -164,6 +168,9 @@ object SocketHelpers {
       inet_ntop(ai.ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)
       freeaddrinfo(ai)
 
+      
+      printf(
+       s">>> DEBUG hostToIp() End: |${host}| addr: |${ai.ai_next.toString}|\n")
       printf(
        s">>> DEBUG hostToIp() End: |${host}| addr: |${fromCString(ipstr)}|\n")
       Some(fromCString(ipstr))
