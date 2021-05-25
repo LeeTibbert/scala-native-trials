@@ -116,7 +116,8 @@ object SocketHelpers {
 
       val ipstr = stackalloc[CChar]((INET6_ADDRSTRLEN + 1).toUInt)
 //      hints.ai_family = AF_UNSPEC
-      hints.ai_family = AF_INET
+//      hints.ai_family = AF_INET
+      hints.ai_family = AF_INET6
       hints.ai_socktype = 0
       hints.ai_next = null
 
