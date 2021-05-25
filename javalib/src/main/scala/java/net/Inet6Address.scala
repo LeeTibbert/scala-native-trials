@@ -6,7 +6,12 @@ final class Inet6Address private[net] (ipAddress: Array[Byte],
                                        scopeId: Int)
     extends InetAddress(ipAddress, host) {
 
-  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null, 0)
+  private[net] def this(ipAddress: Array[Byte]) = {
+    this(ipAddress, null, 0)
+    val str = ipAddress.mkString("/")
+     printf(
+       s">>> DEBUG Inet6Address() array low to hi (presentation?): |${str}|\n")
+  }
 
   private[net] def this(ipAddress: Array[Byte], host: String) =
     this(ipAddress, host, 0)

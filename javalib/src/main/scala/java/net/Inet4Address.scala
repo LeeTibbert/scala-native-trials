@@ -4,7 +4,12 @@ package java.net
 final class Inet4Address private[net] (ipAddress: Array[Byte], host: String)
     extends InetAddress(ipAddress, host) {
 
-  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null)
+  private[net] def this(ipAddress: Array[Byte]) = {
+    this(ipAddress, null)
+    val str = ipAddress.mkString("\\")
+     printf(
+       s"<<< DEBUG Inet4Address() array low to hi (presentation?): |${str}|\n")
+}
 
   override def isMulticastAddress(): Boolean =
     (ipAddress(0) & 0xF0) == 0xE0
