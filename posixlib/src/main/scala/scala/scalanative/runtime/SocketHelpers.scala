@@ -115,11 +115,12 @@ object SocketHelpers {
       val ret   = stackalloc[Ptr[addrinfo]]
 
       val ipstr = stackalloc[CChar]((INET6_ADDRSTRLEN + 1).toUInt)
-//      hints.ai_family = AF_UNSPEC
-//      hints.ai_family = AF_INET
-      hints.ai_family = AF_INET6
+      hints.ai_family = AF_UNSPEC // fails
+//      hints.ai_family = AF_INET // works
+//      hints.ai_family = AF_INET6 // fails
       hints.ai_socktype = 0
       hints.ai_next = null
+      hints.ai_flags = AI_ADDRCONFIG
 
       printf(
             s">>> DEBUG hostToIp() host: |${host}|\n")
