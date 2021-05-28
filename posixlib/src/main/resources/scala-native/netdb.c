@@ -1,4 +1,6 @@
 #include "sys/socket_conversions.h"
+#include <stdio.h> // DEBUG FIXME
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -95,7 +97,135 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 //    may be able to use original, being expecially careful in
 //    freeaddrinfo.  Perhaps another PR?
 
-#if 1
+void scalanative_convert_addrinfo(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out);
+
+void scalanative_convert_addrinfo_X2(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    out->ai_addrlen = in->ai_addrlen;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+    } else {
+        socklen_t size = in->ai_addrlen;
+
+        void *addr = malloc(size);
+        memcpy(addr, in->ai_addr, size);
+        out->ai_addr = (struct scalanative_sockaddr *) addr;
+    }
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
+void scalanative_convert_addrinfo_X1(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+        out->ai_addrlen = in->ai_addrlen;
+    } else {
+        socklen_t size;
+        if (in->ai_addr->sa_family == AF_INET) {
+            struct scalanative_sockaddr_in *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in));
+            scalanative_convert_scalanative_sockaddr_in(
+                (struct sockaddr_in *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+            struct scalanative_sockaddr_in6 *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+        out->ai_addrlen = size;
+    }
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
+void scalanative_convert_addrinfo(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+  printf("\n------------- scalanative_convert_addrinfo: Begin\n");
+
+  scalanative_convert_addrinfo_X1(in, out);
+
+  int size = sizeof(struct scalanative_addrinfo);
+
+  struct scalanative_addrinfo *outX2 = malloc(size);
+
+  scalanative_convert_addrinfo_X2(in, outX2);
+
+  if (out->ai_flags != outX2->ai_flags) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_flags",
+	   out->ai_flags, outX2->ai_flags);
+
+  if (out->ai_family != outX2->ai_family) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_family",
+	   out->ai_family, outX2->ai_family);
+  
+  if (out->ai_socktype != outX2->ai_socktype) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_socktype",
+	   out->ai_socktype, outX2->ai_socktype);
+
+  if (out->ai_protocol != outX2->ai_protocol) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_protocol",
+	   out->ai_protocol, outX2->ai_protocol);
+
+  if (out->ai_protocol != outX2->ai_protocol) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_protocol",
+	   out->ai_protocol, outX2->ai_protocol);
+
+  if (out->ai_addrlen != outX2->ai_addrlen) 
+    printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_addrlen",
+	   (int) out->ai_addrlen, (int) outX2->ai_addrlen);
+
+  if (out->ai_addr != outX2->ai_addr) 
+    printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_addr",
+	   out->ai_addr, outX2->ai_addr);
+
+  printf("\n???out->ai_canonname |%s|\n", out->ai_canonname);
+  printf("\n???outX2->ai_canonname |%s|\n", outX2->ai_canonname);
+
+  if (out->ai_canonname != outX2->ai_canonname) 
+    printf("\nMismatch field %s: x1: |%s| x2: |%s|\n", "ai_canonname",
+	   out->ai_canonname, outX2->ai_canonname);
+
+    printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_next",
+	   out->ai_next, outX2->ai_next);
+
+  printf("\n------------- scalanative_convert_addrinfo: End\n");
+}
+
+#if 0
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -183,7 +313,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
     }
 }
 
-#else
+#elif 0
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -214,6 +344,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
         out->ai_next = next_native;
     }
 }
+#else
 #endif
 
 void scalanative_freeaddrinfo(struct scalanative_addrinfo *addr) {
