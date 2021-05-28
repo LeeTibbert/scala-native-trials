@@ -4,11 +4,12 @@
 #else
 #include <netdb.h>
 #endif
-#include "sys/socket_conversions.h"
+// #include "sys/socket_conversions.h"
 
-#ifndef __SYS_SOCKET_H
 #include "sys/socket.h"
-#endif
+
+// 2021-05-28 11:30 -0400 LeeT FIXME -- add comment about socklen_t
+// linux vs BSD
 
 struct scalanative_addrinfo {
     int ai_flags;                         /* Input flags.  */
