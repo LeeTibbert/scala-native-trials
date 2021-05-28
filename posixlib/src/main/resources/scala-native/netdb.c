@@ -85,6 +85,17 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
     out->ai_next = NULL;
 }
 
+/// 2021-05-28 11:55 -0400 LeeT FIXME -- Once I am finding the
+///    macOS with wierd IPv6 address for localhost bug I am trying
+///    to track down.
+// 2021-05-28 11:55 -0400 LeeT FIXME -- I believe that levels of
+//    simplifications are possible on known linux (perhaps not Windows)>
+//    Level 1) one memcpy in one move.
+//    On BSD/macOS, may not have to malloc, with __careful__ bookkeeping
+//    may be able to use original, being expecially careful in
+//    freeaddrinfo.  Perhaps another PR?
+
+
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -99,11 +110,16 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
                              ? sizeof(struct scalanative_sockaddr_in)
                              : sizeof(struct scalanative_sockaddr_in6);
 
+        socklen_t FIXME = (in->ai_addr->sa_family == AF_INET)
+                             ? 4
+                             : 16;
+
         void *addr = malloc(size);
         memcpy(addr, in->ai_addr, size);
         out->ai_addr = (struct scalanative_sockaddr *)addr;
 
-        out->ai_addrlen = size;
+	//        out->ai_addrlen = size;
+        out->ai_addrlen = FIXME;
 
     }
     if (in->ai_canonname == NULL) {
