@@ -176,13 +176,14 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
   printf("\n------------- scalanative_convert_addrinfo: Begin\n");
 
-  scalanative_convert_addrinfo_X1(in, out);
+  //  scalanative_convert_addrinfo_X1(in, out);
 
   int size = sizeof(struct scalanative_addrinfo);
 
   struct scalanative_addrinfo *outX2 = malloc(size);
 
-  scalanative_convert_addrinfo_X2(in, outX2);
+  //  scalanative_convert_addrinfo_X2(in, outX2);
+  scalanative_convert_addrinfo_X2(in, out);
 
   if (out->ai_flags != outX2->ai_flags) 
     printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_flags",
@@ -208,17 +209,20 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
     printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_addrlen",
 	   (int) out->ai_addrlen, (int) outX2->ai_addrlen);
 
+  /* Since these are malloc'd output fields, they will alway mismatch.
   if (out->ai_addr != outX2->ai_addr) 
     printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_addr",
 	   out->ai_addr, outX2->ai_addr);
+  */
 
-  printf("\n???out->ai_canonname |%s|\n", out->ai_canonname);
-  printf("\n???outX2->ai_canonname |%s|\n", outX2->ai_canonname);
+  //  printf("\n???out->ai_canonname |%s|\n", out->ai_canonname);
+  //  printf("\n???outX2->ai_canonname |%s|\n", outX2->ai_canonname);
 
   if (out->ai_canonname != outX2->ai_canonname) 
     printf("\nMismatch field %s: x1: |%s| x2: |%s|\n", "ai_canonname",
 	   out->ai_canonname, outX2->ai_canonname);
 
+  if (out->ai_next != outX2->ai_next) 
     printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_next",
 	   out->ai_next, outX2->ai_next);
 
