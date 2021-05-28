@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if 0
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
@@ -22,7 +23,8 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                              servlen, flags);
 }
 
-/* // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
+#else
+ // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
@@ -46,7 +48,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
     return getnameinfo(addrPtr, addrlen, host, hostlen, serv,
                              servlen, flags);
 }
-*/
+#endif
 
 /*
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
