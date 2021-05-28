@@ -7,6 +7,51 @@
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
+
+  // This OS interop section is not for the pure of heart or young
+  // impressionable children.
+
+  struct scalanative_sockaddr bsdAddr;
+  memcpy(&bsdAddr, addr, sizeof(struct scalanative_sockaddr));
+  addrlen = (addr->sa_family == AF_INET) ? 4 : 16; // since the dawn of time
+  bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
+
+  struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
+
+    return getnameinfo(addrPtr, addrlen, host, hostlen, serv,
+                             servlen, flags);
+}
+
+/* // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
+                            socklen_t addrlen, char *host, socklen_t hostlen,
+                            char *serv, socklen_t servlen, int flags) {
+
+  // This OS interop section is not for the pure of heart or young,
+  // impressionable children.
+
+#if defined(__linux__) || defined(_WIN32)
+  struct sockaddr *addrPtr = (struct sockaddr *) addr;
+#elif defined(__APPLE__) || defined(__FreeBSD__)
+  struct scalanative_sockaddr bsdAddr;
+  memcpy(&bsdAddr, addr, sizeof(struct scalanative_sockaddr));
+  addrlen = (addr->sa_family == AF_INET) ? 4 : 16; // since the dawn of time
+  bsdAddr.sa_family = (addr->sa_family << 8) | addrlen;
+
+  struct sockaddr *addrPtr = (struct sockaddr *) &bsdAddr;
+#else
+#error "Unsupported operating system."
+#endif
+
+    return getnameinfo(addrPtr, addrlen, host, hostlen, serv,
+                             servlen, flags);
+}
+*/
+
+/*
+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
+                            socklen_t addrlen, char *host, socklen_t hostlen,
+                            char *serv, socklen_t servlen, int flags) {
     struct sockaddr *converted_addr;
     scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);
     int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,
@@ -14,6 +59,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
     free(converted_addr);
     return status;
 }
+*/
 
 void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
                                               struct addrinfo *out) {
