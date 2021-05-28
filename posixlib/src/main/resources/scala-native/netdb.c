@@ -1,4 +1,4 @@
-// #include "sys/socket_conversions.h"
+#include "sys/socket_conversions.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -95,8 +95,7 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 //    may be able to use original, being expecially careful in
 //    freeaddrinfo.  Perhaps another PR?
 
-
-#if 0
+#if 1
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
