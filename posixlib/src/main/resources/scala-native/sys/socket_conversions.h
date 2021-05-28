@@ -7,6 +7,7 @@
 #include "../netinet/in.h"
 #include "socket.h"
 
+/* 2021-05-28 09:46 -0400 LeeT FIXME -- REMOVE Scaffolding
 struct scalanative_sockaddr {
     scalanative_sa_family_t sa_family;
     char sa_data[14];
@@ -15,6 +16,7 @@ struct scalanative_sockaddr {
 struct scalanative_sockaddr_storage {
     scalanative_sa_family_t ss_family;
 };
+*/
 
 int scalanative_convert_sockaddr_in(struct scalanative_sockaddr_in *in,
                                     struct sockaddr_in **out, socklen_t *size);
