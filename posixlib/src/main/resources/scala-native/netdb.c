@@ -96,7 +96,7 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 //    freeaddrinfo.  Perhaps another PR?
 
 
-#if 1
+#if 0
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -138,7 +138,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
     }
 }
 
-#else
+#elif 0
 
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
@@ -168,6 +168,38 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
 	//        out->ai_addrlen = FIXME; // Broken
 
+    }
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
+#else
+void scalanative_convert_addrinfo(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    out->ai_addrlen = in->ai_addrlen;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+    } else {
+        socklen_t size = in->ai_addrlen;
+
+        void *addr = malloc(size);
+        memcpy(addr, in->ai_addr, size);
+        out->ai_addr = (struct scalanative_sockaddr *) addr;
     }
     if (in->ai_canonname == NULL) {
         out->ai_canonname = NULL;
