@@ -257,7 +257,7 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
         out->ai_addr = NULL;
         out->ai_addrlen = in->ai_addrlen;
     } else {
-#if 1
+#if 0
         socklen_t size;
         if (in->ai_addr->sa_family == AF_INET) {
             struct scalanative_sockaddr_in *addr =
@@ -276,13 +276,13 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
         socklen_t size;
         if (in->ai_addr->sa_family == AF_INET) {
             struct scalanative_sockaddr_in *addr =
-                malloc(sizeof(struct scalanative_sockaddr_in));
+	      calloc(1, sizeof(struct scalanative_sockaddr_in));
 
 	    //2021-05-29 10:58 -0400 LeeT START HERE -- Fix dumb double malloc!
 	    //            scalanative_convert_scalanative_sockaddr_in(
 	    //                (struct sockaddr_in *)in->ai_addr, addr, &size);
 
-	    struct sockaddr_in *to = (struct sockaddr_in*) addr;
+	    struct scalanative_sockaddr_in *to =  addr;
 
     struct sockaddr_in *from = (struct sockaddr_in *) in->ai_addr;
     to->sin_family = from->sin_family;
@@ -291,8 +291,15 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
     //       scalanative_convert_in_addr((void *) &(from->sin_addr),
     //				   &(to->sin_addr));
 
+           scalanative_convert_in_addr((void *) &(from->sin_addr),
+    				   &(to->sin_addr));
+
     //    to->s_addr = from->so_addr;
-    to->sin_addr = from->sin_addr;
+    //    to->sin_addr = from->sin_addr;
+    //    memcpy(to->sin_addr, from->sin_addr, sizeof(from->sin_addr));
+    //    memcpy(&(to->sin_addr), &(from->sin_addr), sizeof(from->sin_addr));
+
+    //    out->ai_addr = (struct scalanative_sockaddr *) to;
 
             out->ai_addr = (struct scalanative_sockaddr *)addr;
         } else {
@@ -344,7 +351,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
    //  printf("\n... using X3\n");
    //  scalanative_convert_addrinfo_X3(in, out);
 
-  printf("\n... using X4 inline, stage 2\n");
+  printf("\n... using X4 inline, stage 2???\n");
   scalanative_convert_addrinfo_X4(in, out);
 
   /*
