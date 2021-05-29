@@ -244,16 +244,33 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 	   out->ai_addr, outX2->ai_addr);
   */
 
+  struct scalanative_sockaddr_in *p1 =
+    (struct scalanative_sockaddr_in *) out->ai_addr;
+  struct scalanative_sockaddr_in *p2 = 
+    (struct scalanative_sockaddr_in *) outX2->ai_addr;
+
+  struct scalanative_in_addr p1a = p1->sin_addr;
+  struct scalanative_in_addr p2a = p2->sin_addr;
+
+  //  if (memcmp(&p1a, &p2a, sizeof(struct scalanative_sockaddr)) != 0)
+  if (memcmp(&p1a, &p2a, 4) != 0)
+    printf("\n### Mismatch field %s: CONTENTS TBS\n", "ai_addr->sin_addr");
+  else
+    printf("\n#### Match at field %s: CONTENTS TBS\n", "ai_addr->sin_addr");
+
   //  printf("\n???out->ai_canonname |%s|\n", out->ai_canonname);
   //  printf("\n???outX2->ai_canonname |%s|\n", outX2->ai_canonname);
+
 
   if (out->ai_canonname != outX2->ai_canonname) 
     printf("\nMismatch field %s: x1: |%s| x2: |%s|\n", "ai_canonname",
 	   out->ai_canonname, outX2->ai_canonname);
 
+  /*
   if (out->ai_next != outX2->ai_next) 
     printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_next",
 	   out->ai_next, outX2->ai_next);
+  */
 
   printf("\n------------- scalanative_convert_addrinfo: End\n");
 }
