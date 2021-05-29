@@ -287,10 +287,12 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
     struct sockaddr_in *from = (struct sockaddr_in *) in->ai_addr;
     to->sin_family = from->sin_family;
     to->sin_port = from->sin_port;
-    //    scalanative_convert_in_addr((void *) &(from->sin_addr), &(s->sin_addr));
 
-       scalanative_convert_in_addr((void *) &(from->sin_addr),
-				   &(to->sin_addr));
+    //       scalanative_convert_in_addr((void *) &(from->sin_addr),
+    //				   &(to->sin_addr));
+
+    //    to->s_addr = from->so_addr;
+    to->sin_addr = from->sin_addr;
 
             out->ai_addr = (struct scalanative_sockaddr *)addr;
         } else {
@@ -342,7 +344,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
    //  printf("\n... using X3\n");
    //  scalanative_convert_addrinfo_X3(in, out);
 
-  printf("\n... using X4\n");
+  printf("\n... using X4 inline, stage 1\n");
   scalanative_convert_addrinfo_X4(in, out);
 
   /*
