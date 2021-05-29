@@ -257,7 +257,7 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
         out->ai_addr = NULL;
         out->ai_addrlen = in->ai_addrlen;
     } else {
-#if 0
+#if 1
         socklen_t size;
         if (in->ai_addr->sa_family == AF_INET) {
             struct scalanative_sockaddr_in *addr =
