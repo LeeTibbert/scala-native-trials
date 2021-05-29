@@ -291,8 +291,11 @@ void scalanative_convert_addrinfo_X4(struct addrinfo *in,
     //       scalanative_convert_in_addr((void *) &(from->sin_addr),
     //				   &(to->sin_addr));
 
-           scalanative_convert_in_addr((void *) &(from->sin_addr),
-    				   &(to->sin_addr));
+    //           scalanative_convert_in_addr((void *) &(from->sin_addr),
+    //				       (void *) &(to->sin_addr));
+
+	   // so_addr is a SN BAD IMPLEMENTATION! Whistle past it for now.
+    to->sin_addr.so_addr = from->sin_addr.s_addr;
 
     //    to->s_addr = from->so_addr;
     //    to->sin_addr = from->sin_addr;
