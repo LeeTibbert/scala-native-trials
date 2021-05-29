@@ -102,6 +102,9 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
 void scalanative_convert_addrinfo_X2(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
+
+  memset(out, 0, sizeof(struct scalanative_addrinfo));
+
     out->ai_flags = in->ai_flags;
     out->ai_family = in->ai_family;
     out->ai_socktype = in->ai_socktype;
@@ -113,9 +116,10 @@ void scalanative_convert_addrinfo_X2(struct addrinfo *in,
         socklen_t size = in->ai_addrlen;
 
         void *addr = malloc(size);
-	        memcpy(addr, in->ai_addr, size);
+	memcpy(addr, in->ai_addr, size);
 		//    scalanative_convert_scalanative_in_addr(in->ai_addr, addr);
-        out->ai_addr = (struct scalanative_sockaddr *) addr;
+		//        out->ai_addr = (struct scalanative_sockaddr *) addr;
+        out->ai_addr = addr;
     }
     if (in->ai_canonname == NULL) {
         out->ai_canonname = NULL;
@@ -189,6 +193,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
    scalanative_convert_addrinfo_X2(in, outX2);
   // scalanative_convert_addrinfo_X2(in, out);
+  scalanative_convert_addrinfo_X2(in, out);
 
 
   printf("\n------------- sn_convert_addrinfo: out->ai_family |%d|\n",
