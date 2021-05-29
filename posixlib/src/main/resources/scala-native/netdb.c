@@ -195,7 +195,20 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   // scalanative_convert_addrinfo_X2(in, out);
   scalanative_convert_addrinfo_X2(in, out);
 
+  printf("\n--- Testing out & outX2 for match --- Begin\n");
 
+  char *p1 = (char *) out;
+  char *p2 = (char *) outX2;
+
+  for (int j = 0; j < (size - (3 * sizeof(char *))); j++) {
+      if (p1[j] != p2[j])
+	printf(
+	 "\n--- Testing out & outX2 MISMATCH j: %d,  out: |%d| outX2: |%d|\n",
+	 j, p1[j], p2[j]);
+  }
+	 printf("\n--- Testing out & outX2 for match --- End\n");
+
+#if 0
   printf("\n------------- sn_convert_addrinfo: out->ai_family |%d|\n",
 	 (int) out->ai_family);
   printf("\n------------- sn_convert_addrinfo: outX2->ai_family |%d|\n",
@@ -271,6 +284,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
     printf("\nMismatch field %s: x1: |%p| x2: |%p|\n", "ai_next",
 	   out->ai_next, outX2->ai_next);
   */
+#endif 
 
   printf("\n------------- scalanative_convert_addrinfo: End\n");
 }
