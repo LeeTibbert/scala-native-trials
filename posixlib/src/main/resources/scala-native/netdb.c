@@ -196,7 +196,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("\n------------- sn_convert_addrinfo: outX0->ai_family |%d|\n",
 	 (int) outX0->ai_family);
 
-  out->ai_addr = outX0->ai_addr;
+  //  out->ai_addr = outX0->ai_addr;
 
   printf("\n------------- sn_convert_addrinfo: out->ai_addrlen |%d|\n",
 	 out->ai_addrlen);
@@ -204,7 +204,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("\n------------- sn_convert_addrinfo: outX0->ai_addrlen |%d|\n",
 	 outX0->ai_addrlen);
 
-  out->ai_addrlen = outX0->ai_addrlen;
+  //  out->ai_addrlen = outX0->ai_addrlen;
 
 
   // 2021-05-28 22:27 -0400 
