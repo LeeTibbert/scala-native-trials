@@ -113,7 +113,8 @@ void scalanative_convert_addrinfo_X2(struct addrinfo *in,
         socklen_t size = in->ai_addrlen;
 
         void *addr = malloc(size);
-        memcpy(addr, in->ai_addr, size);
+	        memcpy(addr, in->ai_addr, size);
+		//    scalanative_convert_scalanative_in_addr(in->ai_addr, addr);
         out->ai_addr = (struct scalanative_sockaddr *) addr;
     }
     if (in->ai_canonname == NULL) {
@@ -176,14 +177,37 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
   printf("\n------------- scalanative_convert_addrinfo: Begin\n");
 
+  int size = sizeof(struct scalanative_addrinfo);
+
+  struct scalanative_addrinfo *outX0 = malloc(size);
+    scalanative_convert_addrinfo_X1(in, outX0);
+
   //  scalanative_convert_addrinfo_X1(in, out);
 
-  int size = sizeof(struct scalanative_addrinfo);
 
   struct scalanative_addrinfo *outX2 = malloc(size);
 
   //  scalanative_convert_addrinfo_X2(in, outX2);
   scalanative_convert_addrinfo_X2(in, out);
+
+
+  printf("\n------------- sn_convert_addrinfo: out->ai_family |%d|\n",
+	 (int) out->ai_family);
+  printf("\n------------- sn_convert_addrinfo: outX0->ai_family |%d|\n",
+	 (int) outX0->ai_family);
+
+  out->ai_addr = outX0->ai_addr;
+
+  printf("\n------------- sn_convert_addrinfo: out->ai_addrlen |%d|\n",
+	 out->ai_addrlen);
+
+  printf("\n------------- sn_convert_addrinfo: outX0->ai_addrlen |%d|\n",
+	 outX0->ai_addrlen);
+
+  out->ai_addrlen = outX0->ai_addrlen;
+
+
+  // 2021-05-28 22:27 -0400 
 
   if (out->ai_flags != outX2->ai_flags) 
     printf("\nMismatch field %s: x1: |%d| x2: |%d|\n", "ai_flags",
