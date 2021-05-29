@@ -177,6 +177,75 @@ void scalanative_convert_addrinfo_X1(struct addrinfo *in,
     }
 }
 
+void scalanative_convert_addrinfo_X3(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+        out->ai_addrlen = in->ai_addrlen;
+    } else {
+#if 1
+        socklen_t size;
+        if (in->ai_addr->sa_family == AF_INET) {
+            struct scalanative_sockaddr_in *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in));
+            scalanative_convert_scalanative_sockaddr_in(
+                (struct sockaddr_in *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+            struct scalanative_sockaddr_in6 *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+#else
+        socklen_t size;
+        if (in->ai_addr->sa_family == AF_INET) {
+            struct scalanative_sockaddr_in *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in));
+
+	    //2021-05-29 10:58 -0400 LeeT START HERE -- Fix dumb double malloc!
+	    //            scalanative_convert_scalanative_sockaddr_in(
+	    //                (struct sockaddr_in *)in->ai_addr, addr, &size);
+
+    struct sockaddr_in *s =
+        (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
+    struct sockaddr_in *from = (struct sockaddr_in *) in->ai_addr;
+    s->sin_family = from->sin_family;
+    s->sin_port = from->sin_port;
+    scalanative_convert_in_addr((void *) &(from->sin_addr), &(s->sin_addr));
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+            struct scalanative_sockaddr_in6 *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+#endif
+
+
+        out->ai_addrlen = size;
+    }
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
   printf("\n------------- scalanative_convert_addrinfo: Begin\n");
@@ -193,9 +262,14 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
    scalanative_convert_addrinfo_X2(in, outX2);
   // scalanative_convert_addrinfo_X2(in, out);
-  scalanative_convert_addrinfo_X2(in, out);
+   //  scalanative_convert_addrinfo_X2(in, out);
 
-  printf("\n--- Testing out & outX2 for match --- Begin\n");
+  printf("\n... using X3\n");
+
+  scalanative_convert_addrinfo_X3(in, out);
+
+  /*
+  printf("\n--- Testing out & outX3 for match --- Begin\n");
 
   char *p1 = (char *) out;
   char *p2 = (char *) outX2;
@@ -203,11 +277,11 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   for (int j = 0; j < (size - (3 * sizeof(char *))); j++) {
       if (p1[j] != p2[j])
 	printf(
-	 "\n--- Testing out & outX2 MISMATCH j: %d,  out: |%d| outX2: |%d|\n",
+	 "\n--- Testing out & outX3 MISMATCH j: %d,  out: |%d| outX2: |%d|\n",
 	 j, p1[j], p2[j]);
   }
-	 printf("\n--- Testing out & outX2 for match --- End\n");
-
+	 printf("\n--- Testing out & outX3 for match --- End\n");
+  */
 #if 0
   printf("\n------------- sn_convert_addrinfo: out->ai_family |%d|\n",
 	 (int) out->ai_family);
@@ -257,6 +331,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 	   out->ai_addr, outX2->ai_addr);
   */
 
+  /*
   struct scalanative_sockaddr_in *p1 =
     (struct scalanative_sockaddr_in *) out->ai_addr;
   struct scalanative_sockaddr_in *p2 = 
@@ -273,7 +348,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
   //  printf("\n???out->ai_canonname |%s|\n", out->ai_canonname);
   //  printf("\n???outX2->ai_canonname |%s|\n", outX2->ai_canonname);
-
+*/
 
   if (out->ai_canonname != outX2->ai_canonname) 
     printf("\nMismatch field %s: x1: |%s| x2: |%s|\n", "ai_canonname",
