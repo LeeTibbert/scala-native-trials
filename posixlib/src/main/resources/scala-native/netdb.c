@@ -153,15 +153,22 @@ static void sn_convert_sn_sockaddr_in(
 }
 */
 
-/*
-_Static_assert(sizeof(struct inaddr) == sizeof (struct scalanative_inaddr),
-	       "sizeof(struct inaddr) != sizeof (struct scalanative_inaddr)"); 
+// There should be one of thise in netinet/in.h already. If yes,
+// rely upon that one.  Here for debugging.
+_Static_assert(sizeof(struct in_addr) == sizeof (struct scalanative_in_addr),
+	       "sizeof(struct in_addr) != sizeof(struct scalanative_in_addr)");
   
-static void  sn_convert_sns_in_addr((struct inaddr *) in ,
+/*
+static void  sn_convert_sn_in_addr((struct inaddr *) in ,
 				      (struct scalanative_inaddr *) out) {
   out.so_addr = in.s_addr;
 }
 */
+
+/* Appears to work, needs code for _sin_zero clearing and not
+ * relying upon caller having used calloc
+ */
+/*
 static void sn_convert_sn_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
     out->sin_family = in->sin_family;
@@ -172,6 +179,53 @@ static void sn_convert_sn_sockaddr_in(
     //    should be s_addr.
 
     out->sin_addr.so_addr = in->sin_addr.s_addr;
+}
+*/
+
+/* Appears to work, needs code for _sin_zero clearing and not
+ * relying upon caller having used calloc
+ */
+/* */
+static void sn_convert_sn_sockaddr_inZ(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+    out->sin_family = in->sin_family;
+    out->sin_port = in->sin_port;
+
+    //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
+    // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
+    //    should be s_addr.
+
+    out->sin_addr.so_addr = in->sin_addr.s_addr;
+
+    memset(
+	   (char *) out +
+	   offsetof(struct scalanative_sockaddr_in, _sin_zero),
+	   0, 
+	   sizeof(struct scalanative_sockaddr_in6) - 
+	   sizeof(struct scalanative_sockaddr_in)
+	   );
+}
+/* */
+
+// Perhaps a better name
+// static void fill_sn_sockaddr_in(
+
+static void sn_convert_sn_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+    out->sin_port = in->sin_port;
+
+    //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
+    // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
+    //    should be s_addr.
+
+    out->sin_addr.so_addr = in->sin_addr.s_addr;
+
+    // 2021-05-30 15:08 -0400 LeeT FIXME -- make sure there is
+    // a/an _Static_assert() in netinet/in.h to enforce that two
+    // sizes are the same.
+    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
+
+    out->sin_family = in->sin_family; // also zeros _sa_len, where present.
 }
 
 // Testbed for alternate conversion implementations.  Where is the glitch?
