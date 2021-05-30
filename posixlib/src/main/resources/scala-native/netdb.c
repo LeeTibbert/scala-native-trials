@@ -54,6 +54,7 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
     out->ai_next = NULL;
 }
 
+#if 0
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -93,6 +94,125 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
         scalanative_convert_addrinfo(in->ai_next, next_native);
         out->ai_next = next_native;
     }
+}
+#endif // original getaddrinfo
+
+// Forward declaration for original code (perhaps others)
+void scalanative_convert_addrinfo(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out);
+
+// The original code
+
+void scalanative_convert_addrinfo_X1(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+        out->ai_addrlen = in->ai_addrlen;
+    } else {
+        socklen_t size;
+        if (in->ai_addr->sa_family == AF_INET) {
+            struct scalanative_sockaddr_in *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in));
+            scalanative_convert_scalanative_sockaddr_in(
+                (struct sockaddr_in *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+            struct scalanative_sockaddr_in6 *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &size);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+        out->ai_addrlen = size;
+    }
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
+static void sn_convert_sn_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+    out->sin_family = in->sin_family;
+    out->sin_port = in->sin_port;
+    scalanative_convert_scalanative_in_addr(&(in->sin_addr), &(out->sin_addr));
+}
+
+// Testbed for alternate conversion implementations.  Where is the glitch?
+void scalanative_convert_addrinfo_X2(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+	//        out->ai_addrlen = in->ai_addrlen;
+    } else {
+        if (in->ai_addr->sa_family == AF_INET) {
+	  //2021-05-30 14:03 -0400 LeeT fixme -- see if can zero only _sin_zero
+            struct scalanative_sockaddr_in *addr =
+	      calloc(1, sizeof(struct scalanative_sockaddr_in));
+
+	    // scalanative_convert_scalanative_sockaddr_in(
+	    //   (struct sockaddr_in *)in->ai_addr, addr, &size);
+
+	    sn_convert_sn_sockaddr_in(
+	                    (struct sockaddr_in *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+	  socklen_t UNUSEDsize; // LeeT FIXME Once I have IPv4 working.
+
+            struct scalanative_sockaddr_in6 *addr =
+	      malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+    }
+
+    out->ai_addrlen = in->ai_addrlen;
+
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
+
+void scalanative_convert_addrinfo(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+  printf("---= My scalanative_convert_addrinfo: Begin\n");
+
+  //  printf("\n--- My scalanative_convert_addrinfo: X1 Using original code\n");
+  //  scalanative_convert_addrinfo_X1(in, out);
+
+  printf(
+    "---- My scalanative_convert_addrinfo: X2 Using infile original code \n");
+  scalanative_convert_addrinfo_X2(in, out);
+
+  printf("---= MY scalanative_convert_addrinfo: End\n\n");
 }
 
 void scalanative_freeaddrinfo(struct scalanative_addrinfo *addr) {
