@@ -144,11 +144,34 @@ void scalanative_convert_addrinfo_X1(struct addrinfo *in,
     }
 }
 
+/* Appears to work!
 static void sn_convert_sn_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
     out->sin_family = in->sin_family;
     out->sin_port = in->sin_port;
     scalanative_convert_scalanative_in_addr(&(in->sin_addr), &(out->sin_addr));
+}
+*/
+
+/*
+_Static_assert(sizeof(struct inaddr) == sizeof (struct scalanative_inaddr),
+	       "sizeof(struct inaddr) != sizeof (struct scalanative_inaddr)"); 
+  
+static void  sn_convert_sns_in_addr((struct inaddr *) in ,
+				      (struct scalanative_inaddr *) out) {
+  out.so_addr = in.s_addr;
+}
+*/
+static void sn_convert_sn_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+    out->sin_family = in->sin_family;
+    out->sin_port = in->sin_port;
+
+    //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
+    // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
+    //    should be s_addr.
+
+    out->sin_addr.so_addr = in->sin_addr.s_addr;
 }
 
 // Testbed for alternate conversion implementations.  Where is the glitch?
