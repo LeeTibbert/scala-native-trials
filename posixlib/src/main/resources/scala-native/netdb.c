@@ -177,7 +177,7 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
     }
 }
 
-#if 0
+#if 1
 // Code as in sys/socket_helpers.c
 
 int scalanative_convert_scalanative_sockaddr_in(
