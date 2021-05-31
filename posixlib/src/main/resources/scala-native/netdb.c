@@ -43,14 +43,13 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                              servlen, flags);
 }
 
-// #elif defined(no__linux__)
 
 // #elif defined(__linux__)
 
 #elif defined(__APPLE__) || defined(__FreeBSD__)
 
 // 2021-05-30 13:11 -0400 LeeT FIXME!!! Tidy for GitHub submission.
- // Works on linux, REMEMBER *DOCUMENT * FIX MADE Fri May 28, circa 10:30
+ // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
@@ -104,18 +103,15 @@ static void sn_convert_sn_sockaddr_in(
     // sizes are the same.
     //    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
 
-    //    out->sin_family = in->sin_family; // also zeros _sa_len, where present.
-    out->sin_family = AF_INET; // also zeros _sa_len, where present.
+    out->sin_family = in->sin_family; // also zeros _sa_len, where present
+    //  out->sin_family = AF_INET; // also zeros _sa_len, where present.
+
 }
 
 // 2021-05-30 20:37 -0400 LeeT FIXME -- this is a quick hack, fix it
 static void sn_convert_sn_sockaddr_in6(
     struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
-  printf(",,, sn_convert_sn_sockaddr_in6 UNDER CONSTRUCTION Step 2\n");
-
-    memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
-
-    out->sin6_family = in->sin6_family; // also zeros _sa_len, where present.
+  printf(",,, sn_convert_sn_sockaddr_in6 UNDER CONSTRUCTION\n");
 }
 
 // 2021-05-30 20:41 -0400 LeeT FIXME -- Delete this forward declaration
@@ -136,8 +132,7 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
         if (in->ai_addr->sa_family == AF_INET) {
 	  //2021-05-30 14:03 -0400 LeeT fixme -- see if can zero only _sin_zero
             struct scalanative_sockaddr_in *addr =
-	      //	      malloc(sizeof(struct scalanative_sockaddr_in));
-	      calloc(1, sizeof(struct scalanative_sockaddr_in));
+	      malloc(sizeof(struct scalanative_sockaddr_in));
 
 	    // scalanative_convert_scalanative_sockaddr_in(
 	    //   (struct sockaddr_in *)in->ai_addr, addr, &size);
@@ -180,8 +175,8 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-	 "---- My scalanative_convert_addrinfo: X3 using Magic |%s|\n",
-	 "2021-05-31 12:20 -0400");
+    "---- My scalanative_convert_addrinfo: X3 using Magic |%s|\n",
+    "2021-05-31 12:56 -0400");
 
   scalanative_convert_addrinfo_X3(in, out);
 
