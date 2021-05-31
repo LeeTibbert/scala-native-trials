@@ -98,13 +98,13 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 
 static void sn_convert_sn_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
-    out->sin_port = in->sin_port;
+  //    out->sin_port = in->sin_port;
 
     //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
     // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
     //    should be s_addr.
 
-    out->sin_addr.so_addr = in->sin_addr.s_addr;
+  //    out->sin_addr.so_addr = in->sin_addr.s_addr;
 
     // 2021-05-30 15:08 -0400 LeeT FIXME -- make sure there is
     // a/an _Static_assert() in netinet/in.h to enforce that two
@@ -177,7 +177,7 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
     }
 }
 
-#if 1
+#if 0
 // Code as in sys/socket_helpers.c
 
 int scalanative_convert_scalanative_sockaddr_in(
@@ -204,10 +204,35 @@ int scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
+#if 1
+// Modified from sys/socket_helpers.c
+
+static void scalanative_convert_scalanative_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+    out->sin_family = in->sin_family;
+    out->sin_port = in->sin_port;
+    // scalanative_convert_scalanative_in_addr(&(in->sin_addr), &(out->sin_addr));
+   out->sin_addr.so_addr = in->sin_addr.s_addr;
+}
+
+static void scalanative_convert_scalanative_sockaddr_in6(
+    struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
+    out->sin6_family = in->sin6_family;
+    out->sin6_port = in->sin6_port;
+    out->sin6_flowinfo = in->sin6_flowinfo;
+    scalanative_convert_scalanative_in6_addr(&(in->sin6_addr),
+                                            &(out->sin6_addr));
+    out->sin6_scope_id = in->sin6_scope_id;
+}
+#endif
+
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out);
 
 
+/*
+#if 0
+// 2021-05-31 17:28 -0400 Working!
 void scalanative_convert_addrinfo_X1(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -248,16 +273,57 @@ void scalanative_convert_addrinfo_X1(struct addrinfo *in,
         out->ai_next = next_native;
     }
 }
+#endif
+*/
+
+void scalanative_convert_addrinfo_X1_1(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+    out->ai_flags = in->ai_flags;
+    out->ai_family = in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    out->ai_addrlen = in->ai_addrlen;
+
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+    } else {
+        if (in->ai_addr->sa_family == AF_INET) {
+            struct scalanative_sockaddr_in *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in));
+            scalanative_convert_scalanative_sockaddr_in(
+                (struct sockaddr_in *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        } else {
+            struct scalanative_sockaddr_in6 *addr =
+                malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+    }
+
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+}
 
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-    "---- My scalanative_convert_addrinfo: X1, 2021-05-31 16:58 -0400\n");
-  int size = sizeof(struct scalanative_addrinfo);
-
-    scalanative_convert_addrinfo_X1(in, out);
+    "---- My scalanative_convert_addrinfo: X1_1, 2021-05-31 17:34 -0400\n");
+    scalanative_convert_addrinfo_X1_1(in, out);
 
   /*
   printf(
