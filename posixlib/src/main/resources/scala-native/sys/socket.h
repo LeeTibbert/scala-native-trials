@@ -1,6 +1,10 @@
 #ifndef __SYS_SOCKET_H
 #define __SYS_SOCKET_H
 
+// 2021-05-31 09:36 -0400 LeeT FIXME -- This needs _Static_assert/s
+//   to ensure sn_sockaddr == sockaddr cndition used in netdb.c.
+
+
 typedef unsigned short scalanative_sa_family_t;
 
 struct scalanative_sockaddr {

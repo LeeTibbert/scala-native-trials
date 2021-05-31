@@ -8,6 +8,34 @@
 #include "netdb.h"
 #include "netinet/in.h"
 
+  // #if defined(__linux__) || defined(_WIN32)
+  // 2021-05-30 16:13 -0400 LeeT Design decision - Punt _WIN32, not knowing.
+#if defined(__linux__)
+
+// 2021-05-30 19:47 -0400 LeeT FIXME - add gai_strerror, I have it somewhere
+//    in my mess (of debugging). Also add to netdb.scala.
+
+void scalanative_freeaddrinfo(struct scalanative_addrinfo *addr) {
+  freeaddrinfo((struct addrinfo *) addr);
+}
+
+int scalanative_getaddrinfo(char *name, char *service,
+                            struct scalanative_addrinfo *hints,
+                            struct scalanative_addrinfo **res) {
+
+  return getaddrinfo(name, service, (struct addrinfo *) hints,
+				     (struct addrinfo **) res);
+  }
+
+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
+                            socklen_t addrlen, char *host, socklen_t hostlen,
+                            char *serv, socklen_t servlen, int flags) {
+
+    return getnameinfo((struct sockaddr *) addr, addrlen, host, hostlen, serv,
+                             servlen, flags);
+}
+
+#elif defined(__APPLE__) || defined(__FreeBSD__)
 // 2021-05-30 13:11 -0400 LeeT FIXME!!! Tidy for GitHub submission.
  // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
@@ -16,8 +44,7 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
 
   // This OS interop section is not for the pure of heart or young,
   // impressionable children.
-
-#if defined(__linux__) || defined(_WIN32)
+#if defined(__linux__)
   struct sockaddr *addrPtr = (struct sockaddr *) addr;
 #elif defined(__APPLE__) || defined(__FreeBSD__)
   struct scalanative_sockaddr bsdAddr;
@@ -103,7 +130,6 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
 
 // The original code
 
-#if 0
 void scalanative_convert_addrinfo_X1(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
@@ -144,7 +170,6 @@ void scalanative_convert_addrinfo_X1(struct addrinfo *in,
         out->ai_next = next_native;
     }
 }
-#endif
 
 /* Appears to work!
 static void sn_convert_sn_sockaddr_in(
@@ -231,10 +256,13 @@ static void sn_convert_sn_sockaddr_in(
 }
 
 // Testbed for alternate conversion implementations.  Where is the glitch?
+// 2021-05-30 15:55 -0400 Not sure, but I think glitch was in not
+//     clearing _sin_zero.
+
 void scalanative_convert_addrinfo_X2(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
     out->ai_flags = in->ai_flags;
-    out->ai_family = in->ai_family;
+    out->ai_family =  in->ai_family;
     out->ai_socktype = in->ai_socktype;
     out->ai_protocol = in->ai_protocol;
     if (in->ai_addr == NULL) {
@@ -254,14 +282,11 @@ void scalanative_convert_addrinfo_X2(struct addrinfo *in,
             out->ai_addr = (struct scalanative_sockaddr *)addr;
         } else {
 	  socklen_t UNUSEDsize; // LeeT FIXME Once I have IPv4 working.
-	  // 2021-05-31 13:20 -0400 LeeT FIXME  -- This is a quick hack.
-	  //   Check it CAREFULLY!.
 
             struct scalanative_sockaddr_in6 *addr =
 	      malloc(sizeof(struct scalanative_sockaddr_in6));
-	    //            scalanative_convert_scalanative_sockaddr_in6(
-	    //                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
-	    memcpy(addr, in->ai_addr, sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
             out->ai_addr = (struct scalanative_sockaddr *)addr;
         }
     }
@@ -283,16 +308,82 @@ void scalanative_convert_addrinfo_X2(struct addrinfo *in,
     }
 }
 
+void scalanative_convert_addrinfo_X3(struct addrinfo *in,
+                                  struct scalanative_addrinfo *out) {
+#if defined(__linux__) || defined(_WIN32)
+
+  // 2021-05-30 16:10 -0400 LeeT Check that someplace sitll has a
+  //   _Static_assert() to ensure sizes match (but not order of interior
+  //   padding.
+
+  memcpy(out, in, sizeof(struct scalanative_addrinfo));
+
+#else // macOS, FreeBSD, & kin
+    out->ai_flags = in->ai_flags;
+    out->ai_family =  in->ai_family;
+    out->ai_socktype = in->ai_socktype;
+    out->ai_protocol = in->ai_protocol;
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+	//        out->ai_addrlen = in->ai_addrlen;
+    } else {
+        if (in->ai_addr->sa_family == AF_INET) {
+	  //2021-05-30 14:03 -0400 LeeT fixme -- see if can zero only _sin_zero
+            struct scalanative_sockaddr_in *addr =
+	      //	      calloc(1, sizeof(struct scalanative_sockaddr_in));
+	      malloc(sizeof(struct scalanative_sockaddr_in));
+
+	    // scalanative_convert_scalanative_sockaddr_in(
+	    //   (struct sockaddr_in *)in->ai_addr, addr, &size);
+
+	    sn_convert_sn_sockaddr_in(
+	                    (struct sockaddr_in *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *) addr;
+        } else {
+	  socklen_t UNUSEDsize; // LeeT FIXME Once I have IPv4 working.
+
+            struct scalanative_sockaddr_in6 *addr =
+	      malloc(sizeof(struct scalanative_sockaddr_in6));
+            scalanative_convert_scalanative_sockaddr_in6(
+                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
+    }
+
+    out->ai_addrlen = in->ai_addrlen;
+
+    if (in->ai_canonname == NULL) {
+        out->ai_canonname = NULL;
+    } else {
+        out->ai_canonname = strdup(in->ai_canonname);
+    }
+    if (in->ai_next == NULL) {
+        out->ai_next = NULL;
+    } else {
+        struct scalanative_addrinfo *next_native =
+            malloc(sizeof(struct scalanative_addrinfo));
+        scalanative_convert_addrinfo(in->ai_next, next_native);
+        out->ai_next = next_native;
+    }
+#endif
+}
+
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out) {
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
+  /*
   //  printf("\n--- My scalanative_convert_addrinfo: X1 Using original code\n");
   //  scalanative_convert_addrinfo_X1(in, out);
 
-  printf(
+   printf(
     "---- My scalanative_convert_addrinfo: X2 Using infile original code \n");
   scalanative_convert_addrinfo_X2(in, out);
+  */
+
+  printf(
+    "---- My scalanative_convert_addrinfo: X3 using ??? \n");
+  scalanative_convert_addrinfo_X3(in, out);
 
   printf("---= MY scalanative_convert_addrinfo: End\n\n");
 }
@@ -324,6 +415,9 @@ int scalanative_getaddrinfo(char *name, char *service,
     *res = res_native;
     return status;
 }
+#else
+#error "Unsupported operating system."
+#endif
 
 int scalanative_ai_numerichost() { return AI_NUMERICHOST; }
 
