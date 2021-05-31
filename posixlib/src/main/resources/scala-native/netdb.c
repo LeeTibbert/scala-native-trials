@@ -10,9 +10,9 @@
   // 2021-05-30 16:13 -0400 LeeT Design decision - Punt _WIN32, not knowing.
   // #if defined(__linux__) || defined(_WIN32)
 
-// #if defined(NO__linux__) // FIXME - comment so I can smoke test bsd on linux
+#if defined(NO__linux__) // FIXME - comment so I can smoke test bsd on linux
 
-#if defined(__linux__)
+// #if defined(__linux__)
 
 // 2021-05-30 19:47 -0400 LeeT FIXME - add gai_strerror, I have it somewhere
 //    in my mess (of debugging). Also add to netdb.scala.
@@ -44,12 +44,12 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
 }
 
 // #elif defined(no__linux__)
-// #elif defined(__linux__)
+#elif defined(__linux__)
 
-#elif defined(__APPLE__) || defined(__FreeBSD__)
+// #elif defined(__APPLE__) || defined(__FreeBSD__)
 
 // 2021-05-30 13:11 -0400 LeeT FIXME!!! Tidy for GitHub submission.
- // Works on linux, REMEMBER FIX MADE Fri May 28, circa 10:30
+ // Works on linux, REMEMBER *DOCUMENT * FIX MADE Fri May 28, circa 10:30
 int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                             socklen_t addrlen, char *host, socklen_t hostlen,
                             char *serv, socklen_t servlen, int flags) {
@@ -69,8 +69,7 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
                                               struct addrinfo *out) {
     // ai_addr and ai_next fields are set to NULL because this function is only
     // used for converting hints parameter for the getaddrinfo function, which
-    // doesn't
-    // care about them
+    // doesn't care about them
     out->ai_flags = in->ai_flags;
     out->ai_family = in->ai_family;
     out->ai_socktype = in->ai_socktype;
@@ -90,13 +89,13 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 
 static void sn_convert_sn_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
-    out->sin_port = in->sin_port;
+  //    out->sin_port = in->sin_port;
 
     //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
     // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
     //    should be s_addr.
 
-    out->sin_addr.so_addr = in->sin_addr.s_addr;
+  //    out->sin_addr.so_addr = in->sin_addr.s_addr;
 
     // 2021-05-30 15:08 -0400 LeeT FIXME -- make sure there is
     // a/an _Static_assert() in netinet/in.h to enforce that two
@@ -109,7 +108,10 @@ static void sn_convert_sn_sockaddr_in(
 // 2021-05-30 20:37 -0400 LeeT FIXME -- this is a quick hack, fix it
 static void sn_convert_sn_sockaddr_in6(
     struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
-  printf(",,, sn_convert_sn_sockaddr_in6 UNDER CONSTRUCTION\n");
+  printf(",,, sn_convert_sn_sockaddr_in6 memcpy\n");
+    memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
+
+    out->sin6_family = in->sin6_family; // also zeros _sa_len, where present.
 }
 
 // 2021-05-30 20:41 -0400 LeeT FIXME -- Delete this forward declaration
