@@ -227,7 +227,7 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 #endif
 
 #if 0
-// Modified from sys/socket_helpers.c, delta 2
+// Modified from sys/socket_helpers.c, delta 2 - WORKS!
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
@@ -236,8 +236,7 @@ static void scalanative_convert_scalanative_sockaddr_in(
     memset(out, 0, sizeof(struct scalanative_sockaddr_in));
     out->sin_family = in->sin_family;
     out->sin_port = in->sin_port;
-    // scalanative_convert_scalanative_in_addr(&(in->sin_addr), &(out->sin_addr));
-   out->sin_addr.so_addr = in->sin_addr.s_addr;
+    out->sin_addr.so_addr = in->sin_addr.s_addr;
 }
 
 static void scalanative_convert_scalanative_sockaddr_in6(
@@ -263,6 +262,7 @@ static void scalanative_convert_scalanative_sockaddr_in(
 
    //   memcp(out, in, 8);
    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
+   out->sin6_family = in->sin6_family; // clears sin_len, if it exists
 }
 
 static void scalanative_convert_scalanative_sockaddr_in6(
