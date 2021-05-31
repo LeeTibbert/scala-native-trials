@@ -43,7 +43,6 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
                              servlen, flags);
 }
 
-// #elif defined(no__linux__)
 // #elif defined(__linux__)
 
 #elif defined(__APPLE__) || defined(__FreeBSD__)
@@ -75,11 +74,10 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
     out->ai_socktype = in->ai_socktype;
     out->ai_protocol = in->ai_protocol;
     out->ai_addrlen = in->ai_addrlen;
-    if (in->ai_canonname == NULL) {
-        out->ai_canonname = NULL;
-    } else {
-        out->ai_canonname = strdup(in->ai_canonname);
-    }
+
+    out->ai_canonname = 
+      (in->ai_canonname == NULL) ? NULL : strdup(in->ai_canonname);
+
     out->ai_addr = NULL;
     out->ai_next = NULL;
 }
@@ -126,17 +124,47 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
     out->ai_family =  in->ai_family;
     out->ai_socktype = in->ai_socktype;
     out->ai_protocol = in->ai_protocol;
+
+      /*
     if (in->ai_addr == NULL) {
         out->ai_addr = NULL;
     } else {
       struct scalanative_sockaddr *addr =
 	malloc(sizeof(struct scalanative_sockaddr));
 
-      // _Static_asserts in sys/socket.h ensure src & dst sizes match.
+      // _Static_asserts in sys/socket.h ensure dst & src sizes match.
       memcpy(addr, in->ai_addr, sizeof(struct scalanative_sockaddr_in));
-      addr->sa_family = in->ai_family;
+      addr->sa_family = in->ai_family; // also zeros _sa_len, where present.
 
       out->ai_addr = addr;
+    }
+      */
+
+    if (in->ai_addr == NULL) {
+        out->ai_addr = NULL;
+    } else {
+        if (in->ai_addr->sa_family == AF_INET) {
+	  //2021-05-30 14:03 -0400 LeeT fixme -- see if can zero only _sin_zero
+            struct scalanative_sockaddr_in *addr =
+	      malloc(sizeof(struct scalanative_sockaddr_in));
+
+	    // scalanative_convert_scalanative_sockaddr_in(
+	    //   (struct sockaddr_in *)in->ai_addr, addr, &size);
+
+	    sn_convert_sn_sockaddr_in(
+	                    (struct sockaddr_in *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *) addr;
+        } else {
+	  //	  socklen_t UNUSEDsize; // LeeT FIXME Once I have IPv4 working.
+
+            struct scalanative_sockaddr_in6 *addr =
+	      malloc(sizeof(struct scalanative_sockaddr_in6));
+	    //            scalanative_convert_scalanative_sockaddr_in6(
+	    //                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
+	    sn_convert_sn_sockaddr_in6(
+	                    (struct sockaddr_in6 *)in->ai_addr, addr);
+            out->ai_addr = (struct scalanative_sockaddr *)addr;
+        }
     }
 
     out->ai_addrlen = in->ai_addrlen;
@@ -146,6 +174,7 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
     } else {
         out->ai_canonname = strdup(in->ai_canonname);
     }
+
     if (in->ai_next == NULL) {
         out->ai_next = NULL;
     } else {
@@ -161,7 +190,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-    "---- My scalanative_convert_addrinfo: X3 using Magic \n");
+    "---- My scalanative_convert_addrinfo: X3 using Magic 2021-05-31 10:12 -0400\n");
   scalanative_convert_addrinfo_X3(in, out);
 
   printf("---= MY scalanative_convert_addrinfo: End\n\n");
