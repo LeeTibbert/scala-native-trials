@@ -10,9 +10,9 @@
   // 2021-05-30 16:13 -0400 LeeT Design decision - Punt _WIN32, not knowing.
   // #if defined(__linux__) || defined(_WIN32)
 
-#if defined(NO__linux__) // FIXME - comment so I can smoke test bsd on linux
+// #if defined(NO__linux__) // FIXME - comment so I can smoke test bsd on linux
 
-// #if defined(__linux__)
+#if defined(__linux__)
 
 // 2021-05-30 19:47 -0400 LeeT FIXME - add gai_strerror, I have it somewhere
 //    in my mess (of debugging). Also add to netdb.scala.
@@ -44,9 +44,9 @@ int scalanative_getnameinfo(struct scalanative_sockaddr *addr,
 }
 
 // #elif defined(no__linux__)
-#elif defined(__linux__)
+// #elif defined(__linux__)
 
-// #elif defined(__APPLE__) || defined(__FreeBSD__)
+#elif defined(__APPLE__) || defined(__FreeBSD__)
 
 // 2021-05-30 13:11 -0400 LeeT FIXME!!! Tidy for GitHub submission.
  // Works on linux, REMEMBER *DOCUMENT * FIX MADE Fri May 28, circa 10:30
@@ -129,28 +129,14 @@ void scalanative_convert_addrinfo_X3(struct addrinfo *in,
     if (in->ai_addr == NULL) {
         out->ai_addr = NULL;
     } else {
-        if (in->ai_addr->sa_family == AF_INET) {
-	  //2021-05-30 14:03 -0400 LeeT fixme -- see if can zero only _sin_zero
-            struct scalanative_sockaddr_in *addr =
-	      malloc(sizeof(struct scalanative_sockaddr_in));
+      struct scalanative_sockaddr *addr =
+	malloc(sizeof(struct scalanative_sockaddr));
 
-	    // scalanative_convert_scalanative_sockaddr_in(
-	    //   (struct sockaddr_in *)in->ai_addr, addr, &size);
+      // _Static_asserts in sys/socket.h ensure src & dst sizes match.
+      memcpy(addr, in->ai_addr, sizeof(struct scalanative_sockaddr_in));
+      addr->sa_family = in->ai_family;
 
-	    sn_convert_sn_sockaddr_in(
-	                    (struct sockaddr_in *)in->ai_addr, addr);
-            out->ai_addr = (struct scalanative_sockaddr *) addr;
-        } else {
-	  //	  socklen_t UNUSEDsize; // LeeT FIXME Once I have IPv4 working.
-
-            struct scalanative_sockaddr_in6 *addr =
-	      malloc(sizeof(struct scalanative_sockaddr_in6));
-	    //            scalanative_convert_scalanative_sockaddr_in6(
-	    //                (struct sockaddr_in6 *)in->ai_addr, addr, &UNUSEDsize);
-	    sn_convert_sn_sockaddr_in6(
-	                    (struct sockaddr_in6 *)in->ai_addr, addr);
-            out->ai_addr = (struct scalanative_sockaddr *)addr;
-        }
+      out->ai_addr = addr;
     }
 
     out->ai_addrlen = in->ai_addrlen;
