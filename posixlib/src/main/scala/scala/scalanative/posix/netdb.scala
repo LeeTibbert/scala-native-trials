@@ -6,14 +6,24 @@ import scalanative.posix.netinet.in
 
 @extern
 object netdb {
-  type addrinfo = CStruct8[CInt,
-                           CInt,
-                           CInt,
-                           CInt,
-                           socket.socklen_t,
-                           Ptr[socket.sockaddr],
-                           Ptr[CChar],
-                           Ptr[Byte]]
+  /* Offset of fields in 'addrinfo' differs between Linux, macOS,
+   * and possibly others. Until a better way is developed, the '@name`
+   * routines provide operating system independent handling (copy-in/copy-out)
+   * of the structure. Study carefully the handling of ai_next in those
+   * routines.
+   */
+
+  // This is the Linux layout. macOS pads between ai_addrlen & ai_addr.
+  type addrinfo = CStruct8[CInt, // ai_flags
+                           CInt,                 // ai_family
+                           CInt,                 // ai_socktype
+                           CInt,                 // ai_protocol
+                           socket.socklen_t,     // ai_addrlen
+                           Ptr[socket.sockaddr], // ai_addr
+                           Ptr[CChar],           // ai_canonname
+                           Ptr[Byte]]            // ai_next
+
+  // functions
 
   @name("scalanative_freeaddrinfo")
   def freeaddrinfo(addr: Ptr[addrinfo]): Unit = extern
@@ -32,6 +42,10 @@ object netdb {
                   service: CString,
                   servlen: socket.socklen_t,
                   flags: CInt): CInt = extern
+
+  def gai_strerror(errcode: CInt): CString = extern   
+
+  // symbolic constants
 
   @name("scalanative_ai_numerichost")
   def AI_NUMERICHOST: CInt = extern
