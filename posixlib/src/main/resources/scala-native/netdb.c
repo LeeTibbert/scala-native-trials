@@ -204,7 +204,7 @@ int scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 1
+#if 0
 // Modified from sys/socket_helpers.c
 
 static void scalanative_convert_scalanative_sockaddr_in(
@@ -226,10 +226,33 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
+#if 1
+// Modified from sys/socket_helpers.c, delta 2
+
+static void scalanative_convert_scalanative_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+  // 2021-05-31 17:48 -0400 FIXME Explain why entire struct zeroed
+  //   instead of sin_zero, less ugly code.
+    memset(out, 0, sizeof(struct scalanative_sockaddr_in));
+    out->sin_family = in->sin_family;
+    out->sin_port = in->sin_port;
+    // scalanative_convert_scalanative_in_addr(&(in->sin_addr), &(out->sin_addr));
+   out->sin_addr.so_addr = in->sin_addr.s_addr;
+}
+
+static void scalanative_convert_scalanative_sockaddr_in6(
+    struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
+    out->sin6_family = in->sin6_family;
+    out->sin6_port = in->sin6_port;
+    out->sin6_flowinfo = in->sin6_flowinfo;
+    scalanative_convert_scalanative_in6_addr(&(in->sin6_addr),
+                                            &(out->sin6_addr));
+    out->sin6_scope_id = in->sin6_scope_id;
+}
+#endif
+
 void scalanative_convert_addrinfo(struct addrinfo *in,
                                   struct scalanative_addrinfo *out);
-
-
 /*
 #if 0
 // 2021-05-31 17:28 -0400 Working!
