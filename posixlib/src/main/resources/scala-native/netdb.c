@@ -190,7 +190,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-    "---- My scalanative_convert_addrinfo: X3 using Magic 2021-05-31 10:12 -0400\n");
+    "---- My scalanative_convert_addrinfo: X3 using Magic 2021-05-31 10:38 -0400\n");
   scalanative_convert_addrinfo_X3(in, out);
 
   printf("---= MY scalanative_convert_addrinfo: End\n\n");
