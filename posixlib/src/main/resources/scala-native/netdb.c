@@ -250,8 +250,8 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 1
-// Modified from sys/socket_helpers.c, delta 3B - UNTRIED
+#if 0
+// Modified from sys/socket_helpers.c, delta 3B - Appears working
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
@@ -267,6 +267,22 @@ static void scalanative_convert_scalanative_sockaddr_in6(
     scalanative_convert_scalanative_in6_addr(&(in->sin6_addr),
                                             &(out->sin6_addr));
     out->sin6_scope_id = in->sin6_scope_id;
+}
+#endif
+
+#if 1
+// Modified from sys/socket_helpers.c, delta 4 - UnTESTED
+
+static void scalanative_convert_scalanative_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+   memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
+   out->sin_family = in->sin_family; // clears sin_len, if it exists
+}
+
+static void scalanative_convert_scalanative_sockaddr_in6(
+    struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
+   memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
+   out->sin6_family = in->sin6_family; // clears sin_len, if it exists
 }
 #endif
 
