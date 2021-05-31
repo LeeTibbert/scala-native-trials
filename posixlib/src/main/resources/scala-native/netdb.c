@@ -110,7 +110,11 @@ static void sn_convert_sn_sockaddr_in(
 // 2021-05-30 20:37 -0400 LeeT FIXME -- this is a quick hack, fix it
 static void sn_convert_sn_sockaddr_in6(
     struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
-  printf(",,, sn_convert_sn_sockaddr_in6 UNDER CONSTRUCTION\n");
+  printf(",,, sn_convert_sn_sockaddr_in6 UNDER CONSTRUCTION Step 2\n");
+
+    memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
+
+    out->sin6_family = in->sin6_family; // also zeros _sa_len, where present.
 }
 
 // 2021-05-30 20:41 -0400 LeeT FIXME -- Delete this forward declaration
