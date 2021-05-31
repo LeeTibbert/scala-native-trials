@@ -251,18 +251,12 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 #endif
 
 #if 1
-// Modified from sys/socket_helpers.c, delta 3 - UNTRIED
+// Modified from sys/socket_helpers.c, delta 3B - UNTRIED
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
-
-  // 2021-05-31 17:48 -0400 FIXME Explain why entire struct zeroed
-  //   instead of sin_zero, less ugly code.
-  //   memset(out, 0, sizeof(struct scalanative_sockaddr_in));
-
-   //   memcp(out, in, 8);
    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
-   out->sin6_family = in->sin6_family; // clears sin_len, if it exists
+   out->sin_family = in->sin_family; // clears sin_len, if it exists
 }
 
 static void scalanative_convert_scalanative_sockaddr_in6(
