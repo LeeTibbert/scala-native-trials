@@ -101,7 +101,7 @@ static void sn_convert_sn_sockaddr_in(
     // 2021-05-30 15:08 -0400 LeeT FIXME -- make sure there is
     // a/an _Static_assert() in netinet/in.h to enforce that two
     // sizes are the same.
-    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
+    // memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
 
     out->sin_family = in->sin_family; // also zeros _sa_len, where present.
 }
