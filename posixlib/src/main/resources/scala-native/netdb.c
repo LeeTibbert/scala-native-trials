@@ -87,13 +87,16 @@ void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,
 
 static void sn_convert_sn_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
-  //    out->sin_port = in->sin_port;
+
+  // 2021-05-31 11:36 -0400 LeeT FIXME -- zero only _sin_zero
+    memset(out, 0, sizeof(struct scalanative_sockaddr_in));
+    out->sin_port = in->sin_port;
 
     //    sn_convert_sn_in_addr(&(in->sin_addr), &(out->sin_addr));
     // 2021-05-30 14:53 -0400 FIXME netinet/in.h defines so_adder which
     //    should be s_addr.
 
-  //    out->sin_addr.so_addr = in->sin_addr.s_addr;
+    out->sin_addr.so_addr = in->sin_addr.s_addr;
 
     // 2021-05-30 15:08 -0400 LeeT FIXME -- make sure there is
     // a/an _Static_assert() in netinet/in.h to enforce that two
@@ -190,7 +193,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-    "---- My scalanative_convert_addrinfo: X3 using Magic 2021-05-31 10:38 -0400\n");
+    "---- My scalanative_convert_addrinfo: X3 using Magic 2021-05-31 11:52 -0400\n");
   scalanative_convert_addrinfo_X3(in, out);
 
   printf("---= MY scalanative_convert_addrinfo: End\n\n");
