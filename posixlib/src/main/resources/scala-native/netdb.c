@@ -250,7 +250,7 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 0
+#if 1
 // Modified from sys/socket_helpers.c, delta 3B - Appears working
 
 static void scalanative_convert_scalanative_sockaddr_in(
@@ -286,8 +286,8 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 1
-// Modified from sys/socket_helpers.c, delta 5 - UNTESTED
+#if 0
+// Modified from sys/socket_helpers.c, delta 5 - FAILS!
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
