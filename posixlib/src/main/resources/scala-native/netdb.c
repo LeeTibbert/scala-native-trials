@@ -250,8 +250,8 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 1
-// Modified from sys/socket_helpers.c, delta 3B - Appears working
+#if 0
+// Modified from sys/socket_helpers.c, delta 3B - Appears working, VERIFIED!
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
@@ -286,7 +286,7 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 0
+#if 1
 // Modified from sys/socket_helpers.c, delta 5 - FAILS!
 
 static void scalanative_convert_scalanative_sockaddr_in(
@@ -296,10 +296,24 @@ static void scalanative_convert_scalanative_sockaddr_in(
   out->sin_family = in->sin_family; // clears sin_len, if it exists
 }
 
+_Static_assert(sizeof(struct scalanative_sockaddr_in6) ==
+	       sizeof(struct sockaddr_in6), "sockaddr_in6 size mismatch");
+
+/*
 static void scalanative_convert_scalanative_sockaddr_in6(
     struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
    memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
    out->sin6_family = in->sin6_family; // clears sin_len, if it exists
+}
+*/
+static void scalanative_convert_scalanative_sockaddr_in6(
+    struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
+    out->sin6_family = in->sin6_family;
+    out->sin6_port = in->sin6_port;
+    out->sin6_flowinfo = in->sin6_flowinfo;
+    scalanative_convert_scalanative_in6_addr(&(in->sin6_addr),
+                                            &(out->sin6_addr));
+    out->sin6_scope_id = in->sin6_scope_id;
 }
 #endif
 
