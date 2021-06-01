@@ -270,13 +270,30 @@ static void scalanative_convert_scalanative_sockaddr_in6(
 }
 #endif
 
-#if 1
-// Modified from sys/socket_helpers.c, delta 4 - UnTESTED
+#if 0
+// Modified from sys/socket_helpers.c, delta 4 - FAILS!
 
 static void scalanative_convert_scalanative_sockaddr_in(
     struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
    memcpy(out, in, sizeof(struct scalanative_sockaddr_in));
    out->sin_family = in->sin_family; // clears sin_len, if it exists
+}
+
+static void scalanative_convert_scalanative_sockaddr_in6(
+    struct sockaddr_in6 *in, struct scalanative_sockaddr_in6 *out) {
+   memcpy(out, in, sizeof(struct scalanative_sockaddr_in6));
+   out->sin6_family = in->sin6_family; // clears sin_len, if it exists
+}
+#endif
+
+#if 1
+// Modified from sys/socket_helpers.c, delta 5 - UNTESTED
+
+static void scalanative_convert_scalanative_sockaddr_in(
+    struct sockaddr_in *in, struct scalanative_sockaddr_in *out) {
+  memset(out, 0, sizeof(struct scalanative_sockaddr_in));
+  memcpy(out, in, 8);
+  out->sin_family = in->sin_family; // clears sin_len, if it exists
 }
 
 static void scalanative_convert_scalanative_sockaddr_in6(
@@ -380,7 +397,7 @@ void scalanative_convert_addrinfo(struct addrinfo *in,
   printf("---= My scalanative_convert_addrinfo: Begin\n");
 
   printf(
-    "---- My scalanative_convert_addrinfo: X1_1, 2021-05-31 18:02 -0400\n");
+    "---- My scalanative_convert_addrinfo: X1_1, 2021-05-31 20:22 -0400\n");
     scalanative_convert_addrinfo_X1_1(in, out);
 
   /*
