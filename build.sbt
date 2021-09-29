@@ -338,7 +338,7 @@ lazy val tools =
           case Some((2, 11 | 12)) => Nil
           case _ =>
             List(
-              "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.0")
+              "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4")
         }
       },
       // Running tests in parallel results in `FileSystemAlreadyExistsException`
