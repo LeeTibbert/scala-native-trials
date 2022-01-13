@@ -20,12 +20,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        scala: [2.13.6]
+#        scala: [2.13.8]
         scala: [2.12.13]
         build-mode: [ debug]
         gc: [ commix]
         lto: [ none ]
-#        scala: [2.13.6, 2.12.13, 2.11.12]
+#        scala: [2.13.8, 2.12.13, 2.11.12]
 #        build-mode: [ debug, release-fast ]
 #        gc: [ boehm, immix, commix ]
 #        gc: [ commix, immix ]
