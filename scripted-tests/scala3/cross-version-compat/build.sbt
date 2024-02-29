@@ -1,7 +1,7 @@
 inThisBuild(
   Seq(
     scalaVersion := "3.1.1",
-    crossScalaVersions := Seq("3.1.1", "2.13.8"),
+    crossScalaVersions := Seq("3.1.1", "2.13.13"),
     version := "0.1.0-SNAPSHOT",
     organization := "org.scala-native.test",
     publishMavenStyle := true
